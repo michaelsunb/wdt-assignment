@@ -11,68 +11,32 @@ namespace wdt_assignment
 {
     class Program
     {
-        private ArrayList ItemList;
         static void Main(string[] args)
         {
+            Factory factory = new Factory();
             Type myType =(typeof(Factory));
-            // An array of factory methods using reflection
-            // for polymorphism
-            MethodInfo[] creators = myType.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
 
+            // An array of factory methods using reflection for polymorphism
+            MethodInfo[] creators = myType.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
             // Iterate over creators and create products 
-            Display(creators);
-            string line = Console.ReadLine();
-            Console.WriteLine("{0}", line);
+            Display(factory, creators);
+
+            // Read user input
+            int line = int.Parse(Console.ReadLine());
+            ((IOption)creators[--line].Invoke(factory, null)).Selected();
             Console.ReadKey();
         }
 
-        private static void Display(MethodInfo[] creators)
+        private static void Display(Factory factory, MethodInfo[] creators)
         {
-            Factory factory = new Factory();
             int i = 0;
+            Console.WriteLine("Welcome to MoSS");
+            Console.WriteLine("===============");
             foreach (MethodInfo creator in creators)
             {
-                i++;
-                Display product = (Display)creator.Invoke(factory, null);
-                Console.WriteLine(i + ": {0}", product);
+                IOption product = (IOption)creator.Invoke(factory, null);
+                Console.WriteLine(++i + ". {0}", product);
             }
-        }
-    }
-
-    // "Product" 
-    interface Display
-    {
-        string ToString();
-    }
-
-    // "ConcreteProductA" 
-    class ConcreteProductA : Display
-    {
-        public override string ToString()
-        {
-            return "ConcreteProductA tostring";
-        }
-    }
-
-    // "ConcreteProductB" 
-    class ConcreteProductB : Display
-    {
-        public override string ToString()
-        {
-            return "ConcreteProductB tostring";
-        }
-    }
-
-    // "ConcreteCreator" 
-    class Factory
-    {
-        public Display GetProductA()
-        {
-            return new ConcreteProductA();
-        }
-        public Display GetProductB()
-        {
-            return new ConcreteProductB();
         }
     }
 }

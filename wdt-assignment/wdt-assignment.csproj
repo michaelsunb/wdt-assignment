@@ -41,6 +41,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Factory.cs" />
+    <Compile Include="IOption.cs" />
+    <Compile Include="Options\MovieBooking.cs" />
+    <Compile Include="Options\MovieName.cs" />
+    <Compile Include="Options\MovieSession.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
