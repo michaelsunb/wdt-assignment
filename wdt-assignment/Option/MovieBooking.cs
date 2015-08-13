@@ -4,17 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace wdt_assignment.Options
+namespace wdt_assignment.Option
 {
-    class MovieName : IOption
+    class MovieBooking : IOption
     {
-        public override string ToString()
+        public string GetOption()
         {
-            return "Search by Cineplex OR movie ";
+            return "Edit/delete a current booking";
         }
         public void Selected()
         {
-            Console.WriteLine("Selected B");
+            Console.WriteLine("Selected C");
         }
     }
 }

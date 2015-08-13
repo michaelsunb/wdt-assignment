@@ -9,17 +9,17 @@ namespace wdt_assignment
     // Factory Pattern
     class Factory
     {
+        public IOption OptionC()
+        {
+            return new Option.MovieBooking();
+        }
         public IOption OptionA()
         {
-            return new Options.MovieSession();
+            return new Option.MovieSession();
         }
         public IOption OptionB()
         {
-            return new Options.MovieName();
-        }
-        public IOption OptionC()
-        {
-            return new Options.MovieBooking();
+            return new Option.MovieName();
         }
 
 
@@ -29,7 +29,7 @@ namespace wdt_assignment
         }
         class ExitOption : IOption
         {
-            public override string ToString()
+            public string GetOption()
             {
                 return "Exit";
             }

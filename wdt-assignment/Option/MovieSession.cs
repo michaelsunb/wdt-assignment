@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace wdt_assignment.Options
+namespace wdt_assignment.Option
 {
     class MovieSession : IOption
     {
-        public override string ToString()
+        public string GetOption()
         {
             return "Display Cineplex list";
         }

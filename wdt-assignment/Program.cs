@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Reflection;
-using System.Reflection.Emit;
-using System.Collections;
 
 namespace wdt_assignment
 {
@@ -13,30 +10,48 @@ namespace wdt_assignment
     {
         static void Main(string[] args)
         {
-            Factory factory = new Factory();
-            Type myType =(typeof(Factory));
-
-            // An array of factory methods using reflection for polymorphism
-            MethodInfo[] creators = myType.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
-            // Iterate over creators and create products 
-            Display(factory, creators);
-
-            // Read user input
-            int line = int.Parse(Console.ReadLine());
-            ((IOption)creators[--line].Invoke(factory, null)).Selected();
-            Console.ReadKey();
-        }
-
-        private static void Display(Factory factory, MethodInfo[] creators)
-        {
-            int i = 0;
             Console.WriteLine("Welcome to MoSS");
             Console.WriteLine("===============");
-            foreach (MethodInfo creator in creators)
+
+            Factory factory = new Factory();
+            IOption[] options = new IOption[4];
+            options[0] = factory.OptionA();
+            options[1] = factory.OptionB();
+            options[2] = factory.OptionC();
+            options[3] = factory.Exit();
+
+            int selectOption = 0;
+            while (selectOption < options.Length)
             {
-                IOption product = (IOption)creator.Invoke(factory, null);
-                Console.WriteLine(++i + ". {0}", product);
+                selectOption = DisplayOption(options);
             }
+        }
+
+        private static int DisplayOption(IOption[] options)
+        {
+            int i = 0;
+            foreach (IOption creator in options)
+            {
+                Console.WriteLine(++i + ". {0}", creator.GetOption());
+            }
+
+            try
+            {
+                // Read user input
+                int line = int.Parse(Console.ReadLine());
+                options[--line].Selected();
+
+                return line;
+            }
+            catch (IndexOutOfRangeException)
+            {
+                Console.WriteLine("Please enter a number from 1 to " + options.Length);
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Please enter a number!");
+            }
+            return 0;
         }
     }
 }

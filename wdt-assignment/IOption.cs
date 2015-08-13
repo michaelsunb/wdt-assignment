@@ -4,6 +4,6 @@ namespace wdt_assignment
     interface IOption
     {
         void Selected();
-        string ToString();
+        string GetOption();
     }
 }
