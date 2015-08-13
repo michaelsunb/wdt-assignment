@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace wdt_assignment.Option
 {
-    class MovieBooking : IOption
+    class MovieBook : IOption
     {
         public string GetOption()
         {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace wdt_assignment.Option
 {
-    class MovieName : IOption
+    class MovieSearch : IOption
     {
         public string GetOption()
         {
