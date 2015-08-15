@@ -5,6 +5,7 @@ using System.Collections;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace wdt_assignment.Model
 {
@@ -17,7 +18,7 @@ namespace wdt_assignment.Model
             public string title;
             public DateTime dateTime;
         };
-        private ArrayList movies = new ArrayList();
+        private List<Movie> movies = new List<Movie>();
         public void AddMovie(int id, string cineplex, string title, DateTime dateTime)
         {
             Movie movie = new Movie();
@@ -27,17 +28,31 @@ namespace wdt_assignment.Model
             movie.dateTime = dateTime;
             movies.Add(movie);
         }
-        public void WriteJson()
+        public void ReadJson(string fileName = @"db.json")
+        {
+            var filestream = new FileStream(fileName,
+                                          System.IO.FileMode.Open,
+                                          System.IO.FileAccess.Read,
+                                          System.IO.FileShare.ReadWrite);
+            var file = new StreamReader(filestream, System.Text.Encoding.UTF8, true, 128);
+
+            using (StreamReader r = new StreamReader(fileName))
+            {
+                string json = r.ReadToEnd();
+                movies = JsonConvert.DeserializeObject<List<Movie>>(json);
+            }
+            file.Close();
+        }
+        public void WriteJson(string fileName = @"db.json")
         {
             string json = JsonConvert.SerializeObject(movies);
-            string fileName = @"db.json";
             if (FileExists(fileName))
                 File.Delete(fileName);
             File.WriteAllText(fileName, json);
         }
-        public bool FileExists(String existingFilename)
+        public bool FileExists(string fileName = @"db.json")
         {
-            return File.Exists(existingFilename);
+            return File.Exists(fileName);
         }
     }
 }

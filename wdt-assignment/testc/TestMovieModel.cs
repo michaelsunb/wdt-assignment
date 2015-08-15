@@ -8,7 +8,7 @@ namespace wdt_assignment_testc
     public class TestMovieModel
     {
         [TestMethod]
-        public void TestMethod1()
+        public void TestAddMovieModel()
         {
             wdt_assignment.Model.MovieModel movie = new wdt_assignment.Model.MovieModel();
             movie.AddMovie(0, "St Kilda", "title 1", new DateTime());
@@ -19,11 +19,35 @@ namespace wdt_assignment_testc
             movie.AddMovie(5, "St 5", "title 6", new DateTime());
             movie.AddMovie(6, "St 6", "title 7", new DateTime());
 
-            movie.WriteJson();
-
             string existingFilename = @"db.json";
+            movie.WriteJson(existingFilename);
+
             Assert.IsTrue(movie.FileExists(existingFilename));
-            File.Delete(existingFilename);
+        }
+        [TestMethod]
+        public void TestReadModelModel()
+        {
+            string existingFilename = @"db.json";
+            if (!File.Exists(existingFilename))
+                TestAddMovieModel();
+
+            wdt_assignment.Model.MovieModel movie = new wdt_assignment.Model.MovieModel();
+
+            movie.ReadJson(existingFilename);
+            
+            movie.AddMovie(7, "St 7", "title 8", new DateTime());
+            movie.AddMovie(8, "St 8", "title 9", new DateTime());
+            movie.AddMovie(9, "St 9", "title 10", new DateTime());
+            
+            string newFilename = @"db2.json";
+            movie.WriteJson(newFilename);
+
+            Assert.IsTrue(movie.FileExists(newFilename));
+
+            if (movie.FileExists(existingFilename))
+                File.Delete(existingFilename);
+            if (movie.FileExists(newFilename))
+                File.Delete(newFilename);
         }
     }
 }
