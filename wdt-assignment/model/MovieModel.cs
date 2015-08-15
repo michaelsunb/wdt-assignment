@@ -19,6 +19,16 @@ namespace wdt_assignment.Model
             public DateTime dateTime;
         };
         private List<Movie> movies = new List<Movie>();
+        public void RemoveMovie(int id)
+        {
+            if (movies.Count() <= 0) return;
+
+            foreach (Movie value in movies)
+            {
+                if (value.id == id)
+                    movies.Remove(value);
+            }
+        }
         public void AddMovie(int id, string cineplex, string title, DateTime dateTime)
         {
             Movie movie = new Movie();

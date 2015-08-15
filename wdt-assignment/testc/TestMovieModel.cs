@@ -49,5 +49,10 @@ namespace wdt_assignment_testc
             if (movie.FileExists(newFilename))
                 File.Delete(newFilename);
         }
+        [TestMethod]
+        public void TestRemoveMovie()
+        {
+            Assert.Fail("Yet to be implemented");
+        }
     }
 }
