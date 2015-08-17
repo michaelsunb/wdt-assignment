@@ -48,6 +48,8 @@
   <ItemGroup>
     <Compile Include="Factory.cs" />
     <Compile Include="controller\IOption.cs" />
+    <Compile Include="model\JsonModel.cs" />
+    <Compile Include="model\MovieDetailModel.cs" />
     <Compile Include="model\CinemaModel.cs" />
     <Compile Include="model\MovieModel.cs" />
     <Compile Include="controller\Exit.cs" />
