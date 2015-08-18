@@ -5,30 +5,60 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
-namespace wdt_assignment.Model
+namespace wdt_assignment.model
 {
+    struct Movie
+    {
+        public string title;
+        public double price;
+        public Cineplex cineplex;
+    };
     class MovieModel
     {
-        public struct Movie
-        {
-            public int id;
-            public string title;
-            public double price;
-            public CinemaModel.Cineplex cineplex;
-        };
         private List<Movie> movies = new List<Movie>();
-        public List<Movie> GetMovies(int id)
+        private static MovieModel instance;
+
+        private MovieModel() {}
+
+        public static MovieModel GetInstance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new MovieModel();
+                }
+                return instance;
+            }
+        }
+
+        public List<Movie> GetMovies()
         {
             return movies;
         }
-        public void AddMovie(int id, double price, string title, DateTime dateTime, CinemaModel.Cineplex cineplex)
+
+        public Movie AddMovie(string title, double price, Cineplex cineplex)
         {
+            int movieIndex = SearchMovieIndex(title);
+            if (movieIndex != -1) return movies[movieIndex];
+
             Movie movie = new Movie();
-            movie.id = id;
             movie.title = title;
             movie.price = price;
             movie.cineplex = cineplex;
             movies.Add(movie);
+
+            return movie;
+        }
+
+        public int SearchMovieIndex(string title)
+        {
+            for (int i = 0; i < movies.Count; i++)
+            {
+                if (movies[i].title.Equals(title))
+                    return i;
+            }
+            return -1;
         }
     }
 }
