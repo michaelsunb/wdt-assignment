@@ -40,6 +40,10 @@ namespace wdt_assignment.model
         public Sessions AddSession(Cineplex cineplexId,Movie movieId,
             string dayOfWeek, int seatsAvailable)
         {
+            int sessionIndex = SearchMovieDetailIndex(cineplexId,movieId,
+                dayOfWeek, seatsAvailable);
+            if (sessionIndex != -1) return sessions[sessionIndex];
+
             Sessions session = new Sessions();
             session.cineplexId = cineplexId;
             session.movieId = movieId;
@@ -50,11 +54,14 @@ namespace wdt_assignment.model
             return session;
         }
 
-        public int SearchMovieDetailIndex(string dayOfWeek, int seatsAvailable)
+        public int SearchMovieDetailIndex(Cineplex cineplexId,Movie movieId,
+            string dayOfWeek, int seatsAvailable)
         {
             for (int i = 0; i < sessions.Count; i++)
             {
-                if (sessions[i].dayOfWeek.Equals(dayOfWeek) &&
+                if (sessions[i].cineplexId.Equals(cineplexId) &&
+                    sessions[i].movieId.Equals(movieId) &&
+                    sessions[i].dayOfWeek.Equals(dayOfWeek) &&
                     sessions[i].seatsAvailable.Equals(seatsAvailable))
                     return i;
             }

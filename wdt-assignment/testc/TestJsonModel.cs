@@ -33,7 +33,7 @@ namespace wdt_assignment_testc
             Movie twoTowers = movieModel.AddMovie("The Two Towers", 30, "4pm");
 
             SessionModel sessionModel = SessionModel.GetInstance;
-            foreach (Cineplex cineplex in cinemaModel.getCineplex())
+            foreach (Cineplex cineplex in cinemaModel.GetCineplex())
             {
                 foreach(String day in dayOfWeek)
                 {

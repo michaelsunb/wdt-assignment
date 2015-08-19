@@ -59,7 +59,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="testc\TestJsonModel.cs" />
-    <Compile Include="testc\TestMovieSearch.cs" />
+    <Compile Include="testc\TestLinqSearch.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

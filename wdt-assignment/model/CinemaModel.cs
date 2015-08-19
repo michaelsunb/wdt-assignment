@@ -53,7 +53,7 @@ namespace wdt_assignment.model
             return -1;
         }
 
-        public List<Cineplex> getCineplex()
+        public List<Cineplex> GetCineplex()
         {
             return cineplexs;
         }
