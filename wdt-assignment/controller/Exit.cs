@@ -14,7 +14,7 @@ namespace wdt_assignment.Option
         }
         public void Selected()
         {
-            Console.WriteLine("Exit...");
+            Console.WriteLine("Terminating...");
             System.Environment.Exit(-1);
         }
     }

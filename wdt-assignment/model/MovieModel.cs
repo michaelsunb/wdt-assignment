@@ -11,7 +11,7 @@ namespace wdt_assignment.model
     {
         public string title;
         public double price;
-        public Cineplex cineplex;
+        public string time;
     };
     class MovieModel
     {
@@ -37,7 +37,7 @@ namespace wdt_assignment.model
             return movies;
         }
 
-        public Movie AddMovie(string title, double price, Cineplex cineplex)
+        public Movie AddMovie(string title, double price, string time)
         {
             int movieIndex = SearchMovieIndex(title);
             if (movieIndex != -1) return movies[movieIndex];
@@ -45,7 +45,7 @@ namespace wdt_assignment.model
             Movie movie = new Movie();
             movie.title = title;
             movie.price = price;
-            movie.cineplex = cineplex;
+            movie.time = time;
             movies.Add(movie);
 
             return movie;

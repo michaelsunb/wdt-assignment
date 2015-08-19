@@ -7,56 +7,80 @@ using System.Collections;
 namespace wdt_assignment_testc
 {
     [TestClass]
-    public class TestJsonModel : IDisposable
+    public class TestJsonModel
     {
-        const string existingFilename = @"db.json";
-        const string newFilename = @"db2.json";
+        private const string existingFilename = @"db.json";
+        private const string newFilename = @"db2.json";
+        private string[] dayOfWeek = new String[7] {
+            "Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"
+        };
+
+        public TestJsonModel()
+        {
+            CinemaModel cinemaModel = CinemaModel.GetInstance;
+
+            Cineplex stKilda = cinemaModel.AddCinplex("St Kilda");
+            Cineplex fitzroy = cinemaModel.AddCinplex("Fitzroy");
+            Cineplex melbourneCBD = cinemaModel.AddCinplex("Melbourne CBD");
+            Cineplex sunshine = cinemaModel.AddCinplex("Sunshine");
+            Cineplex lilydale = cinemaModel.AddCinplex("Lilydale");
+
+            MovieModel movieModel = MovieModel.GetInstance;
+            Movie matrix = movieModel.AddMovie("The Matrix", 10, "8am");
+            Movie matrixReloaded = movieModel.AddMovie("The Matrix Reloaded", 15, "10am");
+            Movie matrixRevolution = movieModel.AddMovie("The Matrix Revolution", 20, "12pm");
+            Movie fellowshipRing = movieModel.AddMovie("Fellowship of the Ring", 25, "2pm");
+            Movie twoTowers = movieModel.AddMovie("The Two Towers", 30, "4pm");
+
+            SessionModel sessionModel = SessionModel.GetInstance;
+            foreach (Cineplex cineplex in cinemaModel.getCineplex())
+            {
+                foreach(String day in dayOfWeek)
+                {
+                    sessionModel.AddSession(cineplex, matrix, day, 17);
+                    sessionModel.AddSession(cineplex, matrixReloaded, day, 0);
+                    sessionModel.AddSession(cineplex, matrixRevolution, day, 0);
+                    sessionModel.AddSession(cineplex, fellowshipRing, day, 0);
+                    sessionModel.AddSession(cineplex, twoTowers, day, 0);
+                }
+            }
+        }
+
         [TestMethod]
         public void TestAddJsonMovieModel()
         {
-            JsonModel movie = new JsonModel();
+            JsonModel jsonMovie = new JsonModel();
 
-            movie.AddMovie(0, "St Kilda", "Monday", "8am", "The Matrix", 4.20, 10, 20);
-            movie.AddMovie(1, "St Kilda", "Monday", "10am", "The Matrix Reloaded", 6.66, 5, 20);
-            movie.AddMovie(2, "St Kilda", "Monday", "12pm", "The Matrix Revolution", 7.77, 0, 20);
-            movie.AddMovie(3, "St Kilda", "Monday", "2pm", "Fellowship of the Ring", 4.25, 1, 20);
-            movie.AddMovie(4, "St Kilda", "Monday", "4pm", "The Two Towers", 1.23, 15, 20);
-            movie.AddMovie(5, "St Kilda", "Tuesday", "8am", "The Matrix", 2.43, 10, 20);
-            movie.AddMovie(6, "St Kilda", "Tuesday", "10am", "The Matrix Reloaded", 0.22, 10, 20);
+            SessionModel sessionModel = SessionModel.GetInstance;
+            int i = 0;
+            foreach (Sessions session in SessionModel.GetInstance.GetSessions())
+            {
+                jsonMovie.AddMovie(i,
+                    session.cineplexId.cinemaName,
+                    session.dayOfWeek,
+                    session.movieId.time,
+                    session.movieId.title,
+                    session.movieId.price,
+                    session.seatsAvailable,
+                    session.cineplexId.totalSeats);
+                i++;
+            }
 
-            movie.WriteJson(existingFilename);
-
-            Assert.IsTrue(movie.FileExists(existingFilename));
+            jsonMovie.WriteJson(existingFilename);
+            Assert.IsTrue(jsonMovie.FileExists(existingFilename));
         }
+
         [TestMethod]
         public void TestReadJsonModel()
         {
-            if (!File.Exists(existingFilename))
-                TestAddJsonMovieModel();
-
             JsonModel movie = new JsonModel();
 
             movie.ReadJson(existingFilename);
-
-            movie.AddMovie(7, "St 7", "Tuesday", "12pm", "The Matrix Revolution", 7.77, 10, 20);
-            movie.AddMovie(8, "St 8", "Tuesday", "2pm", "Fellowship of the Ring", 8.88, 8, 20);
-            movie.AddMovie(9, "St 9", "Tuesday", "4pm", "The Two Towers", 9.99, 9, 20);
-
             movie.WriteJson(newFilename);
 
             Assert.IsTrue(movie.FileExists(newFilename));
         }
-        private static void DeleteJsonFiles()
-        {
-            if (File.Exists(existingFilename))
-            {
-                File.Delete(existingFilename);
-            }
-            if (File.Exists(newFilename))
-            {
-                File.Delete(newFilename);
-            }
-        }
+
         [TestMethod]
         public void TestRemoveMovie()
         {
@@ -67,15 +91,14 @@ namespace wdt_assignment_testc
             movie.ReadJson(@"db2.json");
 
             ArrayList movies = movie.GetMovies();
-            Assert.AreEqual(10, movies.Count);
+            Assert.AreEqual(175, movies.Count);
             movie.RemoveMovie(3);
             movie.RemoveMovie(2);
             movie.RemoveMovie(0);
-            Assert.AreEqual(7, movies.Count);
-        }
-        public void Dispose()
-        {
-            //DeleteJsonFiles();
+            Assert.AreEqual(172, movies.Count);
+
+            //File.Delete(existingFilename);
+            File.Delete(newFilename);
         }
     }
 }

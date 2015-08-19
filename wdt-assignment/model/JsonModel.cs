@@ -60,9 +60,8 @@ namespace wdt_assignment.model
             movie.Add("cineplex", cineplex);
             movie.Add("seatsAvailable", seatsAvailable);
             movie.Add("totalSeats", totalSeats);
-            movies.Add(movie);
 
-            SetToModels(cineplex, time, dayOfWeek, title, price, seatsAvailable, totalSeats);
+            movies.Add(movie);
         }
 
         public void RemoveMovie(int id)
@@ -79,10 +78,6 @@ namespace wdt_assignment.model
                     return;
                 }
             }
-        }
-
-        public void RemoveMovie(CinemaModel cinemaModel, MovieModel movieModel, MovieDetailModel movieDetail)
-        {
         }
 
         public void LoadJsonDetails()
@@ -108,10 +103,10 @@ namespace wdt_assignment.model
             Cineplex cinema = cinemaModel.AddCinplex(cineplex, totalSeats);
 
             MovieModel movieModel = MovieModel.GetInstance;
-            Movie movie = movieModel.AddMovie(title, price, cinema);
+            Movie movie = movieModel.AddMovie(title, price, time);
 
-            MovieDetailModel movieDetail = MovieDetailModel.GetInstance;
-            movieDetail.AddDetails(seatsAvailable, dayOfWeek, time, movie);
+            SessionModel sessionModel = SessionModel.GetInstance;
+            sessionModel.AddSession(cinema, movie, dayOfWeek, seatsAvailable);
         }
     }
 }

@@ -49,16 +49,17 @@
     <Compile Include="Factory.cs" />
     <Compile Include="controller\IOption.cs" />
     <Compile Include="model\JsonModel.cs" />
-    <Compile Include="model\MovieDetailModel.cs" />
     <Compile Include="model\CinemaModel.cs" />
     <Compile Include="model\MovieModel.cs" />
     <Compile Include="controller\Exit.cs" />
     <Compile Include="controller\MovieBook.cs" />
     <Compile Include="controller\MovieSearch.cs" />
     <Compile Include="controller\MovieSession.cs" />
+    <Compile Include="model\SessionModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="testc\TestJsonModel.cs" />
+    <Compile Include="testc\TestMovieSearch.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

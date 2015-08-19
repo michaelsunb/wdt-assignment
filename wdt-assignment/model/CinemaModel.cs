@@ -30,7 +30,7 @@ namespace wdt_assignment.model
             }
         }
 
-        public Cineplex AddCinplex(string cinemaName, int totalSeats)
+        public Cineplex AddCinplex(string cinemaName, int totalSeats = 20)
         {
             int cineplexIndex = SearchCinplexIndex(cinemaName);
             if (cineplexIndex != -1) return cineplexs[cineplexIndex];
