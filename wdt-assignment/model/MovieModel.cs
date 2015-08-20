@@ -20,7 +20,7 @@ namespace wdt_assignment.model
 
         private MovieModel() {}
 
-        public static MovieModel GetInstance
+        public static MovieModel Instance
         {
             get
             {
@@ -32,9 +32,12 @@ namespace wdt_assignment.model
             }
         }
 
-        public List<Movie> GetMovies()
+        public List<Movie> Movies
         {
-            return movies;
+            get
+            {
+                return movies;
+            }
         }
 
         public Movie AddMovie(string title, double price, string time)

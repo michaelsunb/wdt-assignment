@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using wdt_assignment_testc;
 
 namespace wdt_assignment.model
 {
@@ -14,12 +15,15 @@ namespace wdt_assignment.model
     {
         private ArrayList movies = new ArrayList();
 
-        public ArrayList GetMovies()
+        public ArrayList Movies
         {
-            return movies;
+            get
+            {
+                return movies;
+            }
         }
 
-        public void ReadJson(string fileName = @"db.json")
+        public void ReadJson(string fileName)
         {
             var filestream = new FileStream(fileName,
                                           System.IO.FileMode.Open,
@@ -35,7 +39,7 @@ namespace wdt_assignment.model
             file.Close();
         }
 
-        public void WriteJson(string fileName = @"db.json")
+        public void WriteJson(string fileName)
         {
             string json = JsonConvert.SerializeObject(movies);
             if (FileExists(fileName))
@@ -43,7 +47,7 @@ namespace wdt_assignment.model
             File.WriteAllText(fileName, json);
         }
 
-        public bool FileExists(string fileName = @"db.json")
+        public bool FileExists(string fileName)
         {
             return File.Exists(fileName);
         }
@@ -82,6 +86,9 @@ namespace wdt_assignment.model
 
         public void LoadJsonDetails()
         {
+            if (movies.Count <= 0)
+                ReadJson(TestJsonModel.FILE_NAME);
+
             foreach (var value in movies)
             {
                 JToken token = JObject.Parse(JsonConvert.SerializeObject(value));
@@ -99,13 +106,13 @@ namespace wdt_assignment.model
 
         private void SetToModels(string cineplex, string time, string dayOfWeek, string title, double price, int seatsAvailable, int totalSeats)
         {
-            CinemaModel cinemaModel = CinemaModel.GetInstance;
+            CinemaModel cinemaModel = CinemaModel.Instance;
             Cineplex cinema = cinemaModel.AddCinplex(cineplex, totalSeats);
 
-            MovieModel movieModel = MovieModel.GetInstance;
+            MovieModel movieModel = MovieModel.Instance;
             Movie movie = movieModel.AddMovie(title, price, time);
 
-            SessionModel sessionModel = SessionModel.GetInstance;
+            SessionModel sessionModel = SessionModel.Instance;
             sessionModel.AddSession(cinema, movie, dayOfWeek, seatsAvailable);
         }
     }

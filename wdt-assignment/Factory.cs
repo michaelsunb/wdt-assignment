@@ -9,21 +9,33 @@ namespace wdt_assignment
     // Factory Pattern
     class Factory
     {
-        public IOption OptionA()
+        public IOption OptionA
         {
-            return new Option.MovieSession();
+            get
+            {
+                return new Option.MovieSession();
+            }
         }
-        public IOption OptionB()
+        public IOption OptionB
         {
-            return new Option.MovieSearch();
+            get
+            {
+                return new Option.MovieSearch();
+            }
         }
-        public IOption OptionC()
+        public IOption OptionC
         {
-            return new Option.MovieBook();
+            get
+            {
+                return new Option.MovieBook();
+            }
         }
-        public IOption Exit()
+        public IOption Exit
         {
-            return new Option.Exit();
+            get
+            {
+                return new Option.Exit();
+            }
         }
     }
 }

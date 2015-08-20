@@ -20,7 +20,7 @@ namespace wdt_assignment.model
 
         private SessionModel() { }
 
-        public static SessionModel GetInstance
+        public static SessionModel Instance
         {
             get
             {
@@ -32,9 +32,12 @@ namespace wdt_assignment.model
             }
         }
 
-        public List<Sessions> GetSessions()
+        public List<Sessions> Sessions
         {
-            return sessions;
+            get
+            {
+                return sessions;
+            }
         }
 
         public Sessions AddSession(Cineplex cineplexId,Movie movieId,

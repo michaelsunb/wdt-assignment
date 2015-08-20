@@ -18,7 +18,7 @@ namespace wdt_assignment.model
 
         private CinemaModel() {}
 
-        public static CinemaModel GetInstance
+        public static CinemaModel Instance
         {
             get
             {
@@ -53,9 +53,12 @@ namespace wdt_assignment.model
             return -1;
         }
 
-        public List<Cineplex> GetCineplex()
+        public List<Cineplex> Cineplex
         {
-            return cineplexs;
+            get
+            {
+                return cineplexs;
+            }
         }
     }
 }

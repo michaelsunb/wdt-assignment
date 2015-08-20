@@ -9,15 +9,15 @@ namespace wdt_assignment_testc
     [TestClass]
     public class TestJsonModel
     {
-        private const string existingFilename = @"db.json";
-        private const string newFilename = @"db2.json";
+        public const string FILE_NAME = @"data.json";
+        private const string NEW_FILE_NAME = @"data2.json";
         private string[] dayOfWeek = new String[7] {
             "Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"
         };
 
         public TestJsonModel()
         {
-            CinemaModel cinemaModel = CinemaModel.GetInstance;
+            CinemaModel cinemaModel = CinemaModel.Instance;
 
             Cineplex stKilda = cinemaModel.AddCinplex("St Kilda");
             Cineplex fitzroy = cinemaModel.AddCinplex("Fitzroy");
@@ -25,15 +25,15 @@ namespace wdt_assignment_testc
             Cineplex sunshine = cinemaModel.AddCinplex("Sunshine");
             Cineplex lilydale = cinemaModel.AddCinplex("Lilydale");
 
-            MovieModel movieModel = MovieModel.GetInstance;
+            MovieModel movieModel = MovieModel.Instance;
             Movie matrix = movieModel.AddMovie("The Matrix", 10, "8am");
             Movie matrixReloaded = movieModel.AddMovie("The Matrix Reloaded", 15, "10am");
             Movie matrixRevolution = movieModel.AddMovie("The Matrix Revolution", 20, "12pm");
             Movie fellowshipRing = movieModel.AddMovie("Fellowship of the Ring", 25, "2pm");
             Movie twoTowers = movieModel.AddMovie("The Two Towers", 30, "4pm");
 
-            SessionModel sessionModel = SessionModel.GetInstance;
-            foreach (Cineplex cineplex in cinemaModel.GetCineplex())
+            SessionModel sessionModel = SessionModel.Instance;
+            foreach (Cineplex cineplex in cinemaModel.Cineplex)
             {
                 foreach(String day in dayOfWeek)
                 {
@@ -51,9 +51,9 @@ namespace wdt_assignment_testc
         {
             JsonModel jsonMovie = new JsonModel();
 
-            SessionModel sessionModel = SessionModel.GetInstance;
+            SessionModel sessionModel = SessionModel.Instance;
             int i = 0;
-            foreach (Sessions session in SessionModel.GetInstance.GetSessions())
+            foreach (Sessions session in SessionModel.Instance.Sessions)
             {
                 jsonMovie.AddMovie(i,
                     session.cineplexId.cinemaName,
@@ -66,8 +66,8 @@ namespace wdt_assignment_testc
                 i++;
             }
 
-            jsonMovie.WriteJson(existingFilename);
-            Assert.IsTrue(jsonMovie.FileExists(existingFilename));
+            jsonMovie.WriteJson(FILE_NAME);
+            Assert.IsTrue(jsonMovie.FileExists(FILE_NAME));
         }
 
         [TestMethod]
@@ -75,22 +75,22 @@ namespace wdt_assignment_testc
         {
             JsonModel movie = new JsonModel();
 
-            movie.ReadJson(existingFilename);
-            movie.WriteJson(newFilename);
+            movie.ReadJson(FILE_NAME);
+            movie.WriteJson(NEW_FILE_NAME);
 
-            Assert.IsTrue(movie.FileExists(newFilename));
+            Assert.IsTrue(movie.FileExists(NEW_FILE_NAME));
         }
 
         [TestMethod]
         public void TestRemoveMovie()
         {
-            if (!File.Exists(newFilename))
+            if (!File.Exists(FILE_NAME))
                 TestReadJsonModel();
 
             JsonModel movie = new JsonModel();
-            movie.ReadJson(@"db2.json");
+            movie.ReadJson(NEW_FILE_NAME);
 
-            ArrayList movies = movie.GetMovies();
+            ArrayList movies = movie.Movies;
             Assert.AreEqual(175, movies.Count);
             movie.RemoveMovie(3);
             movie.RemoveMovie(2);
@@ -98,7 +98,7 @@ namespace wdt_assignment_testc
             Assert.AreEqual(172, movies.Count);
 
             //File.Delete(existingFilename);
-            File.Delete(newFilename);
+            File.Delete(NEW_FILE_NAME);
         }
     }
 }

@@ -15,10 +15,10 @@ namespace wdt_assignment
 
             Factory factory = new Factory();
             IOption[] options = new IOption[4];
-            options[0] = factory.OptionA();
-            options[1] = factory.OptionB();
-            options[2] = factory.OptionC();
-            options[3] = factory.Exit();
+            options[0] = factory.OptionA;
+            options[1] = factory.OptionB;
+            options[2] = factory.OptionC;
+            options[3] = factory.Exit;
 
             int selectOption = 0;
             while (selectOption < options.Length)
