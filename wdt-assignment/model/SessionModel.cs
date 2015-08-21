@@ -70,5 +70,21 @@ namespace wdt_assignment.model
             }
             return -1;
         }
+
+        public IEnumerable<Sessions> SearchCinplex(string cinemaName)
+        {
+            System.Text.RegularExpressions.Regex regEx = new System.Text.RegularExpressions.Regex(cinemaName.ToLower());
+            if (sessions.Exists(x => regEx.IsMatch(x.cineplexId.cinemaName.ToLower())))
+                return sessions.Where(s => regEx.IsMatch(s.cineplexId.cinemaName.ToLower()));
+            return null;
+        }
+
+        public IEnumerable<Sessions> SearchMovie(string title)
+        {
+            System.Text.RegularExpressions.Regex regEx = new System.Text.RegularExpressions.Regex(title.ToLower());
+            if (sessions.Exists(x => regEx.IsMatch(x.movieId.title.ToLower())))
+                return sessions.Where(s => regEx.IsMatch(s.movieId.title.ToLower()));
+            return null;
+        }
     }
 }
