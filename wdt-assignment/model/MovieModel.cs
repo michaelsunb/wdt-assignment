@@ -42,7 +42,7 @@ namespace wdt_assignment.model
 
         public Movie AddMovie(string title, double price, string time)
         {
-            int movieIndex = SearchMovieIndex(title);
+            int movieIndex = SearchMovieIndex(title, price, time);
             if (movieIndex != -1) return movies[movieIndex];
 
             Movie movie = new Movie();
@@ -54,14 +54,24 @@ namespace wdt_assignment.model
             return movie;
         }
 
-        public int SearchMovieIndex(string title)
+        public int SearchMovieIndex(string title, double price, string time)
         {
             for (int i = 0; i < movies.Count; i++)
             {
-                if (movies[i].title.Equals(title))
+                if (movies[i].title.Equals(title) &&
+                    movies[i].price.Equals(price) &&
+                    movies[i].time.Equals(time))
                     return i;
             }
             return -1;
+        }
+
+        public IEnumerable<Movie> SearchMovie(string title)
+        {
+            System.Text.RegularExpressions.Regex regEx = new System.Text.RegularExpressions.Regex(title.ToLower());
+            if (movies.Exists(x => regEx.IsMatch(x.title.ToLower())))
+                return movies.Where(s => regEx.IsMatch(s.title.ToLower()));
+            return null;
         }
     }
 }

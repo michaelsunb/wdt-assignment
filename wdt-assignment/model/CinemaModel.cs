@@ -32,7 +32,7 @@ namespace wdt_assignment.model
 
         public Cineplex AddCinplex(string cinemaName, int totalSeats = 20)
         {
-            int cineplexIndex = SearchCinplexIndex(cinemaName);
+            int cineplexIndex = SearchCinplexIndex(cinemaName, totalSeats);
             if (cineplexIndex != -1) return cineplexs[cineplexIndex];
 
             Cineplex cineplex = new Cineplex();
@@ -43,14 +43,23 @@ namespace wdt_assignment.model
             return cineplex;
         }
 
-        public int SearchCinplexIndex(string cinemaName)
+        public int SearchCinplexIndex(string cinemaName, int totalSeats)
         {
             for (int i = 0; i < cineplexs.Count; i++ )
             {
-                if (cineplexs[i].cinemaName.Equals(cinemaName))
+                if (cineplexs[i].cinemaName.Equals(cinemaName) &&
+                    cineplexs[i].totalSeats.Equals(totalSeats))
                     return i;
             }
             return -1;
+        }
+
+        public IEnumerable<Cineplex> SearchCinplex(string cinemaName)
+        {
+            System.Text.RegularExpressions.Regex regEx = new System.Text.RegularExpressions.Regex(cinemaName.ToLower());
+            if (cineplexs.Exists(x => regEx.IsMatch(x.cinemaName.ToLower())))
+                return cineplexs.Where(s => regEx.IsMatch(s.cinemaName.ToLower()));
+            return null;
         }
 
         public List<Cineplex> Cineplex

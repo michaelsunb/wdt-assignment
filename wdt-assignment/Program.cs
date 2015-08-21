@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using wdt_assignment.model;
 
 namespace wdt_assignment
 {
@@ -12,6 +13,9 @@ namespace wdt_assignment
         {
             Console.WriteLine("Welcome to MoSS");
             Console.WriteLine("===============");
+
+            JsonModel jsonMovie = new JsonModel();
+            jsonMovie.LoadJsonDetails();
 
             Factory factory = new Factory();
             IOption[] options = new IOption[4];
