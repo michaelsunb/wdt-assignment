@@ -27,7 +27,7 @@ namespace wdt_assignment
         {
             get
             {
-                return new Option.MovieBook();
+                return new Option.EditDeleteBooking();
             }
         }
         public IOption Exit

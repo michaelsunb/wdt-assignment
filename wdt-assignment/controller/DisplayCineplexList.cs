@@ -84,13 +84,14 @@ namespace wdt_assignment.Option
             }
 
             int index = Program.EnterOption();
-            DisplayMovieSchedule(sessions[index]);
+            AddSeats(sessions[index]);
         }
 
-        public static void DisplayMovieSchedule(Session session)
+        public static void AddSeats(Session session)
         {
-            Console.WriteLine("Movie - {0} on Monday at {1} in {2}",
+            Console.WriteLine("Movie - {0} on {1} at {2} in {3}",
                 session.movieId.title,
+                session.dayOfWeek,
                 session.movieId.time,
                 session.cineplexId.cinemaName);
             Console.WriteLine("Seats: {0}/{1}",
@@ -106,15 +107,15 @@ namespace wdt_assignment.Option
 
                 if (newSeats > seatAvailable)
                     throw new SystemException();
-                DisplayCost(session,newSeats);
+                ConfirmAdd(session,newSeats);
             }
             catch (SystemException)
             {
-                throw new CustomCouldntFindException("These is only " + seatAvailable + " available.");
+                throw new CustomCouldntFindException("There is only " + seatAvailable + " available.");
             }
         }
 
-        public static void DisplayCost(Session session, int newSeats)
+        public static void ConfirmAdd(Session session, int newSeats)
         {
             Console.WriteLine("{0} seats will cost ${1}): ",
                 newSeats, (session.movieId.price * newSeats));

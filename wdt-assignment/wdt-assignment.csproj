@@ -53,7 +53,7 @@
     <Compile Include="model\CinemaModel.cs" />
     <Compile Include="model\MovieModel.cs" />
     <Compile Include="controller\Exit.cs" />
-    <Compile Include="controller\MovieBook.cs" />
+    <Compile Include="controller\EditDeleteBooking.cs" />
     <Compile Include="controller\SearchCineplexMovie.cs" />
     <Compile Include="controller\DisplayCineplexList.cs" />
     <Compile Include="model\SessionModel.cs" />
