@@ -20,7 +20,7 @@ namespace wdt_assignment
         {
             get
             {
-                return new Option.MovieSearch();
+                return new Option.SearchCineplexMovie();
             }
         }
         public IOption OptionC

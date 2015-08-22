@@ -50,22 +50,36 @@ namespace wdt_assignment.Option
             }
 
             int index = Program.EnterOption();
-            DisplaySchedules(cineplex,index);
+            List<Session> sessions = SessionModel.Instance.GetSessionsByCineplexDay(cineplex, index);
+            DisplaySchedules(sessions,false);
         }
 
-        public static void DisplaySchedules(Cineplex cineplex,int day)
+        public static void DisplaySchedules(List<Session> sessions, bool showDayOfWeek)
         {
-            List<Session> sessions = SessionModel.Instance.GetSessionsByCineplexDay(cineplex,day);
-
             int i = 0;
             foreach (Session session in sessions)
             {
-                Console.WriteLine(i + " - {0,5} {1,25} \t ${2} \t {3}/{4}",
-                    session.movieId.time,
-                    session.movieId.title,
-                    session.movieId.price,
-                    session.seatsOccupied,
-                    session.cineplexId.totalSeats);
+                if (!showDayOfWeek)
+                {
+                    Console.WriteLine(i + " -\t{0,5} {1,25} \t ${2} \t {3}/{4}",
+                        session.movieId.time,
+                        session.movieId.title,
+                        session.movieId.price,
+                        session.seatsOccupied,
+                        session.cineplexId.totalSeats);
+                }
+                else
+                {
+                    Console.WriteLine("{0,3} - {1,13}  {2,9}  {3,4}  {4,23}   ${5}   {6}/{7}",
+                        i,
+                        session.cineplexId.cinemaName,
+                        session.dayOfWeek,
+                        session.movieId.time,
+                        session.movieId.title,
+                        session.movieId.price,
+                        session.seatsOccupied,
+                        session.cineplexId.totalSeats);
+                }
                 i++;
             }
 
