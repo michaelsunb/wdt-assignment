@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CustomCouldntFindException.cs" />
     <Compile Include="Factory.cs" />
     <Compile Include="controller\IOption.cs" />
     <Compile Include="model\JsonModel.cs" />
@@ -54,7 +55,7 @@
     <Compile Include="controller\Exit.cs" />
     <Compile Include="controller\MovieBook.cs" />
     <Compile Include="controller\MovieSearch.cs" />
-    <Compile Include="controller\MovieSession.cs" />
+    <Compile Include="controller\DisplayCineplexList.cs" />
     <Compile Include="model\SessionModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

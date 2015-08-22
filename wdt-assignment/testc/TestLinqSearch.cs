@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 using wdt_assignment.model;
 using System.Collections.Generic;
+using wdt_assignment;
 
 namespace wdt_assignment_testc
 {
@@ -16,55 +17,83 @@ namespace wdt_assignment_testc
             jsonMovie.LoadJsonDetails();
 
             CinemaModel cinemaModel = CinemaModel.Instance;
-            Assert.IsTrue((cinemaModel.Cineplex.Count > 0));
-            Assert.AreEqual(cinemaModel.Cineplex.Count, 5);
+            Assert.IsTrue((cinemaModel.Cineplex.Count > 0), "Should be more than zero results");
+            Assert.AreEqual(cinemaModel.Cineplex.Count, 5, "From json there should 5 results");
 
             MovieModel movieModel = MovieModel.Instance;
-            Assert.IsTrue((movieModel.Movies.Count > 0));
-            Assert.AreEqual(movieModel.Movies.Count, 5);
+            Assert.IsTrue((movieModel.Movies.Count > 0),"Should be more than zero results");
+            Assert.AreEqual(movieModel.Movies.Count, 5,"From json there should 5 results");
         }
 
         [TestMethod]
-        public void TestCinemaSearch()
+        public void TestSearches()
         {
             CinemaModel cinemaModel = CinemaModel.Instance;
-            List<Cineplex> cineplexs = cinemaModel.Cineplex;
+            IEnumerable<Cineplex> cineplexs = cinemaModel.SearchCinplex("St Kilda");
 
-            Assert.IsTrue(cineplexs.Exists(x => x.cinemaName == "St Kilda"));
+            MovieModel movieModel = MovieModel.Instance;
+            IEnumerable<Movie> movies = movieModel.SearchMovie("The Matrix");
 
-            System.Text.RegularExpressions.Regex regEx = new System.Text.RegularExpressions.Regex("Kilda".ToLower());
-            Assert.IsTrue(cineplexs.Exists(x => regEx.IsMatch(x.cinemaName.ToLower())));
+            System.Text.RegularExpressions.Regex regEx1 = new System.Text.RegularExpressions.Regex("Kilda".ToLower());
+            System.Text.RegularExpressions.Regex regEx2 = new System.Text.RegularExpressions.Regex("The Matrix".ToLower());
+
+            // Test Cineplex if true
+            foreach(Cineplex c in cineplexs)
+                Assert.IsTrue(regEx1.IsMatch(c.cinemaName.ToLower()), "Results should match any cinema with 'Kilda'");
+            // Test Cineplex if false
+            foreach (Cineplex c in cineplexs)
+                Assert.IsFalse(regEx2.IsMatch(c.cinemaName.ToLower()), "Should not find any matches from 'Matrix'");
+
+            // Test Movie if true
+            foreach (Movie m in movies)
+                Assert.IsTrue(regEx2.IsMatch(m.title.ToLower()), "Results should match any movie with 'Matrix'");
+            // Test Movie if false
+            foreach (Movie m in movies)
+                Assert.IsFalse(regEx1.IsMatch(m.title.ToLower()), "Should not find any matches from 'Kilda'");
         }
 
         [TestMethod]
         public void TestSessionSearch()
         {
             SessionModel sessionModel = SessionModel.Instance;
-            IEnumerable<Sessions> cineplexs = sessionModel.SearchCinplex("St Kilda");
-            IEnumerable<Sessions> movies = sessionModel.SearchMovie("Matrix");
+            IEnumerable<Session> cineplexs = sessionModel.SearchCinplex("St Kilda");
+            IEnumerable<Session> movies = sessionModel.SearchMovie("Matrix");
 
             System.Text.RegularExpressions.Regex regEx1 = new System.Text.RegularExpressions.Regex("Kilda".ToLower());
-            System.Text.RegularExpressions.Regex regEx2 = new System.Text.RegularExpressions.Regex("The Matrix".ToLower());
+            System.Text.RegularExpressions.Regex regEx2 = new System.Text.RegularExpressions.Regex("Matrix".ToLower());
 
             // Test Cineplex if true
-            foreach (Sessions c in cineplexs)
-                Assert.IsTrue(regEx1.IsMatch(c.cineplexId.cinemaName.ToLower()));
+            foreach (Session c in cineplexs)
+                Assert.IsTrue(regEx1.IsMatch(c.cineplexId.cinemaName.ToLower()), "Results should match any cinema with 'Kilda'");
             // Test Cineplex if false
-            foreach (Sessions c in cineplexs)
-                Assert.IsFalse(regEx2.IsMatch(c.cineplexId.cinemaName.ToLower()));
+            foreach (Session c in cineplexs)
+                Assert.IsFalse(regEx2.IsMatch(c.cineplexId.cinemaName.ToLower()), "Should not find any matches from 'Matrix'");
 
             // Test Movie if false
-            foreach (Sessions m in movies)
-                Assert.IsFalse(regEx1.IsMatch(m.movieId.title.ToLower()));
+            foreach (Session m in movies)
+                Assert.IsFalse(regEx1.IsMatch(m.movieId.title.ToLower()), "Should not find any matches from 'Kilda'");
 
             // Test Movie if true
             int sessionCount = 0;
-            foreach (Sessions m in movies)
+            foreach (Session m in movies)
             {
-                Assert.IsTrue(regEx2.IsMatch(m.movieId.title.ToLower()));
+                Assert.IsTrue(regEx2.IsMatch(m.movieId.title.ToLower()), "Results should match any movie with 'Matrix'");
                 sessionCount++;
             }
-            Assert.AreEqual(105,sessionCount);
+            Assert.AreEqual(105, sessionCount, "Should have 105 results for movies with 'Matrix'");
+        }
+
+
+        [TestMethod]
+        [ExpectedException(typeof(CustomCouldntFindException), "Could not find any results")]
+        public void TestFailSearch()
+        {
+            SessionModel sessionModel = SessionModel.Instance;
+            IEnumerable<Session> cineplexs = sessionModel.SearchCinplex("qqq");
+            IEnumerable<Session> movies = sessionModel.SearchMovie("qqq");
+
+            Assert.AreEqual(null, cineplexs, "Should throw a CustomCouldntFindException");
+            Assert.AreEqual(null, movies, "Should throw a CustomCouldntFindException");
         }
     }
 }

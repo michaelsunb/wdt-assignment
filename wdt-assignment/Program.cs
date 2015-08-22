@@ -12,7 +12,7 @@ namespace wdt_assignment
         static void Main(string[] args)
         {
             Console.WriteLine("Welcome to MoSS");
-            Console.WriteLine("===============");
+            Console.Write("===============");
 
             JsonModel jsonMovie = new JsonModel();
             jsonMovie.LoadJsonDetails();
@@ -33,6 +33,8 @@ namespace wdt_assignment
 
         private static int DisplayOption(IOption[] options)
         {
+            Console.WriteLine();
+
             int i = 0;
             foreach (IOption creator in options)
             {
@@ -42,7 +44,7 @@ namespace wdt_assignment
             try
             {
                 // Read user input
-                int line = int.Parse(Console.ReadLine());
+                int line = EnterOption();
                 options[--line].Selected();
 
                 return line;
@@ -55,7 +57,18 @@ namespace wdt_assignment
             {
                 Console.WriteLine("Please enter a number!");
             }
+            catch (CustomCouldntFindException e)
+            {
+                Console.WriteLine(e.Message);
+            }
             return 0;
+        }
+
+        public static int EnterOption()
+        {
+            Console.Write("\nEnter an option: ");
+            int line = int.Parse(Console.ReadLine());
+            return line;
         }
     }
 }

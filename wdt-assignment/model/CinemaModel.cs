@@ -54,12 +54,13 @@ namespace wdt_assignment.model
             return -1;
         }
 
-        public IEnumerable<Cineplex> SearchCinplex(string cinemaName)
+        public List<Cineplex> SearchCinplex(string cinemaName)
         {
             System.Text.RegularExpressions.Regex regEx = new System.Text.RegularExpressions.Regex(cinemaName.ToLower());
             if (cineplexs.Exists(x => regEx.IsMatch(x.cinemaName.ToLower())))
-                return cineplexs.Where(s => regEx.IsMatch(s.cinemaName.ToLower()));
-            return null;
+                return cineplexs.Where(s => regEx.IsMatch(s.cinemaName.ToLower())).ToList();
+
+            throw new CustomCouldntFindException("Could not find " + cinemaName);
         }
 
         public List<Cineplex> Cineplex

@@ -66,12 +66,13 @@ namespace wdt_assignment.model
             return -1;
         }
 
-        public IEnumerable<Movie> SearchMovie(string title)
+        public List<Movie> SearchMovie(string title)
         {
             System.Text.RegularExpressions.Regex regEx = new System.Text.RegularExpressions.Regex(title.ToLower());
             if (movies.Exists(x => regEx.IsMatch(x.title.ToLower())))
-                return movies.Where(s => regEx.IsMatch(s.title.ToLower()));
-            return null;
+                return movies.Where(s => regEx.IsMatch(s.title.ToLower())).ToList();
+
+            throw new CustomCouldntFindException("Could not find " + title);
         }
     }
 }

@@ -13,7 +13,7 @@ namespace wdt_assignment
         {
             get
             {
-                return new Option.MovieSession();
+                return new Option.DisplayCineplexList();
             }
         }
         public IOption OptionB

@@ -6,16 +6,28 @@ using System.Threading.Tasks;
 
 namespace wdt_assignment.model
 {
-    struct Sessions
+    struct Session
     {
         public Cineplex cineplexId;
         public Movie movieId;
         public string dayOfWeek;
-        public int seatsAvailable;
+        public int seatsOccupied;
     };
     class SessionModel
     {
-        private List<Sessions> sessions = new List<Sessions>();
+        private string[] days = new String[7] {
+            "Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"
+            };
+
+        public static string[] Days
+        {
+            get
+            {
+                return SessionModel.Instance.days;
+            }
+        }
+
+        private List<Session> sessions = new List<Session>();
         private static SessionModel instance;
 
         private SessionModel() { }
@@ -32,7 +44,7 @@ namespace wdt_assignment.model
             }
         }
 
-        public List<Sessions> Sessions
+        public List<Session> Sessions
         {
             get
             {
@@ -40,18 +52,18 @@ namespace wdt_assignment.model
             }
         }
 
-        public Sessions AddSession(Cineplex cineplexId,Movie movieId,
+        public Session AddSession(Cineplex cineplexId,Movie movieId,
             string dayOfWeek, int seatsAvailable)
         {
             int sessionIndex = SearchMovieDetailIndex(cineplexId,movieId,
                 dayOfWeek, seatsAvailable);
             if (sessionIndex != -1) return sessions[sessionIndex];
 
-            Sessions session = new Sessions();
+            Session session = new Session();
             session.cineplexId = cineplexId;
             session.movieId = movieId;
             session.dayOfWeek = dayOfWeek;
-            session.seatsAvailable = seatsAvailable;
+            session.seatsOccupied = seatsAvailable;
             sessions.Add(session);
 
             return session;
@@ -65,26 +77,40 @@ namespace wdt_assignment.model
                 if (sessions[i].cineplexId.Equals(cineplexId) &&
                     sessions[i].movieId.Equals(movieId) &&
                     sessions[i].dayOfWeek.Equals(dayOfWeek) &&
-                    sessions[i].seatsAvailable.Equals(seatsAvailable))
+                    sessions[i].seatsOccupied.Equals(seatsAvailable))
                     return i;
             }
             return -1;
         }
 
-        public IEnumerable<Sessions> SearchCinplex(string cinemaName)
+        public List<Session> GetSessionsByCineplexDay(Cineplex cineplexId, int dayIndex)
+        {
+            List<Session> newSessions = new List<Session>();
+            for (int i = 0; i < sessions.Count; i++)
+            {
+                if (sessions[i].cineplexId.Equals(cineplexId) &&
+                    sessions[i].dayOfWeek.Equals(days[dayIndex]))
+                    newSessions.Add(sessions[i]);
+            }
+            return newSessions;
+        }
+
+        public List<Session> SearchCinplex(string cinemaName)
         {
             System.Text.RegularExpressions.Regex regEx = new System.Text.RegularExpressions.Regex(cinemaName.ToLower());
             if (sessions.Exists(x => regEx.IsMatch(x.cineplexId.cinemaName.ToLower())))
-                return sessions.Where(s => regEx.IsMatch(s.cineplexId.cinemaName.ToLower()));
-            return null;
+                return sessions.Where(s => regEx.IsMatch(s.cineplexId.cinemaName.ToLower())).ToList();
+
+            throw new CustomCouldntFindException("Could not find " + cinemaName);
         }
 
-        public IEnumerable<Sessions> SearchMovie(string title)
+        public List<Session> SearchMovie(string title)
         {
             System.Text.RegularExpressions.Regex regEx = new System.Text.RegularExpressions.Regex(title.ToLower());
             if (sessions.Exists(x => regEx.IsMatch(x.movieId.title.ToLower())))
-                return sessions.Where(s => regEx.IsMatch(s.movieId.title.ToLower()));
-            return null;
+                return sessions.Where(s => regEx.IsMatch(s.movieId.title.ToLower())).ToList();
+
+            throw new CustomCouldntFindException("Could not find " + title);
         }
     }
 }
