@@ -7,7 +7,7 @@ using wdt_assignment.model;
 
 namespace wdt_assignment.Option
 {
-    class EditDeleteBooking : IOption
+    class EditDeleteBooking : BaseSessionOption, IOption
     {
         public string GetOption()
         {
@@ -39,7 +39,7 @@ namespace wdt_assignment.Option
             }
             catch (SystemException)
             {
-                throw new CustomCouldntFindException("Select only from 0 to " + i);
+                throw new CustomCouldntFindException("Select only from 0 to " + (i-1));
             }
         }
 
@@ -54,7 +54,7 @@ namespace wdt_assignment.Option
                 index = Program.EnterOption();
                 if (index == 1)
                 {
-                    DisplayCineplexList.AddSeats(session);
+                    AddSeats(session);
                     return;
                 }
                 if (index == 2)
@@ -70,7 +70,7 @@ namespace wdt_assignment.Option
             }
         }
 
-        private void RemoveSeats(Session session)
+        public void RemoveSeats(Session session)
         {
             Console.WriteLine("Movie - {0} on {1} at {2} in {3}",
                 session.movieId.title,

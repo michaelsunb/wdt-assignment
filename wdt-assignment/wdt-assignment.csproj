@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="controller\BaseSessionOption.cs" />
     <Compile Include="CustomCouldntFindException.cs" />
     <Compile Include="Factory.cs" />
     <Compile Include="controller\IOption.cs" />

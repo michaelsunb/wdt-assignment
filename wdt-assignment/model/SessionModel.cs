@@ -101,7 +101,7 @@ namespace wdt_assignment.model
             if (sessions.Exists(x => regEx.IsMatch(x.cineplexId.cinemaName.ToLower())))
                 return sessions.Where(s => regEx.IsMatch(s.cineplexId.cinemaName.ToLower())).ToList();
 
-            throw new CustomCouldntFindException("Could not find " + cinemaName);
+            throw new CustomCouldntFindException("Could not find the cineplex: " + cinemaName);
         }
 
         public List<Session> SearchMovie(string title)
@@ -110,7 +110,7 @@ namespace wdt_assignment.model
             if (sessions.Exists(x => regEx.IsMatch(x.movieId.title.ToLower())))
                 return sessions.Where(s => regEx.IsMatch(s.movieId.title.ToLower())).ToList();
 
-            throw new CustomCouldntFindException("Could not find " + title);
+            throw new CustomCouldntFindException("Could not find the movie: " + title);
         }
     }
 }

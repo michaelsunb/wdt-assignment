@@ -60,7 +60,7 @@ namespace wdt_assignment.model
             if (cineplexs.Exists(x => regEx.IsMatch(x.cinemaName.ToLower())))
                 return cineplexs.Where(s => regEx.IsMatch(s.cinemaName.ToLower())).ToList();
 
-            throw new CustomCouldntFindException("Could not find " + cinemaName);
+            throw new CustomCouldntFindException("Could not find the cineplex: " + cinemaName);
         }
 
         public List<Cineplex> Cineplex

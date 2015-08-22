@@ -7,7 +7,7 @@ using wdt_assignment.model;
 
 namespace wdt_assignment.Option
 {
-    class SearchCineplexMovie : IOption
+    class SearchCineplexMovie : BaseSessionOption, IOption
     {
         public string GetOption()
         {
@@ -47,7 +47,7 @@ namespace wdt_assignment.Option
 
             List<Cineplex> cineplexs = CinemaModel.Instance.SearchCinplex(Console.ReadLine());
 
-            DisplayCineplexList.DisplayCineplexs(cineplexs);
+            DisplayCineplexs(cineplexs);
         }
 
         private void SearchByMovie()
@@ -56,7 +56,7 @@ namespace wdt_assignment.Option
             Console.Write("\nEnter a movie name: ");
 
             List<Session> sessions = SessionModel.Instance.SearchMovie(Console.ReadLine());
-            DisplayCineplexList.DisplaySchedules(sessions, true);
+            DisplaySchedules(sessions, true);
         }
     }
 }
