@@ -9,6 +9,8 @@ namespace wdt_assignment.Option
 {
     class EditDeleteBooking : BaseSessionOption, IOption
     {
+        private const int ADD_SEATS = 1;
+        private const int REMOVE_SEATS = 1;
         private Session session;
         /// <summary>Returns a string "Edit/delete a current booking"</summary>
         /// <returns>Returns string "Edit/delete a current booking"</returns>
@@ -61,12 +63,12 @@ namespace wdt_assignment.Option
             try
             {
                 index = Program.EnterOption();
-                if (index == 1)
+                if (index == ADD_SEATS)
                 {
                     AddSeats(session);
                     return;
                 }
-                if (index == 2)
+                if (index == REMOVE_SEATS)
                 {
                     RemoveSeats();
                     return;

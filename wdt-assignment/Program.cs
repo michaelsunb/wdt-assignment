@@ -9,6 +9,11 @@ namespace wdt_assignment
 {
     class Program
     {
+        private const int FOUR_OPTIONS = 4;
+        private const int OPTION_A_DISPLAY_CINEPLEX_LIST = 0;
+        private const int OPTION_B_SEARCH_CINEPLEX_MOVIE = 1;
+        private const int OPTION_C_EDIT_DELETE_BOOKING = 2;
+        private const int OPTION_D_EXIT = 3;
         /// <summary>Main method to start up the program.</summary>
         /// <param name="args"> parameter takes an array of arguements.</param>
         /// <returns>Returns the console screen of the program.</returns>
@@ -21,11 +26,11 @@ namespace wdt_assignment
             jsonMovie.LoadJsonDetails();
 
             Factory factory = new Factory();
-            IOption[] options = new IOption[4];
-            options[0] = factory.OptionA;
-            options[1] = factory.OptionB;
-            options[2] = factory.OptionC;
-            options[3] = factory.Exit;
+            IOption[] options = new IOption[FOUR_OPTIONS];
+            options[OPTION_A_DISPLAY_CINEPLEX_LIST] = factory.OptionA;
+            options[OPTION_B_SEARCH_CINEPLEX_MOVIE] = factory.OptionB;
+            options[OPTION_C_EDIT_DELETE_BOOKING] = factory.OptionC;
+            options[OPTION_D_EXIT] = factory.Exit;
 
             int selectOption = 0;
             while (selectOption < options.Length)

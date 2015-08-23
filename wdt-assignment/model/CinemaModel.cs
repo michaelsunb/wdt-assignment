@@ -15,6 +15,7 @@ namespace wdt_assignment.model
     };
     class CineplexModel
     {
+        private const int DEFAULT_TOTAL_NUMBER_SEATS = 20;
         private const int DID_NOT_FIND_CINEPLEX_INDEX = -1;
         private List<Cineplex> cineplexs = new List<Cineplex>();
         private static CineplexModel instance;
@@ -53,7 +54,7 @@ namespace wdt_assignment.model
         /// <param name="totalSeats"> parameter takes a total number of seats.
         /// Default is 20.</param>
         /// <returns>Returns cineplex that has been added or found.</returns>
-        public Cineplex AddCinplex(string cineplexName, int totalSeats = 20)
+        public Cineplex AddCinplex(string cineplexName, int totalSeats = DEFAULT_TOTAL_NUMBER_SEATS)
         {
             int cineplexIndex = SearchCinplexIndex(cineplexName, totalSeats);
             if (cineplexIndex != DID_NOT_FIND_CINEPLEX_INDEX) return cineplexs[cineplexIndex];
