@@ -1,3 +1,6 @@
+Name: Michaelsun Baluyos
+Student number: s3110401
+
 Files I Created:
 /wdt-assignment/
 > Program.cs			- Main program is here. Run from here.
