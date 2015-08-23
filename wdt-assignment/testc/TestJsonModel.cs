@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 using wdt_assignment.model;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace wdt_assignment_testc
 {
@@ -17,7 +18,7 @@ namespace wdt_assignment_testc
 
         public TestJsonModel()
         {
-            CinemaModel cinemaModel = CinemaModel.Instance;
+            CineplexModel cinemaModel = CineplexModel.Instance;
 
             Cineplex stKilda = cinemaModel.AddCinplex("St Kilda");
             Cineplex fitzroy = cinemaModel.AddCinplex("Fitzroy");
@@ -37,7 +38,11 @@ namespace wdt_assignment_testc
             {
                 foreach(String day in days)
                 {
-                    sessionModel.AddSession(cineplex, matrix, day, 17);
+                    if(sessionModel.Sessions.Count == 0)
+                        sessionModel.AddSession(cineplex, matrix, day, 17);
+                    else
+                        sessionModel.AddSession(cineplex, matrix, day, 10);
+
                     sessionModel.AddSession(cineplex, matrixReloaded, day, 0);
                     sessionModel.AddSession(cineplex, matrixRevolution, day, 0);
                     sessionModel.AddSession(cineplex, fellowshipRing, day, 0);
@@ -55,8 +60,8 @@ namespace wdt_assignment_testc
             int i = 0;
             foreach (Session session in SessionModel.Instance.Sessions)
             {
-                jsonMovie.AddMovie(i,
-                    session.cineplexId.cinemaName,
+                jsonMovie.AddEntireSessionInfo(i,
+                    session.cineplexId.cineplexName,
                     session.dayOfWeek,
                     session.movieId.time,
                     session.movieId.title,
@@ -67,7 +72,7 @@ namespace wdt_assignment_testc
             }
 
             jsonMovie.WriteJson(FILE_NAME);
-            Assert.IsTrue(jsonMovie.FileExists(FILE_NAME), "'data.json' should exits in /wdt-assignment/bin/Debug/");
+            Assert.IsTrue(File.Exists(FILE_NAME), "'data.json' should exits in /wdt-assignment/bin/Debug/");
         }
 
         [TestMethod]
@@ -78,7 +83,7 @@ namespace wdt_assignment_testc
             movie.ReadJson(FILE_NAME);
             movie.WriteJson(NEW_FILE_NAME);
 
-            Assert.IsTrue(movie.FileExists(NEW_FILE_NAME), "'data2.json' should exits in /wdt-assignment/bin/Debug/");
+            Assert.IsTrue(File.Exists(NEW_FILE_NAME), "'data2.json' should exits in /wdt-assignment/bin/Debug/");
         }
 
         [TestMethod]

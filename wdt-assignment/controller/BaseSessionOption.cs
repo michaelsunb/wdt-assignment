@@ -9,6 +9,9 @@ namespace wdt_assignment.Option
 {
     abstract class BaseSessionOption
     {
+        /// <summary>Selected method to display functionality.
+        /// Displays list of cineplex from parameter.</summary>
+        /// <param name="cineplexs"> parameter takes a struct Cineplex.</param>
         public void DisplayCineplexs(List<Cineplex> cineplexs)
         {
             Console.WriteLine();
@@ -16,7 +19,7 @@ namespace wdt_assignment.Option
             int i = 0;
             foreach (Cineplex cineplex in cineplexs)
             {
-                Console.WriteLine(++i + " - {0}", cineplex.cinemaName);
+                Console.WriteLine(++i + " - {0}", cineplex.cineplexName);
             }
             int index = 0;
             Cineplex newCineplex;
@@ -32,6 +35,9 @@ namespace wdt_assignment.Option
             DisplayDays(newCineplex);
         }
 
+        /// <summary>Selected method to display functionality.
+        /// Displays list of days.</summary>
+        /// <param name="cineplexs"> parameter takes a struct Cineplex.</param>
         private void DisplayDays(Cineplex cineplex)
         {
             for (int i = 0; i < SessionModel.Days.Length; i++)
@@ -42,6 +48,8 @@ namespace wdt_assignment.Option
             try
             {
                 int index = Program.EnterOption();
+                if (index > SessionModel.Days.Length)
+                    throw new SystemException();
                 List<Session> sessions = SessionModel.Instance.GetSessionsByCineplexDay(cineplex, index);
                 DisplaySchedules(sessions, false);
             }
@@ -51,6 +59,11 @@ namespace wdt_assignment.Option
             }
         }
 
+        /// <summary>Selected method to display functionality.
+        /// Displays list of sessions and option to show day of week or not.</summary>
+        /// <param name="cineplexs"> parameter takes a list of Session struct.</param>
+        /// <param name="showDayOfWeek"> parameter takes boolean option to
+        /// display whether or not to show days of week.</param>
         public void DisplaySchedules(List<Session> sessions, bool showDayOfWeek)
         {
             int i = 0;
@@ -69,7 +82,7 @@ namespace wdt_assignment.Option
                 {
                     Console.WriteLine("{0,3} - {1,13}  {2,9}  {3,4}  {4,23}   ${5}   {6}/{7}",
                         i,
-                        session.cineplexId.cinemaName,
+                        session.cineplexId.cineplexName,
                         session.dayOfWeek,
                         session.movieId.time,
                         session.movieId.title,
@@ -91,13 +104,16 @@ namespace wdt_assignment.Option
             }
         }
 
+        /// <summary>Selected method to display functionality.
+        /// Displays option to add x amount of seats.</summary>
+        /// <param name="session"> parameter takes a Session struct.</param>
         public void AddSeats(Session session)
         {
             Console.WriteLine("Movie - {0} on {1} at {2} in {3}",
                 session.movieId.title,
                 session.dayOfWeek,
                 session.movieId.time,
-                session.cineplexId.cinemaName);
+                session.cineplexId.cineplexName);
             Console.WriteLine("Seats: {0}/{1}",
                 session.seatsOccupied,
                 session.cineplexId.totalSeats);
@@ -119,6 +135,10 @@ namespace wdt_assignment.Option
             }
         }
 
+        /// <summary>Selected method to display functionality.
+        /// Displays confirmation to enter new number of seats.</summary>
+        /// <param name="session"> parameter takes a Session struct.</param>
+        /// <param name="newSeats"> parameter takes a new number of seats.</param>
         private void ConfirmAdd(Session session, int newSeats)
         {
             Console.WriteLine("{0} seats will cost ${1}): ",
@@ -135,7 +155,7 @@ namespace wdt_assignment.Option
                 if (confirm.ToLower().Equals("y") ||
                 confirm.ToLower().Equals("yes"))
                 {
-                    int sessionIndex = SessionModel.Instance.SearchMovieDetailIndex(
+                    int sessionIndex = SessionModel.Instance.SearchSessionIndex(
                         session.cineplexId,
                         session.movieId,
                         session.dayOfWeek,

@@ -15,6 +15,8 @@ namespace wdt_assignment.model
     {
         private ArrayList movies = new ArrayList();
 
+        /// <summary>Getter to get an arraylist of movies with all the info.</summary>
+        /// <returns>Returns arraylist of movies.</returns>
         public ArrayList Movies
         {
             get
@@ -23,7 +25,11 @@ namespace wdt_assignment.model
             }
         }
 
-        public void ReadJson(string fileName)
+        /// <summary>Read from a json file and set the values into an arraylist.
+        /// Default file name is called data.json</summary>
+        /// <param name="fileName"> parameter takes a file name.
+        /// Default file name is data.json.</param>
+        public void ReadJson(string fileName = TestJsonModel.FILE_NAME)
         {
             var filestream = new FileStream(fileName,
                                           System.IO.FileMode.Open,
@@ -39,21 +45,30 @@ namespace wdt_assignment.model
             file.Close();
         }
 
+        /// <summary>Read from a json file and set the values into an arraylist.
+        /// Default file name is called data.json</summary>
+        /// <param name="fileName"> parameter takes a file name.
+        /// Default file name is data.json.</param>
         public void WriteJson(string fileName)
         {
             string json = JsonConvert.SerializeObject(movies);
-            if (FileExists(fileName))
+            if (File.Exists(fileName))
                 File.Delete(fileName);
             File.WriteAllText(fileName, json);
         }
 
-        public bool FileExists(string fileName)
-        {
-            return File.Exists(fileName);
-        }
-
-        public void AddMovie(int id, string cineplex, string dayOfWeek, string time,
-            string title, double price, int seatsAvailable, int totalSeats)
+        /// <summary>Adds parameters listed below into JObject to be added
+        /// into the arraylist.</summary>
+        /// <param name="id"> parameter takes id of int.</param>
+        /// <param name="cineplex"> parameter takes a name of cineplex.</param>
+        /// <param name="dayOfWeek"> parameter takes a string from day of week.</param>
+        /// <param name="time"> parameter takes a string for time.</param>
+        /// <param name="title"> parameter takes a string for title.</param>
+        /// <param name="price"> parameter takes a double for price.</param>
+        /// <param name="seatsOccupied"> parameter takes an integer of seats occupied.</param>
+        /// <param name="totalSeats"> parameter takes an integer of total number of seats allowed.</param>
+        public void AddEntireSessionInfo(int id, string cineplex, string dayOfWeek, string time,
+            string title, double price, int seatsOccupied, int totalSeats)
         {
             JObject movie = new JObject();
             movie.Add("id", id);
@@ -62,12 +77,14 @@ namespace wdt_assignment.model
             movie.Add("time", time);
             movie.Add("price", price);
             movie.Add("cineplex", cineplex);
-            movie.Add("seatsAvailable", seatsAvailable);
+            movie.Add("seatsAvailable", seatsOccupied);
             movie.Add("totalSeats", totalSeats);
 
             movies.Add(movie);
         }
 
+        /// <summary>Uses the id input for find and remove an element from movies.</summary>
+        /// <param name="id"> parameter takes id of int.</param>
         public void RemoveMovie(int id)
         {
             if (movies.Count <= 0) return;
@@ -84,10 +101,11 @@ namespace wdt_assignment.model
             }
         }
 
+        /// <summary>Method to read from json file and set them into the models.</summary>
         public void LoadJsonDetails()
         {
             if (movies.Count <= 0)
-                ReadJson(TestJsonModel.FILE_NAME);
+                ReadJson();
 
             foreach (var value in movies)
             {
@@ -104,9 +122,17 @@ namespace wdt_assignment.model
             }
         }
 
+        /// <summary>Sets parameters to their corresponding models</summary>
+        /// <param name="cineplex"> parameter takes a name of cineplex.</param>
+        /// <param name="dayOfWeek"> parameter takes a string from day of week.</param>
+        /// <param name="time"> parameter takes a string for time.</param>
+        /// <param name="title"> parameter takes a string for title.</param>
+        /// <param name="price"> parameter takes a double for price.</param>
+        /// <param name="seatsOccupied"> parameter takes an integer of seats occupied.</param>
+        /// <param name="totalSeats"> parameter takes an integer of total number of seats allowed.</param>
         private void SetToModels(string cineplex, string time, string dayOfWeek, string title, double price, int seatsAvailable, int totalSeats)
         {
-            CinemaModel cinemaModel = CinemaModel.Instance;
+            CineplexModel cinemaModel = CineplexModel.Instance;
             Cineplex cinema = cinemaModel.AddCinplex(cineplex, totalSeats);
 
             MovieModel movieModel = MovieModel.Instance;

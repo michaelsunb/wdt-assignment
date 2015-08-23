@@ -9,6 +9,9 @@ namespace wdt_assignment
 {
     class Program
     {
+        /// <summary>Main method to start up the program.</summary>
+        /// <param name="args"> parameter takes an array of arguements.</param>
+        /// <returns>Returns the console screen of the program.</returns>
         static void Main(string[] args)
         {
             Console.WriteLine("Welcome to MoSS");
@@ -31,6 +34,9 @@ namespace wdt_assignment
             }
         }
 
+        /// <summary>Displays the options set by the parameters and asks for an input for the user.</summary>
+        /// <param name="options"> parameter takes an array of IOption interface.</param>
+        /// <returns>Displays the options and returns input of the user.</returns>
         private static int DisplayOption(IOption[] options)
         {
             Console.WriteLine();
@@ -64,6 +70,8 @@ namespace wdt_assignment
             return 0;
         }
 
+        /// <summary>Asks the user for an integer input. Must catch the Exception.</summary>
+        /// <returns>Returns input of the user which should be a number. Otherwise catch the Exception.</returns>
         public static int EnterOption()
         {
             Console.Write("\nEnter an option: ");

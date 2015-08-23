@@ -9,11 +9,16 @@ namespace wdt_assignment.Option
 {
     class EditDeleteBooking : BaseSessionOption, IOption
     {
+        private Session session;
+        /// <summary>Returns a string "Edit/delete a current booking"</summary>
+        /// <returns>Returns string "Edit/delete a current booking"</returns>
         public string GetOption()
         {
             return "Edit/delete a current booking";
         }
 
+        /// <summary>Selected method to display functionality.
+        /// Displays entire list of sessions and pick one of them.</summary>
         public void Selected()
         {
             Console.WriteLine("Edit/Delete a current booking\n");
@@ -22,7 +27,7 @@ namespace wdt_assignment.Option
             {
                 Console.WriteLine("{0,3} - {1,13}  {2,9}  {3,4}  {4,23}   ${5}   {6}/{7}",
                     i,
-                    session.cineplexId.cinemaName,
+                    session.cineplexId.cineplexName,
                     session.dayOfWeek,
                     session.movieId.time,
                     session.movieId.title,
@@ -35,7 +40,8 @@ namespace wdt_assignment.Option
             try
             {
                 index = Program.EnterOption();
-                AddDeleteSeat(SessionModel.Instance.Sessions[index]);
+                session = SessionModel.Instance.Sessions[index];
+                AddDeleteSeat();
             }
             catch (SystemException)
             {
@@ -43,7 +49,10 @@ namespace wdt_assignment.Option
             }
         }
 
-        public void AddDeleteSeat(Session session)
+        /// <summary>Selected method to display functionality.
+        /// Displays 2 options. Add or remove seats.</summary>
+        /// <param name="session"> parameter takes a struct Session.</param>
+        private void AddDeleteSeat()
         {
             Console.WriteLine();
             Console.WriteLine("1 - Add Seats");
@@ -59,7 +68,7 @@ namespace wdt_assignment.Option
                 }
                 if (index == 2)
                 {
-                    RemoveSeats(session);
+                    RemoveSeats();
                     return;
                 }
                 throw new SystemException();
@@ -70,13 +79,15 @@ namespace wdt_assignment.Option
             }
         }
 
-        public void RemoveSeats(Session session)
+        /// <summary>Selected method to display functionality.
+        /// Displays option to remove x amount of seats.</summary>
+        private void RemoveSeats()
         {
             Console.WriteLine("Movie - {0} on {1} at {2} in {3}",
                 session.movieId.title,
                 session.dayOfWeek,
                 session.movieId.time,
-                session.cineplexId.cinemaName);
+                session.cineplexId.cineplexName);
             Console.WriteLine("Seats: {0}/{1}",
                 session.seatsOccupied,
                 session.cineplexId.totalSeats);
@@ -89,7 +100,7 @@ namespace wdt_assignment.Option
 
                 if (newSeats > session.seatsOccupied)
                     throw new SystemException();
-                ConfirmRemoval(session, newSeats);
+                ConfirmRemoval(newSeats);
             }
             catch (SystemException)
             {
@@ -97,7 +108,10 @@ namespace wdt_assignment.Option
             }
         }
 
-        private void ConfirmRemoval(Session session, int newSeats)
+        /// <summary>Selected method to display functionality.
+        /// Displays confirmation to enter new number of seats.</summary>
+        /// <param name="newSeats"> parameter takes a new number of seats.</param>
+        private void ConfirmRemoval(int newSeats)
         {
             Console.WriteLine();
 
@@ -112,7 +126,7 @@ namespace wdt_assignment.Option
                 if (confirm.ToLower().Equals("y") ||
                 confirm.ToLower().Equals("yes"))
                 {
-                    int sessionIndex = SessionModel.Instance.SearchMovieDetailIndex(
+                    int sessionIndex = SessionModel.Instance.SearchSessionIndex(
                         session.cineplexId,
                         session.movieId,
                         session.dayOfWeek,

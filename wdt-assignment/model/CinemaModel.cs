@@ -6,69 +6,94 @@ using System.Threading.Tasks;
 
 namespace wdt_assignment.model
 {
+    /// <summary>Struct of Cineplex to store cinemaName and totalSeats.
+    /// Cineplex has 1 to many relation with Session.</summary>
     struct Cineplex
     {
-        public string cinemaName;
+        public string cineplexName;
         public int totalSeats;
     };
-    class CinemaModel
+    class CineplexModel
     {
+        private const int DID_NOT_FIND_CINEPLEX_INDEX = -1;
         private List<Cineplex> cineplexs = new List<Cineplex>();
-        private static CinemaModel instance;
+        private static CineplexModel instance;
 
-        private CinemaModel() {}
+        /// <summary>Private constructor for the singleton pattern.
+        /// It is set to private so we cannot instantiate the class
+        /// with new.</summary>
+        private CineplexModel() {}
 
-        public static CinemaModel Instance
+        /// <summary>Getter to get a single and same instance of Cineplex Model.</summary>
+        /// <returns>Returns a saved instance of Cineplex Model.</returns>
+        public static CineplexModel Instance
         {
             get
             {
                 if (instance == null)
                 {
-                    instance = new CinemaModel();
+                    instance = new CineplexModel();
                 }
                 return instance;
             }
         }
 
-        public Cineplex AddCinplex(string cinemaName, int totalSeats = 20)
-        {
-            int cineplexIndex = SearchCinplexIndex(cinemaName, totalSeats);
-            if (cineplexIndex != -1) return cineplexs[cineplexIndex];
-
-            Cineplex cineplex = new Cineplex();
-            cineplex.cinemaName = cinemaName;
-            cineplex.totalSeats = totalSeats;
-            cineplexs.Add(cineplex);
-
-            return cineplex;
-        }
-
-        public int SearchCinplexIndex(string cinemaName, int totalSeats)
-        {
-            for (int i = 0; i < cineplexs.Count; i++ )
-            {
-                if (cineplexs[i].cinemaName.Equals(cinemaName) &&
-                    cineplexs[i].totalSeats.Equals(totalSeats))
-                    return i;
-            }
-            return -1;
-        }
-
-        public List<Cineplex> SearchCinplex(string cinemaName)
-        {
-            System.Text.RegularExpressions.Regex regEx = new System.Text.RegularExpressions.Regex(cinemaName.ToLower());
-            if (cineplexs.Exists(x => regEx.IsMatch(x.cinemaName.ToLower())))
-                return cineplexs.Where(s => regEx.IsMatch(s.cinemaName.ToLower())).ToList();
-
-            throw new CustomCouldntFindException("Could not find the cineplex: " + cinemaName);
-        }
-
+        /// <summary>Getter to get a list of Cineplex.</summary>
+        /// <returns>Returns list of Cineplexs.</returns>
         public List<Cineplex> Cineplex
         {
             get
             {
                 return cineplexs;
             }
+        }
+
+        /// <summary>Method to add a movie. If similar movie then it will not add.</summary>
+        /// <param name="cineplexName"> parameter takes a string for cineplex name.</param>
+        /// <param name="totalSeats"> parameter takes a total number of seats.
+        /// Default is 20.</param>
+        /// <returns>Returns cineplex that has been added or found.</returns>
+        public Cineplex AddCinplex(string cineplexName, int totalSeats = 20)
+        {
+            int cineplexIndex = SearchCinplexIndex(cineplexName, totalSeats);
+            if (cineplexIndex != DID_NOT_FIND_CINEPLEX_INDEX) return cineplexs[cineplexIndex];
+
+            Cineplex cineplex = new Cineplex();
+            cineplex.cineplexName = cineplexName;
+            cineplex.totalSeats = totalSeats;
+            cineplexs.Add(cineplex);
+
+            return cineplex;
+        }
+
+        /// <summary>Iterates through the list of movies to find if there is same 
+        /// as parameters. Returns the index if found, otherwise -1 representing 
+        /// did not find.</summary>
+        /// <param name="cineplexName"> parameter takes a string for cineplex name.</param>
+        /// <param name="totalSeats"> parameter takes a total number of seats.</param>
+        /// <returns>Returns index of cineplex found or -1 representing not found.</returns>
+        public int SearchCinplexIndex(string cineplexName, int totalSeats)
+        {
+            for (int i = 0; i < cineplexs.Count; i++ )
+            {
+                if (cineplexs[i].cineplexName.Equals(cineplexName) &&
+                    cineplexs[i].totalSeats.Equals(totalSeats))
+                    return i;
+            }
+            return DID_NOT_FIND_CINEPLEX_INDEX;
+        }
+
+        /// <summary>Searches for cineplex by cineplex name</summary>
+        /// <param name="cineplexName"> parameter takes a string of a cineplex name to search.</param>
+        /// <returns>Returns list of sessions otherwise throws custom exception saying
+        /// cineplex name could not be found.</returns>
+        public List<Cineplex> SearchCinplex(string cineplexName)
+        {
+            System.Text.RegularExpressions.Regex regEx = new System.Text.RegularExpressions.Regex(cineplexName.ToLower());
+            if (cineplexs.Exists(x => regEx.IsMatch(x.cineplexName.ToLower())))
+                return cineplexs.Where(s => regEx.IsMatch(s.cineplexName.ToLower())).ToList();
+
+            throw new CustomCouldntFindException("Could not find the cineplex: " + cineplexName);
         }
     }
 }
