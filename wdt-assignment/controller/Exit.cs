@@ -19,6 +19,7 @@ namespace wdt_assignment.Option
         /// and exits the program.</summary>
         public void Selected()
         {
+            Console.Beep();
             Console.WriteLine("Terminating...");
             System.Environment.Exit(-1);
         }
