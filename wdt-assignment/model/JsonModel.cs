@@ -13,11 +13,11 @@ namespace wdt_assignment.model
 {
     class JsonModel
     {
-        private ArrayList movies = new ArrayList();
+        private List<JObject> movies = new List<JObject>();
 
         /// <summary>Getter to get an arraylist of movies with all the info.</summary>
         /// <returns>Returns arraylist of movies.</returns>
-        public ArrayList Movies
+        public List<JObject> Movies
         {
             get
             {
@@ -40,7 +40,7 @@ namespace wdt_assignment.model
             using (StreamReader r = new StreamReader(fileName))
             {
                 string json = r.ReadToEnd();
-                movies = JsonConvert.DeserializeObject<ArrayList>(json);
+                movies = JsonConvert.DeserializeObject<List<JObject>>(json);
             }
             file.Close();
         }

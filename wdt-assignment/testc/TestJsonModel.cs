@@ -4,6 +4,7 @@ using System.IO;
 using wdt_assignment.model;
 using System.Collections;
 using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
 
 namespace wdt_assignment_testc
 {
@@ -95,7 +96,7 @@ namespace wdt_assignment_testc
             JsonModel movie = new JsonModel();
             movie.ReadJson(NEW_FILE_NAME);
 
-            ArrayList movies = movie.Movies;
+            List<JObject> movies = movie.Movies;
             Assert.AreEqual(175, movies.Count, "Should be 175 results");
             movie.RemoveMovie(3);
             movie.RemoveMovie(2);
