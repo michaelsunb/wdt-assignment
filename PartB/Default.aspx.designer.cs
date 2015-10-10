@@ -10,7 +10,7 @@
 namespace PartB {
     
     
-    public partial class efault {
+    public partial class Default {
         
         /// <summary>
         /// LoginView1 control.

@@ -8,6 +8,7 @@ using System.Text.RegularExpressions;
 using System.Web.Security;
 using System.Configuration;
 using System.Data.SqlClient;
+using System.Web.Optimization;
 
 namespace PartB
 {
@@ -17,7 +18,7 @@ namespace PartB
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            
+
         }
 
         protected void EnterCredentials_Click(object sender, EventArgs e)

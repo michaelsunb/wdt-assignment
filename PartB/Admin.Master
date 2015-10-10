@@ -6,7 +6,7 @@
 <head runat="server">
   <meta charset="utf-8">
     <%-- Style --%>
-    <%: Styles.Render("~/Admin/master") %>
+    <%: Styles.Render("~/Admin/css") %>
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
     <title></title>

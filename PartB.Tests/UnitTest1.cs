@@ -57,7 +57,7 @@ namespace PartB.Tests
                 }
                 catch (Exception ex)
                 {
-                    
+                    Console.Write(ex);
                 }
                 finally
                 {
