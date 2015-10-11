@@ -17,31 +17,13 @@
         <div class="navbar navbar-inverse navbar-static-top">
           <div class="container">
             <div class="navbar-header">
-              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-              </button>
               <a class="navbar-brand" href="#">Cineplex</a>
             </div>
             <div class="navbar-collapse collapse" id="searchbar">
 
               <ul class="nav navbar-nav navbar-right">
-                <li><a href="about.html">About</a></li>
-                <li id="userPage">
-                  <a href="#@userpage"><i class="icon-user"></i> My Page</a>
-                </li>
                 <li><asp:LinkButton id="Logout" runat="server" OnClick="Logout_Click">Logout</asp:LinkButton></li>
               </ul>
-              <ul class="nav navbar-nav navbar-right">
-                <li><a href="#" title="Start a new search">Clear</a></li>
-              </ul>
-
-
-
-            <ul class="nav navbar-nav navbar-left">
-                <li class="three-line-justify"><a id="menu-toggle" href="javascript:void(0)"><i class="fa fa-align-justify fa-lg"></i></a></li>
-            </ul>
             </div><!--/.nav-collapse -->
           </div>
         </div>

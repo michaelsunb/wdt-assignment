@@ -62,8 +62,14 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Admin.Master" />
+    <Content Include="CineplexAdd.aspx" />
+    <Content Include="CineplexAddMovie.aspx" />
+    <Content Include="CineplexRemoveMovie.aspx" />
     <Content Include="Content\admin.css" />
     <Content Include="Content\adminstyle.css" />
+    <Content Include="MovieDelete.aspx" />
+    <Content Include="MovieEdit.aspx" />
+    <Content Include="MovieAdd.aspx" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -104,6 +110,27 @@
       <DependentUpon>Admin.Master</DependentUpon>
     </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="CineplexAdd.aspx.cs">
+      <DependentUpon>CineplexAdd.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CineplexAdd.aspx.designer.cs">
+      <DependentUpon>CineplexAdd.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CineplexAddMovie.aspx.cs">
+      <DependentUpon>CineplexAddMovie.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CineplexAddMovie.aspx.designer.cs">
+      <DependentUpon>CineplexAddMovie.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CineplexRemoveMovie.aspx.cs">
+      <DependentUpon>CineplexRemoveMovie.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CineplexRemoveMovie.aspx.designer.cs">
+      <DependentUpon>CineplexRemoveMovie.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -121,12 +148,33 @@
     <Compile Include="Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Models\UserModel.cs" />
+    <Compile Include="MovieDelete.aspx.cs">
+      <DependentUpon>MovieDelete.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MovieDelete.aspx.designer.cs">
+      <DependentUpon>MovieDelete.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MovieEdit.aspx.cs">
+      <DependentUpon>MovieEdit.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MovieEdit.aspx.designer.cs">
+      <DependentUpon>MovieEdit.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MovieAdd.aspx.cs">
+      <DependentUpon>MovieAdd.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MovieAdd.aspx.designer.cs">
+      <DependentUpon>MovieAdd.aspx</DependentUpon>
+    </Compile>
     <Compile Include="PasswordHash.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
