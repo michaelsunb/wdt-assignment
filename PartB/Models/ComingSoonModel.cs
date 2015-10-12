@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
@@ -17,6 +18,8 @@ namespace PartB.Models
     }
     public class ComingSoonModel
     {
+        private const string CONNECTION_STRING =
+            ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
         private const int DID_NOT_FIND_MOVIE_INDEX = -1;
         private List<ComingSoon> movies = new List<ComingSoon>();
         private static ComingSoonModel instance;
@@ -57,8 +60,7 @@ namespace PartB.Models
 
             SqlConnection conn = null;
             SqlCommand cmd = null;
-            string connStr = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-            using (conn = new SqlConnection(connStr))
+            using (conn = new SqlConnection(CONNECTION_STRING))
             {
                 try
                 {
@@ -115,7 +117,12 @@ namespace PartB.Models
             int movieIndex = SearchMovieIndex(title,shortDescription,longDescription,imageUrl);
             if (movieIndex != DID_NOT_FIND_MOVIE_INDEX) return movies[movieIndex];
 
+            movieIndex = InsertGetId(title, shortDescription, longDescription,imageUrl);
+            if (movieIndex != DID_NOT_FIND_MOVIE_INDEX)
+                throw new CustomCouldntFindException("Failed to add coming soon movie!");
+
             ComingSoon movie = new ComingSoon();
+            movie.ComingSoonID = movieIndex;
             movie.Title = title;
             movie.ShortDecription = shortDescription;
             movie.LongDecription = longDescription;
@@ -124,6 +131,45 @@ namespace PartB.Models
             movies.Add(movie);
 
             return movie;
+        }
+
+        private int InsertGetId(string title, string shortDescription, string longDescription,
+            string imageUrl)
+        {
+            SqlConnection conn = null;
+            SqlCommand cmd = null;
+            using (conn = new SqlConnection(CONNECTION_STRING))
+            {
+                try
+                {
+                    conn.Open();
+                    string sql = "INSERT INTO [master].[dbo].[MovieComingSoon]" +
+                        "(Title,ShortDescription,LongDescription,ImageUrl) VALUES" +
+                        "(@Title,@ShortDescription,@LongDescription,@ImageUrl)";
+                    cmd = new SqlCommand(sql, conn);
+                    cmd.Parameters.Add("@Title", SqlDbType.VarChar).Value = title;
+                    cmd.Parameters.Add("@ShortDescription", SqlDbType.VarChar).Value = shortDescription;
+                    cmd.Parameters.Add("@LongDescription", SqlDbType.VarChar).Value = longDescription;
+                    cmd.Parameters.Add("@ImageUrl", SqlDbType.VarChar).Value = imageUrl;
+
+                    return (int)cmd.ExecuteScalar();
+                }
+                catch (Exception ex)
+                {
+                    return DID_NOT_FIND_MOVIE_INDEX;
+                }
+                finally
+                {
+                    if (cmd != null)
+                    {
+                        cmd.Dispose();
+                    }
+                    if (conn != null)
+                    {
+                        conn.Dispose();
+                    }
+                }
+            }
         }
         public int SearchMovieIndex(string title, string shortDescription, string longDescription,
             string imageUrl)
@@ -137,6 +183,74 @@ namespace PartB.Models
                     return i;
             }
             return DID_NOT_FIND_MOVIE_INDEX;
+        }
+        public ComingSoon EditMovie(ComingSoon oriMovie,string title, string shortDescription,
+            string longDescription,string imageUrl)
+        {
+            int movieIndex = SearchMovieIndex(
+                oriMovie.Title,
+                oriMovie.ShortDecription,
+                oriMovie.LongDecription,
+                oriMovie.ImageUrl);
+            if (movieIndex == DID_NOT_FIND_MOVIE_INDEX)
+                throw new CustomCouldntFindException("Failed to add coming soon movie!");
+
+            Update(oriMovie.ComingSoonID,title, shortDescription, longDescription, imageUrl);
+
+            ComingSoon movie = new ComingSoon();
+            movie.ComingSoonID = movieIndex;
+            movie.Title = title;
+            movie.ShortDecription = shortDescription;
+            movie.LongDecription = longDescription;
+            movie.ImageUrl = imageUrl;
+
+            movies[movieIndex] = movie;
+
+            return movie;
+        }
+
+        private int Update(int csMovieId, string title, string shortDescription,
+            string longDescription, string imageUrl)
+        {
+            SqlConnection conn = null;
+            SqlCommand cmd = null;
+            using (conn = new SqlConnection(CONNECTION_STRING))
+            {
+                try
+                {
+                    conn.Open();
+                    string sql = "UPDATE [master].[dbo].[MovieComingSoon] SET " +
+                        "Title = @Title," +
+                        "ShortDescription = @ShortDescription," +
+                        "LongDescription = @LongDescription," +
+                        "ImageUrl = @ImageUrl " +
+                        "WHERE MovieComingSoonID = @MovieComingSoonID";
+                    cmd = new SqlCommand(sql, conn);
+                    cmd.Parameters.Add("@Title", SqlDbType.VarChar).Value = title;
+                    cmd.Parameters.Add("@ShortDescription", SqlDbType.VarChar).Value = shortDescription;
+                    cmd.Parameters.Add("@LongDescription", SqlDbType.VarChar).Value = longDescription;
+                    cmd.Parameters.Add("@ImageUrl", SqlDbType.VarChar).Value = imageUrl;
+
+                    cmd.Parameters.Add("@MovieComingSoonID", SqlDbType.Int).Value = csMovieId;
+
+                    return (int)cmd.ExecuteScalar();
+                }
+                catch (Exception ex)
+                {
+                    return DID_NOT_FIND_MOVIE_INDEX;
+                }
+                finally
+                {
+                    if (cmd != null)
+                    {
+                        cmd.Dispose();
+                    }
+                    if (conn != null)
+                    {
+                        conn.Dispose();
+                    }
+                }
+            }
         }
     }
 }

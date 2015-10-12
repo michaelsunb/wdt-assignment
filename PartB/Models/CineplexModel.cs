@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -20,6 +21,8 @@ namespace PartB.Models
     };
     class CineplexModel
     {
+        private const string CONNECTION_STRING =
+            ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
         private const int DEFAULT_TOTAL_NUMBER_SEATS = 20;
         private const int DID_NOT_FIND_CINEPLEX_INDEX = -1;
         private List<Cineplex> cineplexs = new List<Cineplex>();
@@ -62,8 +65,7 @@ namespace PartB.Models
 
             SqlConnection conn = null;
             SqlCommand cmd = null;
-            string connStr = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-            using (conn = new SqlConnection(connStr))
+            using (conn = new SqlConnection(CONNECTION_STRING))
             {
                 try
                 {
@@ -126,7 +128,13 @@ namespace PartB.Models
             int cineplexIndex = SearchCinplexIndex(location,shortDescription,longDescription,imageUrl);
             if (cineplexIndex != DID_NOT_FIND_CINEPLEX_INDEX) return cineplexs[cineplexIndex];
 
+            cineplexIndex = InsertGetId(location, shortDescription, longDescription, imageUrl);
+            if (cineplexIndex != DID_NOT_FIND_CINEPLEX_INDEX)
+                throw new CustomCouldntFindException("Failed to add coming soon movie!");
+
+
             Cineplex cineplex = new Cineplex();
+            cineplex.CineplexID = cineplexIndex;
             cineplex.Location = location;
             cineplex.ShortDecription = shortDescription;
             cineplex.LongDecription = longDescription;
@@ -136,7 +144,44 @@ namespace PartB.Models
 
             return cineplex;
         }
+        private int InsertGetId(string location, string shortDescription,
+            string longDescription, string imageUrl)
+        {
+            SqlConnection conn = null;
+            SqlCommand cmd = null;
+            using (conn = new SqlConnection(CONNECTION_STRING))
+            {
+                try
+                {
+                    conn.Open();
+                    string sql = "INSERT INTO [master].[dbo].[Cineplex]" +
+                        "(Location,ShortDescription,LongDescription,ImageUrl) VALUES" +
+                        "(@Location,@ShortDescription,@LongDescription,@ImageUrl)";
+                    cmd = new SqlCommand(sql, conn);
+                    cmd.Parameters.Add("@Location", SqlDbType.VarChar).Value = location;
+                    cmd.Parameters.Add("@ShortDescription", SqlDbType.VarChar).Value = shortDescription;
+                    cmd.Parameters.Add("@LongDescription", SqlDbType.VarChar).Value = longDescription;
+                    cmd.Parameters.Add("@ImageUrl", SqlDbType.VarChar).Value = imageUrl;
 
+                    return (int)cmd.ExecuteScalar();
+                }
+                catch (Exception ex)
+                {
+                    return DID_NOT_FIND_CINEPLEX_INDEX;
+                }
+                finally
+                {
+                    if (cmd != null)
+                    {
+                        cmd.Dispose();
+                    }
+                    if (conn != null)
+                    {
+                        conn.Dispose();
+                    }
+                }
+            }
+        }
         /// <summary>Iterates through the list of movies to find if there is same 
         /// as parameters. Returns the index if found, otherwise -1 representing 
         /// did not find.</summary>
@@ -168,6 +213,74 @@ namespace PartB.Models
                 return cineplexs.Where(s => regEx.IsMatch(s.Location.ToLower())).ToList();
 
             throw new CustomCouldntFindException("Could not find the cineplex: " + cineplexName);
+        }
+        public Cineplex EditCinplex(Cineplex oriCineplex, string location, string shortDescription,
+            string longDescription, string imageUrl)
+        {
+            int cineplexIndex = SearchCinplexIndex(
+                oriCineplex.Location,
+                oriCineplex.ShortDecription,
+                oriCineplex.LongDecription,
+                oriCineplex.ImageUrl);
+            if (cineplexIndex == DID_NOT_FIND_CINEPLEX_INDEX)
+                throw new CustomCouldntFindException("Failed to add coming soon movie!");
+
+            Update(oriCineplex.CineplexID, location, shortDescription, longDescription, imageUrl);
+
+            Cineplex cineplex = new Cineplex();
+            cineplex.CineplexID = oriCineplex.CineplexID;
+            cineplex.Location = location;
+            cineplex.ShortDecription = shortDescription;
+            cineplex.LongDecription = longDescription;
+            cineplex.ImageUrl = imageUrl;
+
+            cineplexs[cineplexIndex] = cineplex;
+
+            return cineplex;
+        }
+        private int Update(int cineplexID,string location, string shortDescription,
+            string longDescription, string imageUrl)
+        {
+            SqlConnection conn = null;
+            SqlCommand cmd = null;
+            using (conn = new SqlConnection(CONNECTION_STRING))
+            {
+                try
+                {
+                    conn.Open();
+                    string sql = "UPDATE [master].[dbo].[Cineplex] SET " +
+                        "Location = @Location," +
+                        "ShortDescription = @ShortDescription," +
+                        "LongDescription = @LongDescription," +
+                        "ImageUrl = @ImageUrl " +
+                        "WHERE CineplexID = @CineplexID";
+                    cmd = new SqlCommand(sql, conn);
+                    cmd.Parameters.Add("@Location", SqlDbType.VarChar).Value = location;
+                    cmd.Parameters.Add("@ShortDescription", SqlDbType.VarChar).Value = shortDescription;
+                    cmd.Parameters.Add("@LongDescription", SqlDbType.VarChar).Value = longDescription;
+                    cmd.Parameters.Add("@ImageUrl", SqlDbType.VarChar).Value = imageUrl;
+
+                    cmd.Parameters.Add("@CineplexID", SqlDbType.Int).Value = cineplexID;
+
+                    cmd.ExecuteNonQuery();
+                    return;
+                }
+                catch (Exception ex)
+                {
+                    throw new CustomCouldntFindException(ex.StackTrace);
+                }
+                finally
+                {
+                    if (cmd != null)
+                    {
+                        cmd.Dispose();
+                    }
+                    if (conn != null)
+                    {
+                        conn.Dispose();
+                    }
+                }
+            }
         }
     }
 }

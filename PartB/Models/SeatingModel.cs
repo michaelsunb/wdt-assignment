@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -20,6 +21,8 @@ namespace PartB.Models
     };
     class SeatingModel
     {
+        private const string CONNECTION_STRING =
+            ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
         private const int DID_NOT_FIND_SEATING_INDEX = -1;
 
         private List<Seating> seatings = new List<Seating>();
@@ -50,7 +53,7 @@ namespace PartB.Models
         {
             get
             {
-                return seatings;
+                return GetSeating();
             }
         }
         public List<Seating> GetSeating()
@@ -62,8 +65,7 @@ namespace PartB.Models
 
             SqlConnection conn = null;
             SqlCommand cmd = null;
-            string connStr = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-            using (conn = new SqlConnection(connStr))
+            using (conn = new SqlConnection(CONNECTION_STRING))
             {
                 try
                 {
@@ -111,9 +113,13 @@ namespace PartB.Models
         /// <returns>Returns session that has been added or found.</returns>
         public Seating AddSeating(int cineplexMovieID, string SeatRow, string SeatColumn, string extra)
         {
-            int sessionIndex = SearchSeatingIndex(cineplexMovieID, SeatRow,
+            int seatingIndex = SearchSeatingIndex(cineplexMovieID, SeatRow,
                 SeatColumn, extra);
-            if (sessionIndex != DID_NOT_FIND_SEATING_INDEX) return seatings[sessionIndex];
+            if (seatingIndex != DID_NOT_FIND_SEATING_INDEX) return seatings[seatingIndex];
+
+            seatingIndex = InsertGetId(cineplexMovieID, SeatRow, SeatColumn, extra);
+            if (seatingIndex != DID_NOT_FIND_SEATING_INDEX)
+                throw new CustomCouldntFindException("Failed to add coming soon movie!");
 
             Seating seating = new Seating();
             seating.CineplexMovieID = cineplexMovieID;
@@ -124,6 +130,43 @@ namespace PartB.Models
             seatings.Add(seating);
 
             return seating;
+        }
+        private int InsertGetId(int cineplexMovieID, string SeatRow, string SeatColumn, string extra)
+        {
+            SqlConnection conn = null;
+            SqlCommand cmd = null;
+            using (conn = new SqlConnection(CONNECTION_STRING))
+            {
+                try
+                {
+                    conn.Open();
+                    string sql = "INSERT INTO [master].[dbo].[Seating]" +
+                        "(CineplexMovieID,SeatRow,SeatColumn,extra) VALUES" +
+                        "(@CineplexMovieID,@SeatRow,@SeatColumn,@extra)";
+                    cmd = new SqlCommand(sql, conn);
+                    cmd.Parameters.Add("@CineplexMovieID", SqlDbType.Int).Value = cineplexMovieID;
+                    cmd.Parameters.Add("@SeatRow", SqlDbType.VarChar).Value = SeatRow;
+                    cmd.Parameters.Add("@SeatColumn", SqlDbType.VarChar).Value = SeatColumn;
+                    cmd.Parameters.Add("@extra", SqlDbType.VarChar).Value = extra;
+
+                    return (int)cmd.ExecuteScalar();
+                }
+                catch (Exception ex)
+                {
+                    return DID_NOT_FIND_SEATING_INDEX;
+                }
+                finally
+                {
+                    if (cmd != null)
+                    {
+                        cmd.Dispose();
+                    }
+                    if (conn != null)
+                    {
+                        conn.Dispose();
+                    }
+                }
+            }
         }
 
         /// <summary>Iterates through the list of session to find if there is same 
@@ -146,6 +189,69 @@ namespace PartB.Models
                     return i;
             }
             return DID_NOT_FIND_SEATING_INDEX;
+        }
+        public Seating EditSeating(Seating oriSeating, string SeatRow, string SeatColumn, string extra)
+        {
+            int seatingIndex = SearchSeatingIndex(
+                oriSeating.CineplexMovieID,
+                oriSeating.SeatRow,
+                oriSeating.SeatColumn,
+                oriSeating.extra);
+            if (seatingIndex == DID_NOT_FIND_SEATING_INDEX)
+                throw new CustomCouldntFindException("Failed to add coming soon movie!");
+
+            Update(oriSeating.CineplexMovieID, SeatRow, SeatColumn, extra);
+
+            Seating seating = new Seating();
+            seating.CineplexMovieID = oriSeating.CineplexMovieID;
+            seating.SeatRow = SeatRow;
+            seating.SeatColumn = SeatColumn;
+            seating.extra = extra;
+
+            seatings[seatingIndex] = seating;
+
+            return seating;
+        }
+        private void Update(int cineplexMovieID, string SeatRow, string SeatColumn, string extra)
+        {
+            SqlConnection conn = null;
+            SqlCommand cmd = null;
+            using (conn = new SqlConnection(CONNECTION_STRING))
+            {
+                try
+                {
+                    conn.Open();
+                    string sql = "UPDATE [master].[dbo].[Seating] SET " +
+                        "SeatRow = @SeatRow," +
+                        "SeatColumn = @SeatColumn," +
+                        "extra = @extra " +
+                        "WHERE CineplexMovieID = @CineplexMovieID";
+                    cmd = new SqlCommand(sql, conn);
+                    cmd.Parameters.Add("@SeatRow", SqlDbType.VarChar).Value = SeatRow;
+                    cmd.Parameters.Add("@SeatColumn", SqlDbType.VarChar).Value = SeatColumn;
+                    cmd.Parameters.Add("@extra", SqlDbType.VarChar).Value = extra;
+
+                    cmd.Parameters.Add("@CineplexMovieID", SqlDbType.Int).Value = cineplexMovieID;
+
+                    cmd.ExecuteNonQuery();
+                    return;
+                }
+                catch (Exception ex)
+                {
+                    throw new CustomCouldntFindException(ex.StackTrace);
+                }
+                finally
+                {
+                    if (cmd != null)
+                    {
+                        cmd.Dispose();
+                    }
+                    if (conn != null)
+                    {
+                        conn.Dispose();
+                    }
+                }
+            }
         }
     }
 }
