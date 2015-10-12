@@ -31,7 +31,8 @@ create table Movie
 	ShortDescription nvarchar(max) not null,
 	LongDescription nvarchar(max) not null,
 	ImageUrl nvarchar(max) null,
-	Price money not null
+	Price money not null,
+    [Status] [int] not NULL
 );
 
 create table CineplexMovie

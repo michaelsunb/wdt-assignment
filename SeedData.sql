@@ -30,18 +30,18 @@ insert into MovieComingSoon (Title, ShortDescription, LongDescription, ImageUrl)
 values ('WebForms Legacy', 'Short description...', 'Long description...', '~/Images/MovieComingSoon.png');
 
 declare @theMatrix int;
-insert into Movie (Title, ShortDescription, LongDescription, ImageUrl, Price)
-values ('The Matrix', 'Short description...', 'Long description...', '~/Images/TheMatrix.png', 10.00);
+insert into Movie (Title, ShortDescription, LongDescription, ImageUrl, Price, Status)
+values ('The Matrix', 'Short description...', 'Long description...', '~/Images/TheMatrix.png', 10.00, 1);
 set @theMatrix = SCOPE_IDENTITY();
 
 declare @theMatrixReloaded int;
-insert into Movie (Title, ShortDescription, LongDescription, ImageUrl, Price)
-values ('The Matrix Reloaded', 'Short description...', 'Long description...', '~/Images/TheMatrixReloaded.png', 15.00);
+insert into Movie (Title, ShortDescription, LongDescription, ImageUrl, Price, Status)
+values ('The Matrix Reloaded', 'Short description...', 'Long description...', '~/Images/TheMatrixReloaded.png', 15.00, 1);
 set @theMatrixReloaded = SCOPE_IDENTITY();
 
 declare @theMatrixRevolution int;
-insert into Movie (Title, ShortDescription, LongDescription, ImageUrl, Price)
-values ('The Matrix Revolution', 'Short description...', 'Long description...', '~/Images/TheMatrixRevolution.png', 20.00);
+insert into Movie (Title, ShortDescription, LongDescription, ImageUrl, Price, Status)
+values ('The Matrix Revolution', 'Short description...', 'Long description...', '~/Images/TheMatrixRevolution.png', 20.00, 1);
 set @theMatrixRevolution = SCOPE_IDENTITY();
 
 insert into CineplexMovie (CineplexID, MovieID) 

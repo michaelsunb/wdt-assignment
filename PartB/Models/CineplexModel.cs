@@ -11,17 +11,17 @@ namespace PartB.Models
 {
     /// <summary>Struct of Cineplex to store cinemaName and totalSeats.
     /// Cineplex has 1 to many relation with Session.</summary>
-    struct Cineplex
+    public struct Cineplex
     {
-        public int CineplexID { set; get; }
-        public string Location { set; get; }
-        public string ShortDecription { set; get; }
-        public string LongDecription { set; get; }
-        public string ImageUrl { set; get; }
+        public int CineplexID { get; set; }
+        public string Location { get; set; }
+        public string ShortDecription { get; set; }
+        public string LongDecription { get; set; }
+        public string ImageUrl { get; set; }
     };
     class CineplexModel
     {
-        private const string CONNECTION_STRING =
+        private static string CONNECTION_STRING =
             ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
         private const int DEFAULT_TOTAL_NUMBER_SEATS = 20;
         private const int DID_NOT_FIND_CINEPLEX_INDEX = -1;
@@ -238,7 +238,7 @@ namespace PartB.Models
 
             return cineplex;
         }
-        private int Update(int cineplexID,string location, string shortDescription,
+        private void Update(int cineplexID,string location, string shortDescription,
             string longDescription, string imageUrl)
         {
             SqlConnection conn = null;

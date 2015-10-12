@@ -11,7 +11,7 @@ namespace PartB.Models
 {
     /// <summary>Struct of Cineplex to store cinemaName and totalSeats.
     /// Cineplex has 1 to many relation with Session.</summary>
-    struct Enquiry
+    public struct Enquiry
     {
         public int EnquiryID { set; get; }
         public string Email { set; get; }
@@ -20,7 +20,7 @@ namespace PartB.Models
     };
     class EnquiryModel
     {
-        private const string CONNECTION_STRING =
+        private static string CONNECTION_STRING =
             ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
         private const int DEFAULT_TOTAL_NUMBER_SEATS = 20;
         private const int DID_NOT_FIND_ENQUIRY_INDEX = -1;
@@ -48,14 +48,14 @@ namespace PartB.Models
 
         /// <summary>Getter to get a list of Cineplex.</summary>
         /// <returns>Returns list of Cineplexs.</returns>
-        public List<Enquiry> Cineplex
+        public List<Enquiry> Enquiry
         {
             get
             {
-                return GetCineplex();
+                return GetEnquiry();
             }
         }
-        public List<Enquiry> GetCineplex()
+        public List<Enquiry> GetEnquiry()
         {
             if (enquries.Count > 0)
             {
@@ -104,7 +104,7 @@ namespace PartB.Models
         }
         public Enquiry getEnquiryByID(int cineplexID)
         {
-            enquries = GetCineplex();
+            enquries = GetEnquiry();
             for (int i = 0; i < enquries.Count; i++)
             {
                 if (enquries[i].EnquiryID.Equals(cineplexID))

@@ -12,7 +12,7 @@ namespace PartB.Models
     /// <summary>Struct of Session to link between cineplex and movie and
     /// day of the week and number of seats occupied.
     /// Session has many to 1 relation with Movie and Cineplex</summary>
-    struct CineplexMovie
+    public struct CineplexMovie
     {
         public int cineplexMovieId { get; set; }
         public int cineplexId { set; get; }
@@ -20,7 +20,7 @@ namespace PartB.Models
     };
     class CineplexMovieModel
     {
-        private const string CONNECTION_STRING =
+        private static string CONNECTION_STRING =
             ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
         private const int DID_NOT_FIND_CINEPLEX_MOVIE_INDEX = -1;
 

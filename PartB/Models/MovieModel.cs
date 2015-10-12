@@ -8,18 +8,19 @@ using System.Web;
 
 namespace PartB.Models
 {
-    struct Movie
+    public struct Movie
     {
-        public int MovieID {set; get;}
-        public string Title {set; get;}
-        public string ShortDecription {set; get;}
-        public string LongDecription {set; get;}
-        public string ImageUrl {set; get;}
-        public double price {set; get;}
+        public int MovieID { get; set; }
+        public string Title {get; set;}
+        public string ShortDecription {get; set;}
+        public string LongDecription {get; set;}
+        public string ImageUrl {get; set;}
+        public double price { get; set; }
+        public int status { get; set; }
     }
     public class MovieModel
     {
-        private const string CONNECTION_STRING =
+        private static string CONNECTION_STRING =
             ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
         private const int DID_NOT_FIND_MOVIE_INDEX = -1;
         private List<Movie> movies = new List<Movie>();
@@ -49,7 +50,7 @@ namespace PartB.Models
         {
             get
             {
-                return GetMovies();
+                return movies;
             }
         }
         public List<Movie> GetMovies()
@@ -74,19 +75,16 @@ namespace PartB.Models
                     while(rdr.Read())
                     {
                         Movie movie = new Movie();
-                        movie.MovieID = (int)rdr[0];
-                        movie.Title = (string)rdr[1];
-                        movie.ShortDecription = (string)rdr[2];
-                        movie.LongDecription = (string)rdr[3];
-                        movie.ImageUrl = (string)rdr[3];
-                        movie.price = (double)rdr[4];
+                        movie.MovieID = (int)rdr["MovieID"];
+                        movie.Title = (string)rdr["Title"];
+                        movie.ShortDecription = (string)rdr["ShortDescription"];
+                        movie.LongDecription = (string)rdr["LongDescription"];
+                        movie.ImageUrl = rdr["ImageUrl"].ToString();
+                        movie.price = Double.Parse(rdr["Price"].ToString());
+                        movie.status = int.Parse(rdr["Status"].ToString());
 
                         movies.Add(movie);
                     }
-                    return movies;
-                }
-                catch (Exception ex)
-                {
                     return movies;
                 }
                 finally
@@ -130,6 +128,7 @@ namespace PartB.Models
             movie.LongDecription = longDescription;
             movie.ImageUrl = imageUrl;
             movie.price = price;
+            movie.status = 1;
 
             movies.Add(movie);
 
@@ -146,14 +145,15 @@ namespace PartB.Models
                 {
                     conn.Open();
                     string sql = "INSERT INTO [master].[dbo].[Movie]" +
-                        "(Title,ShortDescription,LongDescription,ImageUrl,Price) VALUES" +
-                        "(@Title,@ShortDescription,@LongDescription,@ImageUrl,@Price)";
+                        "(Title,ShortDescription,LongDescription,ImageUrl,Price,Status) VALUES" +
+                        "(@Title,@ShortDescription,@LongDescription,@ImageUrl,@Price,@Status)";
                     cmd = new SqlCommand(sql, conn);
                     cmd.Parameters.Add("@Location", SqlDbType.VarChar).Value = location;
                     cmd.Parameters.Add("@ShortDescription", SqlDbType.VarChar).Value = shortDescription;
                     cmd.Parameters.Add("@LongDescription", SqlDbType.VarChar).Value = longDescription;
                     cmd.Parameters.Add("@ImageUrl", SqlDbType.VarChar).Value = imageUrl;
                     cmd.Parameters.Add("@Price", SqlDbType.Money).Value = price;
+                    cmd.Parameters.Add("@Status", SqlDbType.Int).Value = 1;
 
                     return (int)cmd.ExecuteScalar();
                 }
@@ -189,7 +189,7 @@ namespace PartB.Models
             return DID_NOT_FIND_MOVIE_INDEX;
         }
         public Movie EditMovie(Movie oriMovie, string title, string shortDescription, string longDescription,
-            string imageUrl, double price)
+            string imageUrl, double price, int status)
         {
             int movieIndex =
                 SearchMovieIndex(
@@ -201,7 +201,7 @@ namespace PartB.Models
             if (movieIndex == DID_NOT_FIND_MOVIE_INDEX)
                 throw new CustomCouldntFindException("Failed to add coming soon movie!");
 
-            Update(oriMovie.MovieID, title, shortDescription, longDescription, imageUrl, price);
+            Update(oriMovie.MovieID, title, shortDescription, longDescription, imageUrl, price, status);
 
             Movie movie = new Movie();
             movie.MovieID = oriMovie.MovieID;
@@ -210,13 +210,14 @@ namespace PartB.Models
             movie.LongDecription = longDescription;
             movie.ImageUrl = imageUrl;
             movie.price = price;
+            movie.status = status;
 
             movies[movieIndex] = movie;
 
             return movie;
         }
         private void Update(int movieID, string title, string shortDescription,
-            string longDescription, string imageUrl, double price)
+            string longDescription, string imageUrl, double price, int status)
         {
             SqlConnection conn = null;
             SqlCommand cmd = null;
@@ -230,7 +231,8 @@ namespace PartB.Models
                         "ShortDescription = @ShortDescription," +
                         "LongDescription = @LongDescription," +
                         "ImageUrl = @ImageUrl," +
-                        "Price = @Price " +
+                        "Price = @Price," +
+                        "Status = @Status " +
                         "WHERE MovieID = @MovieID";
                     cmd = new SqlCommand(sql, conn);
                     cmd.Parameters.Add("@Location", SqlDbType.VarChar).Value = title;
@@ -238,6 +240,7 @@ namespace PartB.Models
                     cmd.Parameters.Add("@LongDescription", SqlDbType.VarChar).Value = longDescription;
                     cmd.Parameters.Add("@ImageUrl", SqlDbType.VarChar).Value = imageUrl;
                     cmd.Parameters.Add("@Price", SqlDbType.Money).Value = price;
+                    cmd.Parameters.Add("@Status", SqlDbType.Int).Value = status;
 
                     cmd.Parameters.Add("@MovieID", SqlDbType.Int).Value = movieID;
 
@@ -260,17 +263,6 @@ namespace PartB.Models
                     }
                 }
             }
-        }
-        public Movie getMovieByID(int movieID)
-        {
-            movies = GetMovies();
-            for (int i = 0; i < movies.Count; i++)
-            {
-                if (movies[i].MovieID.Equals(movieID))
-                    return movies[i];
-            }
-
-            throw new CustomCouldntFindException("Could not find the movie: " + movieID);
         }
     }
 }

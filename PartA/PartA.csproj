@@ -166,34 +166,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\Cineplex.cs">
-      <DependentUpon>Master.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Enquiry.cs">
-      <DependentUpon>Master.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\IdentityModels.cs" />
-    <Compile Include="Models\Master.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Master.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Master.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Master.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Master.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Master.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Movie.cs">
-      <DependentUpon>Master.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\MovieComingSoon.cs">
-      <DependentUpon>Master.tt</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -206,23 +179,6 @@
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <EntityDeploy Include="Models\Master.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Master.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\Master.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Master.edmx</DependentUpon>
-      <LastGenOutput>Master.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Models\Master.edmx.diagram">
-      <DependentUpon>Master.edmx</DependentUpon>
-    </Content>
-    <Content Include="Models\Master.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Master.edmx</DependentUpon>
-      <LastGenOutput>Master.cs</LastGenOutput>
-    </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

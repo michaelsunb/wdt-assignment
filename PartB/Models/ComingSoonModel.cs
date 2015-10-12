@@ -8,7 +8,7 @@ using System.Web;
 
 namespace PartB.Models
 {
-    struct ComingSoon
+    public struct ComingSoon
     {
         public int ComingSoonID {set; get;}
         public string Title {set; get;}
@@ -18,7 +18,7 @@ namespace PartB.Models
     }
     public class ComingSoonModel
     {
-        private const string CONNECTION_STRING =
+        private static string CONNECTION_STRING =
             ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
         private const int DID_NOT_FIND_MOVIE_INDEX = -1;
         private List<ComingSoon> movies = new List<ComingSoon>();
@@ -44,14 +44,14 @@ namespace PartB.Models
         }
         /// <summary>Getter to get a list of Movie.</summary>
         /// <returns>Returns list of movies.</returns>
-        public List<ComingSoon> Movies
+        public List<ComingSoon> ComingMovies
         {
             get
             {
-                return GetMovies();
+                return GetComingMovies();
             }
         }
-        public List<ComingSoon> GetMovies()
+        public List<ComingSoon> GetComingMovies()
         {
             if (movies.Count > 0)
             {
@@ -102,7 +102,7 @@ namespace PartB.Models
         }
         public ComingSoon getMovieByID(int movieID)
         {
-            movies = GetMovies();
+            movies = GetComingMovies();
             for (int i = 0; i < movies.Count; i++)
             {
                 if (movies[i].ComingSoonID.Equals(movieID))

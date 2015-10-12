@@ -17,11 +17,37 @@
             <asp:HyperLink ID="lnkLogin" runat="server" NavigateUrl="~/Login.aspx">Log In</asp:HyperLink>
         </AnonymousTemplate>
     </asp:LoginView>
+    <hr />
+    <div>
+    <asp:Label ID="Label1" runat="server" Text=""></asp:Label>
     <div><asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="~/CineplexAdd.aspx">Add New Cinema</asp:HyperLink></div>
+    <asp:HyperLink ID="HyperLink4" runat="server" NavigateUrl="~/CineplexAdd.aspx">Add New Movie</asp:HyperLink></div>
+    <asp:GridView ID="GridView1" 
+        Font-Names="Arial" 
+        Font-Size="0.75em" 
+        CellPadding="4" 
+        ForeColor="#333333"
+        onrowdatabound="GridView_RowDataBound"
+        runat="server" GridLines="None">
+                
+        <AlternatingRowStyle BackColor="White" />
+        <FooterStyle BackColor="#990000" Font-Bold="True" ForeColor="White" />
+                
+        <HeaderStyle BackColor="#990000" ForeColor="white" Font-Bold="True" />
+                
+        <PagerStyle BackColor="#FFCC66" ForeColor="#333333" HorizontalAlign="Center" />
+        <RowStyle BackColor="#FFFBD6" ForeColor="#333333" />
+        <SelectedRowStyle BackColor="#FFCC66" Font-Bold="True" ForeColor="Navy" />
+        <SortedAscendingCellStyle BackColor="#FDF5AC" />
+        <SortedAscendingHeaderStyle BackColor="#4D0000" />
+        <SortedDescendingCellStyle BackColor="#FCF6C0" />
+        <SortedDescendingHeaderStyle BackColor="#820000" />
+                
+    </asp:GridView>
+    <hr />
     <div><asp:HyperLink ID="HyperLink2" runat="server" NavigateUrl="~/CineplexAddMovie.aspx">Add Movie to Cinema</asp:HyperLink></div>
     <div><asp:HyperLink ID="HyperLink3" runat="server" NavigateUrl="~/CineplexRemoveMovie.aspx">Remove Movie from Cinema</asp:HyperLink></div>
     <br />
-    <div><asp:HyperLink ID="HyperLink4" runat="server" NavigateUrl="~/CineplexAdd.aspx">Add New Movie</asp:HyperLink></div>
     <div><asp:HyperLink ID="HyperLink5" runat="server" NavigateUrl="~/CineplexAddMovie.aspx">Edit Movie</asp:HyperLink></div>
     <div><asp:HyperLink ID="HyperLink6" runat="server" NavigateUrl="~/CineplexRemoveMovie.aspx">Remove Movie</asp:HyperLink></div>
 </asp:Content>

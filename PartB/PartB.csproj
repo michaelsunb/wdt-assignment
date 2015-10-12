@@ -148,6 +148,13 @@
     <Compile Include="Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Models\EnquiryModel.cs" />
+    <Compile Include="Models\CineplexModel.cs" />
+    <Compile Include="Models\CineplexMovieModel.cs" />
+    <Compile Include="Models\CustomCouldntFindException.cs" />
+    <Compile Include="Models\ComingSoonModel.cs" />
+    <Compile Include="Models\MovieModel.cs" />
+    <Compile Include="Models\SeatingModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="MovieDelete.aspx.cs">
       <DependentUpon>MovieDelete.aspx</DependentUpon>
