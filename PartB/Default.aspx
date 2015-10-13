@@ -21,7 +21,7 @@
     <div>
     <asp:Label ID="Label1" runat="server" Text=""></asp:Label>
     <div><asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="~/CineplexAdd.aspx">Add New Cinema</asp:HyperLink></div>
-    <asp:HyperLink ID="HyperLink4" runat="server" NavigateUrl="~/CineplexAdd.aspx">Add New Movie</asp:HyperLink></div>
+    <asp:HyperLink ID="HyperLink4" runat="server" NavigateUrl="~/MovieAdd.aspx">Add New Movie</asp:HyperLink></div>
     <asp:GridView ID="GridView1" 
         Font-Names="Arial" 
         Font-Size="0.75em" 

@@ -7,7 +7,8 @@
     <div>Long Description: <asp:TextBox ID="longDescription" runat="server"></asp:TextBox></div>
     <div>Price: <asp:TextBox ID="price" runat="server"></asp:TextBox></div>
     <div>Movie Image: <asp:TextBox ID="movieImage" runat="server"></asp:TextBox></div>
-    <div><asp:Button ID="submit" runat="server" Text="Submit" /> |
+    <div><asp:Button ID="submit" OnClick="Submit_Click" runat="server" Text="Submit" /> |
          <asp:Button ID="cancel" OnClick="Cancel_Click" runat="server" Text="Cancel" />
     </div>
+    <div><pre><asp:Label ID="Label1" runat="server" Text=""></asp:Label></pre></div>
 </asp:Content>

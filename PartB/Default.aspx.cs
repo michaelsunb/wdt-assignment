@@ -79,27 +79,28 @@ namespace PartB
                 e.Row.Cells[5].Controls.Add(elb);
 
                 LinkButton dlb = new LinkButton();
-                dlb.ID = e.Row.Cells[0].Text;
+                if (!Page.IsPostBack)
+                    dlb.ID = e.Row.Cells[0].Text;
                 dlb.Text = "Delete";
-                dlb.Click += new EventHandler(delete_Click);
+                //dlb.Click += delete_Click;
+                dlb.CommandArgument = e.Row.Cells[0].Text;
+                dlb.PostBackUrl = "MovieDelete.aspx?id=" + e.Row.Cells[0].Text;
                 e.Row.Cells[6].Controls.Add(dlb);
 
                 LinkButton addToCinplexlb = new LinkButton();
-                addToCinplexlb.ID = e.Row.Cells[0].Text;
                 addToCinplexlb.Text = "Add to Cinplex";
-                addToCinplexlb.Click += new EventHandler(delete_Click);
+                //addToCinplexlb.Click += new EventHandler(delete_Click)
+                if (!Page.IsPostBack)
+                    addToCinplexlb.ID = e.Row.Cells[0].Text; ;
                 e.Row.Cells[7].Controls.Add(addToCinplexlb);
 
                 LinkButton removeFromCinplexlb = new LinkButton();
-                removeFromCinplexlb.ID = e.Row.Cells[0].Text;
                 removeFromCinplexlb.Text = "Remove from Cinplex";
-                removeFromCinplexlb.Click += new EventHandler(delete_Click);
+                //removeFromCinplexlb.Click += new EventHandler(delete_Click);
+                if (!Page.IsPostBack)
+                    removeFromCinplexlb.ID = e.Row.Cells[0].Text;
                 e.Row.Cells[6].Controls.Add(removeFromCinplexlb);
             }
-        }
-        protected void delete_Click(object sender, EventArgs e)
-        {
-            //MovieModel.Instance.
         }
     }
 }
