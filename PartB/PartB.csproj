@@ -68,6 +68,7 @@
     <Content Include="Content\admin.css" />
     <Content Include="Content\adminstyle.css" />
     <Content Include="MovieDelete.aspx" />
+    <Content Include="CineplexEdit.aspx" />
     <Content Include="MovieEdit.aspx" />
     <Content Include="MovieAdd.aspx" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
@@ -162,6 +163,13 @@
     </Compile>
     <Compile Include="MovieDelete.aspx.designer.cs">
       <DependentUpon>MovieDelete.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CineplexEdit.aspx.cs">
+      <DependentUpon>CineplexEdit.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CineplexEdit.aspx.designer.cs">
+      <DependentUpon>CineplexEdit.aspx</DependentUpon>
     </Compile>
     <Compile Include="MovieEdit.aspx.cs">
       <DependentUpon>MovieEdit.aspx</DependentUpon>

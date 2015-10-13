@@ -4,7 +4,8 @@ create table Cineplex
 	Location nvarchar(max) not null,
 	ShortDescription nvarchar(max) not null,
 	LongDescription nvarchar(max) not null,
-	ImageUrl nvarchar(max) null
+	ImageUrl nvarchar(max) null,
+    [Status] [int] not NULL
 );
 
 create table Enquiry

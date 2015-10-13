@@ -12,62 +12,102 @@ namespace PartB
 {
     public partial class Default : System.Web.UI.Page
     {
-        System.Data.DataTable mytable = new System.Data.DataTable();
+        private const string EDIT_COLUMN = " ";
+        private const string DELETE_COLUMN = "  ";
+        private const string EDIT_DELETE_COLUMN = "   ";
+        System.Data.DataTable movieTable = new System.Data.DataTable();
+        System.Data.DataTable cineplexTable = new System.Data.DataTable();
         protected void Page_Load(object sender, EventArgs e)
         {
             try
             {
-                CreateGrid();
-                AddRowsToGrid();
-                GridView1.DataSource = mytable;
-                GridView1.DataBind();
+                CreateMovieGrid();
+                AddMovieRowsToGrid();
+                MovieGridView1.DataSource = movieTable;
+                MovieGridView1.DataBind();
+
+                CreateCineplexGrid();
+                AddCineplexRowsToGrid();
+                CineplexGridView.DataSource = cineplexTable;
+                CineplexGridView.DataBind();
             }
             catch (Exception ex)
             {
                 Label1.Text = ex.StackTrace;
             }
         }
-        private void CreateGrid()
+        private void CreateMovieGrid()
         {
-            // CREATE A GRID FOR DISPLAYING A LIST OF BOOKS.
-
             System.Data.DataColumn tColumn = null;
-            // TABLE COLUMNS.
 
             tColumn = new System.Data.DataColumn("Movie ID", System.Type.GetType("System.String"));
-            mytable.Columns.Add(tColumn);
+            movieTable.Columns.Add(tColumn);
             tColumn = new System.Data.DataColumn("Title", System.Type.GetType("System.String"));
-            mytable.Columns.Add(tColumn);
+            movieTable.Columns.Add(tColumn);
             tColumn = new System.Data.DataColumn("Short Description", System.Type.GetType("System.String"));
-            mytable.Columns.Add(tColumn);
+            movieTable.Columns.Add(tColumn);
             tColumn = new System.Data.DataColumn("Long Description", System.Type.GetType("System.String"));
-            mytable.Columns.Add(tColumn);
+            movieTable.Columns.Add(tColumn);
             tColumn = new System.Data.DataColumn("Price ($)", System.Type.GetType("System.String"));
-            mytable.Columns.Add(tColumn);
-            tColumn = new System.Data.DataColumn(" ", System.Type.GetType("System.String"));
-            mytable.Columns.Add(tColumn);
-            tColumn = new System.Data.DataColumn("  ", System.Type.GetType("System.String"));
-            mytable.Columns.Add(tColumn);
-            tColumn = new System.Data.DataColumn("   ", System.Type.GetType("System.String"));
-            mytable.Columns.Add(tColumn);
-            tColumn = new System.Data.DataColumn("    ", System.Type.GetType("System.String"));
-            mytable.Columns.Add(tColumn);
+            movieTable.Columns.Add(tColumn);
+            tColumn = new System.Data.DataColumn("Image", System.Type.GetType("System.String"));
+            movieTable.Columns.Add(tColumn);
+            tColumn = new System.Data.DataColumn(EDIT_COLUMN, System.Type.GetType("System.String"));
+            movieTable.Columns.Add(tColumn);
+            tColumn = new System.Data.DataColumn(DELETE_COLUMN, System.Type.GetType("System.String"));
+            movieTable.Columns.Add(tColumn);
         }
-        private void AddRowsToGrid()
+        private void CreateCineplexGrid()
+        {
+            System.Data.DataColumn tColumn = null;
+
+            tColumn = new System.Data.DataColumn("Cineplex ID", System.Type.GetType("System.String"));
+            cineplexTable.Columns.Add(tColumn);
+            tColumn = new System.Data.DataColumn("Location", System.Type.GetType("System.String"));
+            cineplexTable.Columns.Add(tColumn);
+            tColumn = new System.Data.DataColumn("Short Description", System.Type.GetType("System.String"));
+            cineplexTable.Columns.Add(tColumn);
+            tColumn = new System.Data.DataColumn("Long Description", System.Type.GetType("System.String"));
+            cineplexTable.Columns.Add(tColumn);
+            tColumn = new System.Data.DataColumn("Image", System.Type.GetType("System.String"));
+            cineplexTable.Columns.Add(tColumn);
+            tColumn = new System.Data.DataColumn(EDIT_COLUMN, System.Type.GetType("System.String"));
+            cineplexTable.Columns.Add(tColumn);
+            tColumn = new System.Data.DataColumn(DELETE_COLUMN, System.Type.GetType("System.String"));
+            cineplexTable.Columns.Add(tColumn);
+            tColumn = new System.Data.DataColumn(EDIT_DELETE_COLUMN, System.Type.GetType("System.String"));
+            cineplexTable.Columns.Add(tColumn);
+        }
+        private void AddMovieRowsToGrid()
         {
             foreach(Movie movie in MovieModel.Instance.GetMovies())
             {
                 if (movie.status == 1)
                 {
-                    mytable.Rows.Add(movie.MovieID,
+                    movieTable.Rows.Add(movie.MovieID,
                         movie.Title,
                         movie.ShortDecription,
                         movie.LongDecription,
+                        movie.ImageUrl,
                         movie.price.ToString());
                 }
             }
         }
-        protected void GridView_RowDataBound(object sender,
+        private void AddCineplexRowsToGrid()
+        {
+            foreach (Cineplex cineplex in CineplexModel.Instance.GetCineplex())
+            {
+                if (cineplex.status == 1)
+                {
+                    cineplexTable.Rows.Add(cineplex.CineplexID,
+                        cineplex.Location,
+                        cineplex.ShortDecription,
+                        cineplex.LongDecription,
+                        cineplex.ImageUrl);
+                }
+            }
+        }
+        protected void MovieGridView_RowDataBound(object sender,
             System.Web.UI.WebControls.GridViewRowEventArgs e)
         {
 
@@ -76,30 +116,37 @@ namespace PartB
                 LinkButton elb = new LinkButton();
                 elb.Text = "Edit";
                 elb.PostBackUrl = "MovieEdit.aspx?id=" + e.Row.Cells[0].Text;
+                e.Row.Cells[6].Controls.Add(elb);
+
+                LinkButton dlb = new LinkButton();
+                dlb.Text = "Delete";
+                dlb.PostBackUrl = "MovieDelete.aspx?id=" + e.Row.Cells[0].Text;
+                e.Row.Cells[7].Controls.Add(dlb);
+            }
+        }
+        protected void CineplexGridView_RowDataBound(object sender,
+            System.Web.UI.WebControls.GridViewRowEventArgs e)
+        {
+
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                LinkButton elb = new LinkButton();
+                elb.Text = "Add Movie";
+                elb.PostBackUrl =
+                    "CineplexAdd.aspx?id=" + e.Row.Cells[0].Text;
                 e.Row.Cells[5].Controls.Add(elb);
 
                 LinkButton dlb = new LinkButton();
-                if (!Page.IsPostBack)
-                    dlb.ID = e.Row.Cells[0].Text;
-                dlb.Text = "Delete";
-                //dlb.Click += delete_Click;
-                dlb.CommandArgument = e.Row.Cells[0].Text;
-                dlb.PostBackUrl = "MovieDelete.aspx?id=" + e.Row.Cells[0].Text;
+                dlb.Text = "Remove Movie";
+                dlb.PostBackUrl =
+                    "CineplexRemoveMovie.aspx?id=" + e.Row.Cells[0].Text;
                 e.Row.Cells[6].Controls.Add(dlb);
 
-                LinkButton addToCinplexlb = new LinkButton();
-                addToCinplexlb.Text = "Add to Cinplex";
-                //addToCinplexlb.Click += new EventHandler(delete_Click)
-                if (!Page.IsPostBack)
-                    addToCinplexlb.ID = e.Row.Cells[0].Text; ;
-                e.Row.Cells[7].Controls.Add(addToCinplexlb);
-
-                LinkButton removeFromCinplexlb = new LinkButton();
-                removeFromCinplexlb.Text = "Remove from Cinplex";
-                //removeFromCinplexlb.Click += new EventHandler(delete_Click);
-                if (!Page.IsPostBack)
-                    removeFromCinplexlb.ID = e.Row.Cells[0].Text;
-                e.Row.Cells[6].Controls.Add(removeFromCinplexlb);
+                LinkButton edlb = new LinkButton();
+                edlb.Text = "Edit/Delete Cineplex";
+                edlb.PostBackUrl =
+                    "CineplexEdit.aspx?id=" + e.Row.Cells[0].Text;
+                e.Row.Cells[6].Controls.Add(edlb);
             }
         }
     }

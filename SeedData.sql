@@ -1,26 +1,26 @@
 declare @stKilda int;
-insert into Cineplex (Location, ShortDescription, LongDescription, ImageUrl) 
-values ('St Kilda', 'Short description...', 'Long description...', '~/Images/StKilda.png');
+insert into Cineplex (Location, ShortDescription, LongDescription, ImageUrl, [Status]) 
+values ('St Kilda', 'Short description...', 'Long description...', '~/Images/StKilda.png', 1);
 set @stKilda = SCOPE_IDENTITY();
 
 declare @fitzroy int;
-insert into Cineplex (Location, ShortDescription, LongDescription, ImageUrl) 
-values ('Fitzroy', 'Short description...', 'Long description...', '~/Images/Fitzroy.png');
+insert into Cineplex (Location, ShortDescription, LongDescription, ImageUrl, [Status]) 
+values ('Fitzroy', 'Short description...', 'Long description...', '~/Images/Fitzroy.png', 1);
 set @fitzroy = SCOPE_IDENTITY();
 
 declare @melbourneCBD int;
-insert into Cineplex (Location, ShortDescription, LongDescription, ImageUrl) 
-values ('Melbourne CBD', 'Short description...', 'Long description...', '~/Images/MelbourneCBD.png');
+insert into Cineplex (Location, ShortDescription, LongDescription, ImageUrl, [Status]) 
+values ('Melbourne CBD', 'Short description...', 'Long description...', '~/Images/MelbourneCBD.png', 1);
 set @melbourneCBD = SCOPE_IDENTITY();
 
 declare @sunshine int;
-insert into Cineplex (Location, ShortDescription, LongDescription, ImageUrl) 
-values ('Sunshine', 'Short description...', 'Long description...', '~/Images/Sunshine.png');
+insert into Cineplex (Location, ShortDescription, LongDescription, ImageUrl, [Status]) 
+values ('Sunshine', 'Short description...', 'Long description...', '~/Images/Sunshine.png', 1);
 set @sunshine = SCOPE_IDENTITY();
 
 declare @lilydale int;
-insert into Cineplex (Location, ShortDescription, LongDescription, ImageUrl) 
-values ('Lilydale', 'Short description...', 'Long description...', '~/Images/Lilydale.png');
+insert into Cineplex (Location, ShortDescription, LongDescription, ImageUrl, [Status]) 
+values ('Lilydale', 'Short description...', 'Long description...', '~/Images/Lilydale.png', 1);
 set @lilydale = SCOPE_IDENTITY();
 
 insert into MovieComingSoon (Title, ShortDescription, LongDescription, ImageUrl)

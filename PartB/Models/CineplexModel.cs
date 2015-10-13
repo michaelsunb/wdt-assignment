@@ -18,6 +18,7 @@ namespace PartB.Models
         public string ShortDecription { get; set; }
         public string LongDecription { get; set; }
         public string ImageUrl { get; set; }
+        public int status { get; set; }
     };
     class CineplexModel
     {
@@ -60,7 +61,8 @@ namespace PartB.Models
         {
             if (cineplexs.Count > 0)
             {
-                return cineplexs;
+                // TODO
+                //return cineplexs;
             }
 
             SqlConnection conn = null;
@@ -78,18 +80,15 @@ namespace PartB.Models
                     while(rdr.Read())
                     {
                         Cineplex cineplex = new Cineplex();
-                        cineplex.CineplexID = (int)rdr[0];
-                        cineplex.Location = (string)rdr[1];
-                        cineplex.ShortDecription = (string)rdr[2];
-                        cineplex.LongDecription = (string)rdr[3];
-                        cineplex.ImageUrl = (string)rdr[3];
+                        cineplex.CineplexID = (int)rdr["CineplexID"];
+                        cineplex.Location = (string)rdr["Location"];
+                        cineplex.ShortDecription = rdr["ShortDescription"].ToString();
+                        cineplex.LongDecription = (string)rdr["LongDescription"];
+                        cineplex.ImageUrl = (string)rdr["ImageUrl"];
+                        cineplex.status = int.Parse(rdr["Status"].ToString());
 
                         cineplexs.Add(cineplex);
                     }
-                    return cineplexs;
-                }
-                catch (Exception ex)
-                {
                     return cineplexs;
                 }
                 finally
@@ -116,7 +115,36 @@ namespace PartB.Models
 
             throw new CustomCouldntFindException("Could not find the movie: " + cineplexID);
         }
+        public Cineplex SoftDelete(Cineplex oriCineplex)
+        {
+            int cineplexIndex =
+                SearchCinplexIndex(
+                oriCineplex.Location,
+                oriCineplex.ShortDecription,
+                oriCineplex.LongDecription,
+                oriCineplex.ImageUrl);
+            if (cineplexIndex == DID_NOT_FIND_CINEPLEX_INDEX)
+                throw new CustomCouldntFindException("Failed to add coming soon movie!");
 
+            Update(oriCineplex.CineplexID,
+                oriCineplex.Location,
+                oriCineplex.ShortDecription,
+                oriCineplex.LongDecription,
+                oriCineplex.ImageUrl,
+                0);
+
+            Cineplex cineplex = new Cineplex();
+            cineplex.CineplexID = oriCineplex.CineplexID;
+            cineplex.Location = oriCineplex.Location;
+            cineplex.ShortDecription = oriCineplex.ShortDecription;
+            cineplex.LongDecription = oriCineplex.LongDecription;
+            cineplex.ImageUrl = oriCineplex.ImageUrl;
+            cineplex.status = 0;
+
+            cineplexs[cineplexIndex] = cineplex;
+
+            return cineplex;
+        }
         /// <summary>Method to add a movie. If similar movie then it will not add.</summary>
         /// <param name="cineplexName"> parameter takes a string for cineplex name.</param>
         /// <param name="totalSeats"> parameter takes a total number of seats.
@@ -189,14 +217,15 @@ namespace PartB.Models
         /// <param name="totalSeats"> parameter takes a total number of seats.</param>
         /// <returns>Returns index of cineplex found or -1 representing not found.</returns>
         public int SearchCinplexIndex(string location, string shortDescription, string longDescription,
-            string imageUrl)
+            string imageUrl, int status = 1)
         {
             for (int i = 0; i < cineplexs.Count; i++ )
             {
                 if (cineplexs[i].Location.Equals(location) &&
                     cineplexs[i].ShortDecription.Equals(shortDescription) &&
                     cineplexs[i].LongDecription.Equals(longDescription) &&
-                    cineplexs[i].ImageUrl.Equals(imageUrl))
+                    cineplexs[i].ImageUrl.Equals(imageUrl) &&
+                    cineplexs[i].status.Equals(status))
                     return i;
             }
             return DID_NOT_FIND_CINEPLEX_INDEX;
@@ -215,17 +244,18 @@ namespace PartB.Models
             throw new CustomCouldntFindException("Could not find the cineplex: " + cineplexName);
         }
         public Cineplex EditCinplex(Cineplex oriCineplex, string location, string shortDescription,
-            string longDescription, string imageUrl)
+            string longDescription, string imageUrl,int status)
         {
             int cineplexIndex = SearchCinplexIndex(
                 oriCineplex.Location,
                 oriCineplex.ShortDecription,
                 oriCineplex.LongDecription,
-                oriCineplex.ImageUrl);
+                oriCineplex.ImageUrl,
+                oriCineplex.status);
             if (cineplexIndex == DID_NOT_FIND_CINEPLEX_INDEX)
                 throw new CustomCouldntFindException("Failed to add coming soon movie!");
 
-            Update(oriCineplex.CineplexID, location, shortDescription, longDescription, imageUrl);
+            Update(oriCineplex.CineplexID, location, shortDescription, longDescription, imageUrl,status);
 
             Cineplex cineplex = new Cineplex();
             cineplex.CineplexID = oriCineplex.CineplexID;
@@ -233,13 +263,14 @@ namespace PartB.Models
             cineplex.ShortDecription = shortDescription;
             cineplex.LongDecription = longDescription;
             cineplex.ImageUrl = imageUrl;
+            cineplex.status = status;
 
             cineplexs[cineplexIndex] = cineplex;
 
             return cineplex;
         }
         private void Update(int cineplexID,string location, string shortDescription,
-            string longDescription, string imageUrl)
+            string longDescription, string imageUrl, int status)
         {
             SqlConnection conn = null;
             SqlCommand cmd = null;
@@ -252,13 +283,15 @@ namespace PartB.Models
                         "Location = @Location," +
                         "ShortDescription = @ShortDescription," +
                         "LongDescription = @LongDescription," +
-                        "ImageUrl = @ImageUrl " +
+                        "ImageUrl = @ImageUrl," +
+                        "Status = @Status " +
                         "WHERE CineplexID = @CineplexID";
                     cmd = new SqlCommand(sql, conn);
                     cmd.Parameters.Add("@Location", SqlDbType.VarChar).Value = location;
                     cmd.Parameters.Add("@ShortDescription", SqlDbType.VarChar).Value = shortDescription;
                     cmd.Parameters.Add("@LongDescription", SqlDbType.VarChar).Value = longDescription;
                     cmd.Parameters.Add("@ImageUrl", SqlDbType.VarChar).Value = imageUrl;
+                    cmd.Parameters.Add("@Status", SqlDbType.Int).Value = status;
 
                     cmd.Parameters.Add("@CineplexID", SqlDbType.Int).Value = cineplexID;
 
