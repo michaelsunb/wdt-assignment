@@ -2,7 +2,5 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <div>Cineplex Location: <asp:TextBox ID="TextBox6" runat="server"></asp:TextBox></div>
-    <div>Movie Title: <asp:TextBox ID="TextBox1" runat="server"></asp:TextBox></div>
-    <div><asp:Button ID="Button1" runat="server" Text="Button" /></div>
+    <pre><asp:Label ID="Label1" runat="server" Text="Label"></asp:Label></pre>
 </asp:Content>

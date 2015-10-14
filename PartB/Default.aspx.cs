@@ -14,7 +14,6 @@ namespace PartB
     {
         private const string EDIT_COLUMN = " ";
         private const string DELETE_COLUMN = "  ";
-        private const string EDIT_DELETE_COLUMN = "   ";
         System.Data.DataTable movieTable = new System.Data.DataTable();
         System.Data.DataTable cineplexTable = new System.Data.DataTable();
         protected void Page_Load(object sender, EventArgs e)
@@ -73,10 +72,6 @@ namespace PartB
             cineplexTable.Columns.Add(tColumn);
             tColumn = new System.Data.DataColumn(EDIT_COLUMN, System.Type.GetType("System.String"));
             cineplexTable.Columns.Add(tColumn);
-            tColumn = new System.Data.DataColumn(DELETE_COLUMN, System.Type.GetType("System.String"));
-            cineplexTable.Columns.Add(tColumn);
-            tColumn = new System.Data.DataColumn(EDIT_DELETE_COLUMN, System.Type.GetType("System.String"));
-            cineplexTable.Columns.Add(tColumn);
         }
         private void AddMovieRowsToGrid()
         {
@@ -130,23 +125,11 @@ namespace PartB
 
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
-                LinkButton elb = new LinkButton();
-                elb.Text = "Add Movie";
-                elb.PostBackUrl =
-                    "CineplexAdd.aspx?id=" + e.Row.Cells[0].Text;
-                e.Row.Cells[5].Controls.Add(elb);
-
-                LinkButton dlb = new LinkButton();
-                dlb.Text = "Remove Movie";
-                dlb.PostBackUrl =
-                    "CineplexRemoveMovie.aspx?id=" + e.Row.Cells[0].Text;
-                e.Row.Cells[6].Controls.Add(dlb);
-
                 LinkButton edlb = new LinkButton();
                 edlb.Text = "Edit/Delete Cineplex";
                 edlb.PostBackUrl =
                     "CineplexEdit.aspx?id=" + e.Row.Cells[0].Text;
-                e.Row.Cells[6].Controls.Add(edlb);
+                e.Row.Cells[5].Controls.Add(edlb);
             }
         }
     }

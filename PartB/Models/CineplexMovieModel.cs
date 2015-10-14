@@ -74,7 +74,21 @@ namespace PartB.Models
             }
             return DID_NOT_FIND_CINEPLEX_MOVIE_INDEX;
         }
-        public CineplexMovie getCineplexMovieByID(int cineplexMovieID)
+        public List<Movie> getMoviesByID(int cineplexID)
+        {
+            List<Movie> movies = new List<Movie>();
+            MovieModel movieModel = MovieModel.Instance;
+            movieModel.GetMovies();
+            cineplexMovies = GetCineplexMovie();
+            for (int i = 0; i < cineplexMovies.Count; i++)
+            {
+                if (cineplexMovies[i].cineplexId.Equals(cineplexID))
+                    movies.Add(movieModel.getMovieByID(cineplexMovies[i].movieId));
+            }
+
+            return movies;
+        }
+        public CineplexMovie getCineplexMovieByMovieID(int cineplexMovieID)
         {
             cineplexMovies = GetCineplexMovie();
             for (int i = 0; i < cineplexMovies.Count; i++)
@@ -89,7 +103,7 @@ namespace PartB.Models
         {
             if (cineplexMovies.Count > 0)
             {
-                return cineplexMovies;
+                //return cineplexMovies;
             }
 
             SqlConnection conn = null;
@@ -108,16 +122,12 @@ namespace PartB.Models
                     while (rdr.Read())
                     {
                         CineplexMovie cineplexMovie = new CineplexMovie();
-                        cineplexMovie.cineplexMovieId = (int)rdr[0];
-                        cineplexMovie.cineplexId = (int)rdr[1];
-                        cineplexMovie.movieId = (int)rdr[2];
+                        cineplexMovie.cineplexMovieId = (int)rdr["CineplexMovieID"];
+                        cineplexMovie.cineplexId = (int)rdr["CineplexID"];
+                        cineplexMovie.movieId = (int)rdr["MovieID"];
 
                         cineplexMovies.Add(cineplexMovie);
                     }
-                    return cineplexMovies;
-                }
-                catch (Exception ex)
-                {
                     return cineplexMovies;
                 }
                 finally
@@ -146,8 +156,6 @@ namespace PartB.Models
                 return cineplexMovies[cineplexMovieIndex];
 
             cineplexMovieIndex = InsertGetId(cineplexId, movieId);
-            if (cineplexMovieIndex != DID_NOT_FIND_CINEPLEX_MOVIE_INDEX)
-                throw new CustomCouldntFindException("Failed to add coming soon movie!");
 
             CineplexMovie cineplexMovie = new CineplexMovie();
             cineplexMovie.cineplexMovieId = cineplexMovieIndex;
@@ -158,7 +166,7 @@ namespace PartB.Models
 
             return cineplexMovie;
         }
-        private int InsertGetId(int CineplexID, int MovieID)
+        private int InsertGetId(int cineplexId, int movieId)
         {
             SqlConnection conn = null;
             SqlCommand cmd = null;
@@ -168,17 +176,13 @@ namespace PartB.Models
                 {
                     conn.Open();
                     string sql = "INSERT INTO [master].[dbo].[CineplexMovie]" +
-                        "(CineplexID,MovieID) VALUES" +
+                        "([CineplexID],[MovieID]) VALUES " +
                         "(@CineplexID,@MovieID)";
                     cmd = new SqlCommand(sql, conn);
-                    cmd.Parameters.Add("@CineplexID", SqlDbType.Int).Value = CineplexID;
-                    cmd.Parameters.Add("@MovieID", SqlDbType.Int).Value = MovieID;
+                    cmd.Parameters.Add("@CineplexID", SqlDbType.Int).Value = cineplexId;
+                    cmd.Parameters.Add("@MovieID", SqlDbType.Int).Value = movieId;
 
-                    return (int)cmd.ExecuteScalar();
-                }
-                catch (Exception ex)
-                {
-                    return DID_NOT_FIND_CINEPLEX_MOVIE_INDEX;
+                    return Convert.ToInt32(cmd.ExecuteScalar());
                 }
                 finally
                 {
@@ -234,9 +238,45 @@ namespace PartB.Models
                     cmd.ExecuteNonQuery();
                     return;
                 }
-                catch (Exception ex)
+                finally
                 {
-                    throw new CustomCouldntFindException(ex.StackTrace);
+                    if (cmd != null)
+                    {
+                        cmd.Dispose();
+                    }
+                    if (conn != null)
+                    {
+                        conn.Dispose();
+                    }
+                }
+            }
+        }
+        public void RemoveMovie(int cineplexMovieID)
+        {
+            SqlConnection conn = null;
+            SqlCommand cmd = null;
+
+            using (conn = new SqlConnection(CONNECTION_STRING))
+            {
+                try
+                {
+                    GetCineplexMovie();
+                    CineplexMovie toBeRemoved =
+                        getCineplexMovieByMovieID(cineplexMovieID);
+                    for (int i = 0; i < cineplexMovies.Count; i++)
+                    {
+                        if (cineplexMovies[i].Equals(toBeRemoved))
+                        {
+                            cineplexMovies.RemoveAt(i);
+                        }
+                    }
+
+                    conn.Open();
+                    string sql = "DELETE FROM [dbo].[CineplexMovie] " +
+                        "WHERE CineplexMovieID = @CineplexMovieID";
+                    cmd = new SqlCommand(sql, conn);
+                    cmd.Parameters.Add("@CineplexMovieID", SqlDbType.Int).Value = cineplexMovieID;
+                    SqlDataReader rdr = cmd.ExecuteReader();
                 }
                 finally
                 {
