@@ -157,9 +157,6 @@ namespace PartB.Models
             if (cineplexIndex != DID_NOT_FIND_CINEPLEX_INDEX) return cineplexs[cineplexIndex];
 
             cineplexIndex = InsertGetId(location, shortDescription, longDescription, imageUrl);
-            if (cineplexIndex != DID_NOT_FIND_CINEPLEX_INDEX)
-                throw new CustomCouldntFindException("Failed to add coming soon movie!");
-
 
             Cineplex cineplex = new Cineplex();
             cineplex.CineplexID = cineplexIndex;
@@ -183,19 +180,16 @@ namespace PartB.Models
                 {
                     conn.Open();
                     string sql = "INSERT INTO [master].[dbo].[Cineplex]" +
-                        "(Location,ShortDescription,LongDescription,ImageUrl) VALUES" +
-                        "(@Location,@ShortDescription,@LongDescription,@ImageUrl)";
+                        "(Location,ShortDescription,LongDescription,ImageUrl,Status) VALUES" +
+                        "(@Location,@ShortDescription,@LongDescription,@ImageUrl,@Status)";
                     cmd = new SqlCommand(sql, conn);
                     cmd.Parameters.Add("@Location", SqlDbType.VarChar).Value = location;
                     cmd.Parameters.Add("@ShortDescription", SqlDbType.VarChar).Value = shortDescription;
                     cmd.Parameters.Add("@LongDescription", SqlDbType.VarChar).Value = longDescription;
                     cmd.Parameters.Add("@ImageUrl", SqlDbType.VarChar).Value = imageUrl;
+                    cmd.Parameters.Add("@Status", SqlDbType.Int).Value = 1;
 
-                    return (int)cmd.ExecuteScalar();
-                }
-                catch (Exception ex)
-                {
-                    return DID_NOT_FIND_CINEPLEX_INDEX;
+                    return Convert.ToInt32(cmd.ExecuteScalar());
                 }
                 finally
                 {

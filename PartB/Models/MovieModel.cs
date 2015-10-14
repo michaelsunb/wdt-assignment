@@ -152,7 +152,7 @@ namespace PartB.Models
                     cmd.Parameters.Add("@LongDescription", SqlDbType.VarChar).Value = longDescription;
                     cmd.Parameters.Add("@ImageUrl", SqlDbType.VarChar).Value = imageUrl;
                     cmd.Parameters.Add("@Price", SqlDbType.Money).Value = price;
-                    cmd.Parameters.Add("@Status", SqlDbType.Int).Value = 1;  // Set the insert statement
+                    cmd.Parameters.Add("@Status", SqlDbType.Int).Value = 1;
 
                     return Convert.ToInt32(cmd.ExecuteScalar());
                 }
