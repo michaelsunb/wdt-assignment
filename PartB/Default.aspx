@@ -18,8 +18,9 @@
         </AnonymousTemplate>
     </asp:LoginView>
     <hr />
-    <div><asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="~/CineplexAdd.aspx">Add New Cinema</asp:HyperLink></div>
-    <asp:GridView ID="CineplexGridView" 
+    <div><asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="~/CineplexAdd.aspx">Add New Cineplex</asp:HyperLink></div>
+    <div><asp:HyperLink ID="HyperLink2" runat="server" NavigateUrl="~/CineplexAddMovie.aspx">Add Movie to Cineplex</asp:HyperLink></div>
+        <asp:GridView ID="CineplexGridView" 
         Font-Names="Arial" 
         Font-Size="0.75em" 
         CellPadding="4" 
@@ -60,6 +61,4 @@
         <SortedDescendingHeaderStyle BackColor="#820000" />
     </asp:GridView>
     <div><pre><asp:Label ID="Label1" runat="server" Text=""></asp:Label></pre></div>
-    <div><asp:HyperLink ID="HyperLink2" runat="server" NavigateUrl="~/CineplexAddMovie.aspx">Add Movie to Cinema</asp:HyperLink></div>
-    <div><asp:HyperLink ID="HyperLink3" runat="server" NavigateUrl="~/CineplexRemoveMovie.aspx">Remove Movie from Cinema</asp:HyperLink></div>
 </asp:Content>

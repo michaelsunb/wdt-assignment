@@ -93,7 +93,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PartA\PartA.csproj">
-      <Project>{6E141048-6208-464F-8E19-7BB6C54CE382}</Project>
+      <Project>{46DEB1E5-A41B-43C0-9A27-BE72873147F2}</Project>
       <Name>PartA</Name>
     </ProjectReference>
   </ItemGroup>

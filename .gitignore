@@ -187,3 +187,15 @@ FakesAssemblies/
 GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
+/PartA/Models/Cineplex.cs
+/PartA/Models/CineplexMovie.cs
+/PartA/Models/Enquiry.cs
+/PartA/Models/Master.Context.cs
+/PartA/Models/Master.Context.tt
+/PartA/Models/Master.Designer.cs
+/PartA/Models/Master.cs
+/PartA/Models/Master.edmx
+/PartA/Models/Master.edmx.diagram
+/PartA/Models/Master.tt
+/PartA/Models/Movie.cs
+/PartA/Models/MovieComingSoon.cs
