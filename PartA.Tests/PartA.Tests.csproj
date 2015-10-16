@@ -9,7 +9,7 @@
     <ProjectGuid>{566593DA-3E5D-4EF6-BE70-F01D70CDDA65}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PartA.Tests</RootNamespace>
+    <RootNamespace>PartB.Tests</RootNamespace>
     <AssemblyName>PartA.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

@@ -31,17 +31,17 @@ values ('WebForms Legacy', 'Short description...', 'Long description...', '~/Ima
 
 declare @theMatrix int;
 insert into Movie (Title, ShortDescription, LongDescription, ImageUrl, Price, Status)
-values ('The Matrix', 'Short description...', 'Long description...', '~/Images/TheMatrix.png', 10.00, 1);
+values ('The Matrix', 'Short description...', 'Long description...', '~/Images/TheMatrix.jpg', 10.00, 1);
 set @theMatrix = SCOPE_IDENTITY();
 
 declare @theMatrixReloaded int;
 insert into Movie (Title, ShortDescription, LongDescription, ImageUrl, Price, Status)
-values ('The Matrix Reloaded', 'Short description...', 'Long description...', '~/Images/TheMatrixReloaded.png', 15.00, 1);
+values ('The Matrix Reloaded', 'Short description...', 'Long description...', '~/Images/TheMatrixReloaded.jpg', 15.00, 1);
 set @theMatrixReloaded = SCOPE_IDENTITY();
 
 declare @theMatrixRevolution int;
 insert into Movie (Title, ShortDescription, LongDescription, ImageUrl, Price, Status)
-values ('The Matrix Revolution', 'Short description...', 'Long description...', '~/Images/TheMatrixRevolution.png', 20.00, 1);
+values ('The Matrix Revolution', 'Short description...', 'Long description...', '~/Images/TheMatrixRevolution.jpg', 20.00, 1);
 set @theMatrixRevolution = SCOPE_IDENTITY();
 
 insert into CineplexMovie (CineplexID, MovieID) 

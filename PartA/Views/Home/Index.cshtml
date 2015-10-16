@@ -1,4 +1,5 @@
 ﻿@model PartA.Models.masterEntities
+@using System.Text.RegularExpressions
 @{
     ViewBag.Title = "Home Page";
 }
@@ -21,6 +22,11 @@
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.ShortDescription)
+                    </td>
+                    <td>
+                        <img src="
+                             @Regex.Replace(item.ImageUrl, @"^(~/)", "//localhost:7563/Content/")
+                             " alt=" " />
                     </td>
                 </tr>
             }
