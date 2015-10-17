@@ -12,7 +12,6 @@ namespace PartA.Controllers
         masterEntities db = new masterEntities();
         public ActionResult Index()
         {
-            ViewBag.Message = "Your application description page.";
             return View(db);
         }
 
@@ -42,9 +41,6 @@ namespace PartA.Controllers
                 ViewBag.CineplexMovies = db.Movies.ToList();
             }
 
-
-            ViewBag.Message = "Your application description page.";
-
             IEnumerable<SelectListItem> items = db.Cineplexes
                 .Select(c => new SelectListItem
                 {
@@ -54,17 +50,12 @@ namespace PartA.Controllers
                 });
             ViewBag.Cineplexs = items;
 
-            var query = db.Cineplexes.Select(c => new { c.CineplexID, c.Location });
-            ViewBag.CategoryId = new SelectList(query.AsEnumerable(), "CategoryID", "CategoryName", 3);
-
             return View(db);
         }
 
         public ActionResult Cinemas()
         {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
+            return View(db);
         }
     }
 }

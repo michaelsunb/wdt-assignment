@@ -3,12 +3,14 @@
 @{
     ViewBag.Title = "Home Page";
 }
+@section css
+{
+    <link href="/Content/magnific-popup.css" rel="stylesheet" />
+}
 <section class="container">
     <div class="col-sm-12">
         <h2 class="page-heading">@ViewBag.Title.</h2>
-        <h3>@ViewBag.Message</h3>
 
-        <p>Use this area to provide additional information.</p>
             <div class="row">
                 <div class="col-sm-8 col-md-9">
                     @foreach (var item in Model.Movies.ToList())
@@ -16,130 +18,49 @@
                     <!-- Movie variant with time -->
                     <div class="movie movie--test movie--test--dark movie--test--left">
                         <div class="movie__images">
-                            <a href="movie-page-left.html" class="movie-beta__link">
+                            <a href="//localhost:12382/images/424x424/@Html.DisplayFor(modelItem => item.ImageUrl)" class="movie-beta__link">
                                 <img src="//localhost:12382/images/424x424/@Html.DisplayFor(modelItem => item.ImageUrl)" alt="@Html.DisplayFor(modelItem => item.Title)" />
                             </a>
                         </div>
                         <div class="movie__info">
                             <a href='movie-page-left.html' class="movie__title">@Html.DisplayFor(modelItem => item.Title)</a>
-                            <p class="movie__option"><a href="#">@Html.DisplayFor(modelItem => item.ShortDescription)</a></p>
+                            <p class="movie__option">@Html.DisplayFor(modelItem => item.ShortDescription)</p>
                         </div>
                     </div>
                     <!-- Movie variant with time -->
                     }
-                    <!-- TODO: Delete inside -->
-                    <!-- Movie variant with time -->
-                    <div class="movie movie--test movie--test--dark movie--test--right">
-                        <div class="movie__images">
-                            <a href="movie-page-left.html" class="movie-beta__link">
-                                <img alt='' src="http://placehold.it/424x424">
-                            </a>
-                        </div>
-
-                        <div class="movie__info">
-                            <a href='movie-page-left.html' class="movie__title">Thor: The Dark World (2013) </a>
-
-                            <p class="movie__time">112 min</p>
-
-                            <p class="movie__option"><a href="#">Action</a> | <a href="#">Adventure</a> | <a href="#">Fantasy</a></p>
-
-                            <div class="movie__rate">
-                                <div class="score"></div>
-                                <span class="movie__rating">5.0</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Movie variant with time -->
-                    <!-- Movie variant with time -->
-                    <div class="movie movie--test movie--test--dark movie--test--left">
-                        <div class="movie__images">
-                            <a href="movie-page-left.html" class="movie-beta__link">
-                                <img alt='' src="http://placehold.it/424x424">
-                            </a>
-                        </div>
-
-                        <div class="movie__info">
-                            <a href='movie-page-left.html' class="movie__title">World War Z (2013)  </a>
-
-                            <p class="movie__time">116 min</p>
-
-                            <p class="movie__option"><a href="#">Action</a> | <a href="#">Adventure</a> | <a href="#">Horror</a></p>
-
-                            <div class="movie__rate">
-                                <div class="score"></div>
-                                <span class="movie__rating">4.1</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Movie variant with time -->
-                    <!-- Movie variant with time -->
-                    <div class="movie movie--test movie--test--light movie--test--left">
-                        <div class="movie__images">
-                            <a href="movie-page-left.html" class="movie-beta__link">
-                                <img alt='' src="http://placehold.it/424x424">
-                            </a>
-                        </div>
-
-                        <div class="movie__info">
-                            <a href='movie-page-left.html' class="movie__title">Prisoners (2013) </a>
-
-                            <p class="movie__time">153 min</p>
-
-                            <p class="movie__option"><a href="#">Crime</a> | <a href="#">Thriller</a> | <a href="#">Drama</a></p>
-
-                            <div class="movie__rate">
-                                <div class="score"></div>
-                                <span class="movie__rating">5.0</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Movie variant with time -->
-                    <!-- Movie variant with time -->
-                    <div class="movie movie--test movie--test--light movie--test--right">
-                        <div class="movie__images">
-                            <a href="movie-page-left.html" class="movie-beta__link">
-                                <img alt='' src="http://placehold.it/424x424">
-                            </a>
-                        </div>
-
-                        <div class="movie__info">
-                            <a href='movie-page-left.html' class="movie__title">This Is the End (2013)   </a>
-
-                            <p class="movie__time">107 min</p>
-
-                            <p class="movie__option"><a href="#">Comedy</a> | <a href="#">Fantasy</a></p>
-
-                            <div class="movie__rate">
-                                <div class="score"></div>
-                                <span class="movie__rating">4.9</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Movie variant with time -->
-                    <!-- Movie variant with time -->
-                    <div class="movie movie--test movie--test--dark movie--test--right">
-                        <div class="movie__images">
-                            <a href="movie-page-left.html" class="movie-beta__link">
-                                <img alt='' src="http://placehold.it/424x424">
-                            </a>
-                        </div>
-
-                        <div class="movie__info">
-                            <a href='movie-page-left.html' class="movie__title">The Internship (2013)  </a>
-
-                            <p class="movie__time">112 min</p>
-
-                            <p class="movie__option"><a href="#">Comedy</a></p>
-
-                            <div class="movie__rate">
-                                <div class="score"></div>
-                                <span class="movie__rating">5.0</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Movie variant with time -->
-                    <!-- TODO: Delete inside -->
                 </div>
             </div>
         </div>
 </section>
+@section scripts
+{
+    <script src="/Scripts/jquery-migrate-1.2.1.min.js"></script>
+    <script src="/Scripts/magnific-popup.js"></script>
+    <script type="text/javascript">
+        function init_Gallery() {
+            "use strict";
+            //1. Pop up fuction for gallery elements
+
+            //pop up for photo (object - images)
+            $('.movie-beta__link').magnificPopup({
+                type: 'image',
+                closeOnContentClick: true,
+                mainClass: 'mfp-fade',
+                image: {
+                    verticalFit: true
+                },
+                gallery: {
+                    enabled: true,
+                    navigateByImgClick: true,
+                    preload: [0, 1] // Will preload 0 - before current, and 1 after the current image
+                }
+
+            });
+
+        }
+        $(document).ready(function () {
+            init_Gallery();
+        });
+    </script>
+}
