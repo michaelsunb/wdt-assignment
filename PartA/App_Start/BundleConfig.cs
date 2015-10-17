@@ -21,9 +21,9 @@ namespace PartA
                       "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
+                      "~/Content/style.css",
                       "~/Content/bootstrap.css",
-                      "~/Content/site.css",
-                      "~/Content/style.css"));
+                      "~/Content/site.css"));
         }
     }
 }

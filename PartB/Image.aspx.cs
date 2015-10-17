@@ -18,6 +18,8 @@ namespace PartB
         public const int sizeMovieThumpnailHeight = 424;
         public const int sizeMovieDetailWidth = 526;
         public const int sizeMovieDetailHeight = 773;
+        public const int sizeMovieListWidth = 380;
+        public const int sizeMovieListHeight = 600;
         protected void Page_Load(object sender, EventArgs e)
         {
             try
@@ -38,6 +40,12 @@ namespace PartB
                 {
                     resizeImage(loc, sizeMovieDetailWidth,
                         sizeMovieDetailHeight);
+                }
+                else if (imageSize.Equals(sizeMovieListWidth + "x" +
+                    sizeMovieListHeight))
+                {
+                    resizeImage(loc, sizeMovieListWidth,
+                        sizeMovieListHeight);
                 }
                 else
                 {

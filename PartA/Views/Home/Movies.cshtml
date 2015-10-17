@@ -1,0 +1,101 @@
+﻿@model PartA.Models.masterEntities
+@{
+    ViewBag.Title = "Movies";
+}
+<!-- Search bar -->
+<div class="search-wrapper">
+    <div class="container container--add">
+        <form id='search-form' method='get' class="search">
+            <input type="text" class="search__field" placeholder="Search">
+            <select name="sorting_item" id="search-sort" class="search__sort" tabindex="0">
+                <option value="1" selected='selected'>By title</option>
+                <option value="2">By year</option>
+                <option value="3">By producer</option>
+                <option value="4">By title</option>
+                <option value="5">By year</option>
+            </select>
+            <button type='submit' class="btn btn-md btn--danger search__button">search a movie</button>
+        </form>
+    </div>
+</div>
+
+<section class="container">
+    <div class="col-sm-12">
+        <h2 class="page-heading">Movies</h2>
+        <form class="select select--cinema" method='get' name="Cineplex" id="Cineplex">
+            <label for="CineplexID">Cineplex</label>:
+            @Html.DropDownList("CineplexID", (IEnumerable<SelectListItem>)ViewBag.Cineplexs, "Select",
+            new { onchange = "document.getElementById(\"Cineplex\").submit();",
+                  @class = "select__sort"})
+        </form>
+
+    </div>
+
+    <div class="tags-area">
+        <div class="tags tags--unmarked">
+            <span class="tags__label">Sorted by:</span>
+            <ul>
+                <li class="item-wrap"><a href="#" class="tags__item item-active" data-filter='all'>all</a></li>
+                <li class="item-wrap"><a href="#" class="tags__item" data-filter='release'>release date</a></li>
+                <li class="item-wrap"><a href="#" class="tags__item" data-filter='popularity'>popularity</a></li>
+                <li class="item-wrap"><a href="#" class="tags__item" data-filter='comments'>comments</a></li>
+                <li class="item-wrap"><a href="#" class="tags__item" data-filter='ending'>ending soon</a></li>
+            </ul>
+        </div>
+    </div>
+    @foreach (var movie in ViewBag.CineplexMovies)
+    {
+    <!-- Movie preview item -->
+    <div class="movie movie--preview movie--full release">
+        <div class="col-sm-3 col-md-2 col-lg-2">
+            <div class="movie__images">
+                <img src="//localhost:12382/images/424x424/@(movie.ImageUrl)" alt="@(movie.Title)">
+            </div>
+        </div>
+
+        <div class="col-sm-9 col-md-10 col-lg-10 movie__about">
+            <a href='movie-page-full.html' class="movie__title link--huge">@(movie.Title)</a><br /><br />
+
+            <p class="movie__option"><strong>Description: </strong>@(movie.LongDescription)</p>
+
+            <p class="movie__option"><strong>Cineplex: </strong>
+            @foreach (var cineplexMovie in Model.CineplexMovies.ToList())
+            {
+                if(cineplexMovie.MovieID == movie.MovieID)
+                {
+                    <a href="#">@Model.Cineplexes.Find(cineplexMovie.CineplexID).Location</a>@(", ");
+                }
+            }
+            
+            <div class="movie__btns">
+                <a href="#" class="btn btn-md btn--warning">book a ticket</a>
+                <a href="#" class="watchlist">Add to watchlist</a>
+            </div>
+        </div>
+    </div>
+    <!-- end movie preview item -->
+    }
+    <div class="coloum-wrapper">
+        <div class="pagination paginatioon--full">
+            <a href='#' class="pagination__prev">prev</a>
+            <a href='#' class="pagination__next">next</a>
+        </div>
+    </div>
+
+</section>
+@section scripts
+{
+<script type="text/javascript">
+    $.urlParam = function(name){ var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href); if (results==null){ return ""; } else{ return results[1] || 0; } }
+    $(function () {
+        $("#CineplexID").change(function () {
+            $('#Cineplex').submit();
+            //if ($.urlParam('CineplexID') == $('option:selected', $(this)).text) {
+            //}
+        });
+        if ($.urlParam('CineplexID') != "0")
+            $("#CineplexID").val($.urlParam('CineplexID')).attr("selected", "selected");
+    });
+
+</script>
+}

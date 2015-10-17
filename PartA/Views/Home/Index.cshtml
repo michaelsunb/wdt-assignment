@@ -3,43 +3,143 @@
 @{
     ViewBag.Title = "Home Page";
 }
+<section class="container">
+    <div class="col-sm-12">
+        <h2>@ViewBag.Title.</h2>
+        <h3>@ViewBag.Message</h3>
 
-<div class="jumbotron">
-    <h1>Contoso University</h1>
-</div>
-<div class="row">
-    <div class="col-md-4">
-        <h2>Welcome to Cineplex</h2>
-        <table>
-            @foreach (var item in Model.Movies.ToList())
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.MovieID)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Title)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ShortDescription)
-                    </td>
-                    <td>
-                        <img src="
-                             @Regex.Replace(item.ImageUrl, @"^(~/)", "//localhost:7563/Content/")
-                             " alt=" " />
-                    </td>
-                </tr>
-            }
-            </table>
-</div>
-    <div class="col-md-4">
-        <h2>Build it from scratch</h2>
-        <p>You can build the application by following the steps in the tutorial series on the ASP.NET site.</p>
-        <p><a class="btn btn-default" href="http://www.asp.net/mvc/tutorials/getting-started-with-ef-using-mvc/">See the tutorial &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Download it</h2>
-        <p>You can download the completed project from the Microsoft Code Gallery.</p>
-        <p><a class="btn btn-default" href="http://code.msdn.microsoft.com/ASPNET-MVC-Application-b01a9fe8">Download &raquo;</a></p>
-    </div>
-</div>
+        <p>Use this area to provide additional information.</p>
+            <div class="row">
+                <div class="col-sm-8 col-md-9">
+                    @foreach (var item in Model.Movies.ToList())
+                    {
+                    <!-- Movie variant with time -->
+                    <div class="movie movie--test movie--test--dark movie--test--left">
+                        <div class="movie__images">
+                            <a href="movie-page-left.html" class="movie-beta__link">
+                                <img src="//localhost:12382/images/424x424/@Html.DisplayFor(modelItem => item.ImageUrl)" alt="@Html.DisplayFor(modelItem => item.Title)" />
+                            </a>
+                        </div>
+                        <div class="movie__info">
+                            <a href='movie-page-left.html' class="movie__title">@Html.DisplayFor(modelItem => item.Title)</a>
+                            <p class="movie__option"><a href="#">@Html.DisplayFor(modelItem => item.ShortDescription)</a></p>
+                        </div>
+                    </div>
+                    <!-- Movie variant with time -->
+                    }
+                    <!-- TODO: Delete inside -->
+                    <!-- Movie variant with time -->
+                    <div class="movie movie--test movie--test--dark movie--test--right">
+                        <div class="movie__images">
+                            <a href="movie-page-left.html" class="movie-beta__link">
+                                <img alt='' src="http://placehold.it/424x424">
+                            </a>
+                        </div>
+
+                        <div class="movie__info">
+                            <a href='movie-page-left.html' class="movie__title">Thor: The Dark World (2013) </a>
+
+                            <p class="movie__time">112 min</p>
+
+                            <p class="movie__option"><a href="#">Action</a> | <a href="#">Adventure</a> | <a href="#">Fantasy</a></p>
+
+                            <div class="movie__rate">
+                                <div class="score"></div>
+                                <span class="movie__rating">5.0</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Movie variant with time -->
+                    <!-- Movie variant with time -->
+                    <div class="movie movie--test movie--test--dark movie--test--left">
+                        <div class="movie__images">
+                            <a href="movie-page-left.html" class="movie-beta__link">
+                                <img alt='' src="http://placehold.it/424x424">
+                            </a>
+                        </div>
+
+                        <div class="movie__info">
+                            <a href='movie-page-left.html' class="movie__title">World War Z (2013)  </a>
+
+                            <p class="movie__time">116 min</p>
+
+                            <p class="movie__option"><a href="#">Action</a> | <a href="#">Adventure</a> | <a href="#">Horror</a></p>
+
+                            <div class="movie__rate">
+                                <div class="score"></div>
+                                <span class="movie__rating">4.1</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Movie variant with time -->
+                    <!-- Movie variant with time -->
+                    <div class="movie movie--test movie--test--light movie--test--left">
+                        <div class="movie__images">
+                            <a href="movie-page-left.html" class="movie-beta__link">
+                                <img alt='' src="http://placehold.it/424x424">
+                            </a>
+                        </div>
+
+                        <div class="movie__info">
+                            <a href='movie-page-left.html' class="movie__title">Prisoners (2013) </a>
+
+                            <p class="movie__time">153 min</p>
+
+                            <p class="movie__option"><a href="#">Crime</a> | <a href="#">Thriller</a> | <a href="#">Drama</a></p>
+
+                            <div class="movie__rate">
+                                <div class="score"></div>
+                                <span class="movie__rating">5.0</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Movie variant with time -->
+                    <!-- Movie variant with time -->
+                    <div class="movie movie--test movie--test--light movie--test--right">
+                        <div class="movie__images">
+                            <a href="movie-page-left.html" class="movie-beta__link">
+                                <img alt='' src="http://placehold.it/424x424">
+                            </a>
+                        </div>
+
+                        <div class="movie__info">
+                            <a href='movie-page-left.html' class="movie__title">This Is the End (2013)   </a>
+
+                            <p class="movie__time">107 min</p>
+
+                            <p class="movie__option"><a href="#">Comedy</a> | <a href="#">Fantasy</a></p>
+
+                            <div class="movie__rate">
+                                <div class="score"></div>
+                                <span class="movie__rating">4.9</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Movie variant with time -->
+                    <!-- Movie variant with time -->
+                    <div class="movie movie--test movie--test--dark movie--test--right">
+                        <div class="movie__images">
+                            <a href="movie-page-left.html" class="movie-beta__link">
+                                <img alt='' src="http://placehold.it/424x424">
+                            </a>
+                        </div>
+
+                        <div class="movie__info">
+                            <a href='movie-page-left.html' class="movie__title">The Internship (2013)  </a>
+
+                            <p class="movie__time">112 min</p>
+
+                            <p class="movie__option"><a href="#">Comedy</a></p>
+
+                            <div class="movie__rate">
+                                <div class="score"></div>
+                                <span class="movie__rating">5.0</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Movie variant with time -->
+                    <!-- TODO: Delete inside -->
+                </div>
+            </div>
+        </div>
+</section>
