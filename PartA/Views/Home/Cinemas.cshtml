@@ -1,17 +1,293 @@
 ﻿@{
     ViewBag.Title = "Contact";
 }
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
+@section css
+{
+<link href="/Content/magnific-popup.css" rel="stylesheet" />
+}
+<section class="container">
+    <div class="col-sm-12">
+        <h2 class="page-heading">@ViewBag.Title.</h2>
+        <h3>@ViewBag.Message</h3>
 
-<address>
-    One Microsoft Way<br />
-    Redmond, WA 98052-6399<br />
-    <abbr title="Phone">P:</abbr>
-    425.555.0100
-</address>
+        <div class="row">
+            <div class="gallery-wrapper">
+                
+                <div class="col-sm-4 col-md-3">
+                    <div class="gallery-item">
+                        <a href='http://placehold.it/2150x1200' class="gallery-item__image gallery-item--photo">
+                            <img alt='' src="http://placehold.it/524x524">
+                        </a>
+                        <a href='http://placehold.it/2150x1200' class="gallery-item__descript gallery-item--photo-link">
+                            <span class="gallery-item__icon"><i class="fa fa-camera"></i></span>
+                            <p class="gallery-item__name">Marble Arch Odeon</p>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-sm-4 col-md-3">
+                    <div class="gallery-item">
+                        <a href='http://placehold.it/2150x1200' class="gallery-item__image gallery-item--photo">
+                            <img alt='' src="http://placehold.it/524x524">
+                        </a>
+                        <a href='http://placehold.it/2150x1200' class="gallery-item__descript gallery-item--photo-link">
+                            <span class="gallery-item__icon"><i class="fa fa-camera"></i></span>
+                            <p class="gallery-item__name">Camden Town Odeon</p>
+                        </a>
+                    </div>
+                </div>
 
-<address>
-    <strong>Support:</strong>   <a href="mailto:Support@example.com">Support@example.com</a><br />
-    <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
-</address>
+                <div class="col-sm-4 col-md-3">
+                    <div class="gallery-item">
+                        <a href='http://placehold.it/2150x1200' class="gallery-item__image gallery-item--photo">
+                            <img alt='' src="http://placehold.it/524x524">
+                        </a>
+                        <a href='http://placehold.it/2150x1200' class="gallery-item__descript gallery-item--photo-link">
+                            <span class="gallery-item__icon"><i class="fa fa-camera"></i></span>
+                            <p class="gallery-item__name">Camden Town Odeon</p>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-sm-4 col-md-3">
+                    <div class="gallery-item">
+                        <a href='https://www.youtube.com/watch?v=Y5AehBA3IsE' class="gallery-item__image gallery-item--video">
+                            <img alt='' src="http://placehold.it/524x524">
+                        </a>
+                        <a href='https://www.youtube.com/watch?v=Y5AehBA3IsE' class="gallery-item__descript gallery-item--video-link">
+                            <span class="gallery-item__icon"><i class="fa fa-video-camera"></i></span>
+                            <p class="gallery-item__name">Camden Town Odeon</p>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-sm-4 col-md-3">
+                    <div class="gallery-item">
+                        <a href='http://placehold.it/2150x1200' class="gallery-item__image gallery-item--photo">
+                            <img alt='' src="http://placehold.it/524x524">
+                        </a>
+                        <a href='http://placehold.it/2150x1200' class="gallery-item__descript gallery-item--photo-link">
+                            <span class="gallery-item__icon"><i class="fa fa-camera"></i></span>
+                            <p class="gallery-item__name">Marble Arch Odeon</p>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-sm-4 col-md-3">
+                    <div class="gallery-item">
+                        <a href='http://placehold.it/2150x1200' class="gallery-item__image gallery-item--photo">
+                            <img alt='' src="http://placehold.it/524x524">
+                        </a>
+                        <a href='http://placehold.it/2150x1200' class="gallery-item__descript gallery-item--photo-link">
+                            <span class="gallery-item__icon"><i class="fa fa-camera"></i></span>
+                            <p class="gallery-item__name">Camden Town Odeon</p>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-sm-4 col-md-3">
+                    <div class="gallery-item">
+                        <a href='https://www.youtube.com/watch?v=Y5AehBA3IsE' class="gallery-item__image gallery-item--video">
+                            <img alt='' src="http://placehold.it/524x524">
+                        </a>
+                        <a href='https://www.youtube.com/watch?v=Y5AehBA3IsE' class="gallery-item__descript gallery-item--video-link">
+                            <span class="gallery-item__icon"><i class="fa fa-video-camera"></i></span>
+                            <p class="gallery-item__name">Camden Town Odeon</p>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-sm-4 col-md-3">
+                    <div class="gallery-item">
+                        <a href='http://placehold.it/2150x1200' class="gallery-item__image gallery-item--photo">
+                            <img alt='' src="http://placehold.it/524x524">
+                        </a>
+                        <a href='http://placehold.it/2150x1200' class="gallery-item__descript gallery-item--photo-link">
+                            <span class="gallery-item__icon"><i class="fa fa-camera"></i></span>
+                            <p class="gallery-item__name">Camden Town Odeon</p>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-sm-4 col-md-3">
+                    <div class="gallery-item">
+                        <a href='http://placehold.it/2150x1200' class="gallery-item__image gallery-item--photo">
+                            <img alt='' src="http://placehold.it/524x524">
+                        </a>
+                        <a href='http://placehold.it/2150x1200' class="gallery-item__descript gallery-item--photo-link">
+                            <span class="gallery-item__icon"><i class="fa fa-camera"></i></span>
+                            <p class="gallery-item__name">Marble Arch Odeon</p>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-sm-4 col-md-3">
+                    <div class="gallery-item">
+                        <a href='https://www.youtube.com/watch?v=Y5AehBA3IsE' class="gallery-item__image gallery-item--video">
+                            <img alt='' src="http://placehold.it/524x524">
+                        </a>
+                        <a href='https://www.youtube.com/watch?v=Y5AehBA3IsE' class="gallery-item__descript gallery-item--video-link">
+                            <span class="gallery-item__icon"><i class="fa fa-video-camera"></i></span>
+                            <p class="gallery-item__name">Camden Town Odeon</p>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-sm-4 col-md-3">
+                    <div class="gallery-item">
+                        <a href='http://placehold.it/2150x1200' class="gallery-item__image gallery-item--photo">
+                            <img alt='' src="http://placehold.it/524x524">
+                        </a>
+                        <a href='http://placehold.it/2150x1200' class="gallery-item__descript gallery-item--photo-link">
+                            <span class="gallery-item__icon"><i class="fa fa-camera"></i></span>
+                            <p class="gallery-item__name">Camden Town Odeon</p>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-sm-4 col-md-3">
+                    <div class="gallery-item">
+                        <a href='http://placehold.it/2150x1200' class="gallery-item__image gallery-item--photo">
+                            <img alt='' src="http://placehold.it/524x524">
+                        </a>
+                        <a href='http://placehold.it/2150x1200' class="gallery-item__descript gallery-item--photo-link">
+                            <span class="gallery-item__icon"><i class="fa fa-camera"></i></span>
+                            <p class="gallery-item__name">Camden Town Odeon</p>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-sm-4 col-md-3">
+                    <div class="gallery-item">
+                        <a href='http://placehold.it/2150x1200' class="gallery-item__image gallery-item--photo">
+                            <img alt='' src="http://placehold.it/524x524">
+                        </a>
+                        <a href='http://placehold.it/2150x1200' class="gallery-item__descript gallery-item--photo-link">
+                            <span class="gallery-item__icon"><i class="fa fa-camera"></i></span>
+                            <p class="gallery-item__name">Marble Arch Odeon</p>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-sm-4 col-md-3">
+                    <div class="gallery-item">
+                        <a href='https://www.youtube.com/watch?v=Y5AehBA3IsE' class="gallery-item__image gallery-item--video">
+                            <img alt='' src="http://placehold.it/524x524">
+                        </a>
+                        <a href='https://www.youtube.com/watch?v=Y5AehBA3IsE' class="gallery-item__descript gallery-item--video-link">
+                            <span class="gallery-item__icon"><i class="fa fa-video-camera"></i></span>
+                            <p class="gallery-item__name">Camden Town Odeon</p>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-sm-4 col-md-3">
+                    <div class="gallery-item">
+                        <a href='https://www.youtube.com/watch?v=Y5AehBA3IsE' class="gallery-item__image gallery-item--video">
+                            <img alt='' src="http://placehold.it/524x524">
+                        </a>
+                        <a href='https://www.youtube.com/watch?v=Y5AehBA3IsE' class="gallery-item__descript gallery-item--video-link">
+                            <span class="gallery-item__icon"><i class="fa fa-video-camera"></i></span>
+                            <p class="gallery-item__name">Camden Town Odeon</p>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-sm-4 col-md-3">
+                    <div class="gallery-item">
+                        <a href='http://placehold.it/2150x1200' class="gallery-item__image gallery-item--photo">
+                            <img alt='' src="http://placehold.it/524x524">
+                        </a>
+                        <a href='http://placehold.it/2150x1200' class="gallery-item__descript gallery-item--photo-link">
+                            <span class="gallery-item__icon"><i class="fa fa-camera"></i></span>
+                            <p class="gallery-item__name">Camden Town Odeon</p>
+                        </a>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+
+        <div class="pagination paginatioon--full">
+            <a href='#' class="pagination__prev">prev</a>
+            <a href='#' class="pagination__next">next</a>
+        </div>
+    </div>
+</section>
+@section scripts
+{
+<script src="/Scripts/jquery-migrate-1.2.1.min.js"></script>
+<script src="/Scripts/magnific-popup.js"></script>
+    <script type="text/javascript">
+        function init_Gallery() {
+            "use strict";
+            //1. Pop up fuction for gallery elements
+
+            //pop up for photo (object - images)
+            $('.gallery-item--photo').magnificPopup({
+                type: 'image',
+                closeOnContentClick: true,
+                mainClass: 'mfp-fade',
+                image: {
+                    verticalFit: true
+                },
+                gallery: {
+                    enabled: true,
+                    navigateByImgClick: true,
+                    preload: [0, 1] // Will preload 0 - before current, and 1 after the current image
+                }
+
+            });
+
+            //pop up for photo (object - title link)
+            $('.gallery-item--photo-link').magnificPopup({
+                type: 'image',
+                closeOnContentClick: true,
+                mainClass: 'mfp-fade',
+                image: {
+                    verticalFit: true
+                },
+                gallery: {
+                    enabled: true,
+                    navigateByImgClick: true,
+                    preload: [0, 1] // Will preload 0 - before current, and 1 after the current image
+                }
+
+            });
+
+            //pop up for video (object - images)
+            $('.gallery-item--video').magnificPopup({
+                disableOn: 700,
+                type: 'iframe',
+                mainClass: 'mfp-fade',
+                removalDelay: 160,
+                preloader: false,
+
+                fixedContentPos: false,
+                gallery: {
+                    enabled: true,
+                    preload: [0, 1] // Will preload 0 - before current, and 1 after the current image
+                }
+            });
+
+            //pop up for video (object - title link)
+            $('.gallery-item--video-link').magnificPopup({
+                disableOn: 700,
+                type: 'iframe',
+                mainClass: 'mfp-fade',
+                removalDelay: 160,
+                preloader: false,
+
+                fixedContentPos: false,
+                gallery: {
+                    enabled: true,
+                    preload: [0, 1] // Will preload 0 - before current, and 1 after the current image
+                }
+            });
+        }
+        $(document).ready(function () {
+            init_Gallery();
+        });
+        </script>
+}

@@ -90,8 +90,6 @@
     $(function () {
         $("#CineplexID").change(function () {
             $('#Cineplex').submit();
-            //if ($.urlParam('CineplexID') == $('option:selected', $(this)).text) {
-            //}
         });
         if ($.urlParam('CineplexID') != "0")
             $("#CineplexID").val($.urlParam('CineplexID')).attr("selected", "selected");
