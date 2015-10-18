@@ -152,15 +152,6 @@ namespace PartB.Models
                 }
             }
         }
-
-        /// <summary>Iterates through the list of session to find if there is same 
-        /// as parameters. Returns the index if found, otherwise -1 representing 
-        /// did not find.</summary>
-        /// <param name="cineplexId"> parameter takes a struct Cineplex.</param>
-        /// <param name="movieId"> parameter takes a struct Movie.</param>
-        /// <param name="dayOfWeek"> parameter takes a string from day of week.</param>
-        /// <param name="seatsOccupied"> parameter takes an integer of seats occupied.</param>
-        /// <returns>Returns index of session found or -1 representing not found.</returns>
         public int SearchSeatingIndex(int cineplexMovieID, string SeatRowColumn, string extra)
         {
             for (int i = 0; i < seatings.Count; i++)

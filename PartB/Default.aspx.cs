@@ -16,6 +16,7 @@ namespace PartB
         private const string DELETE_COLUMN = "  ";
         System.Data.DataTable movieTable = new System.Data.DataTable();
         System.Data.DataTable cineplexTable = new System.Data.DataTable();
+        System.Data.DataTable comingTable = new System.Data.DataTable();
         protected void Page_Load(object sender, EventArgs e)
         {
             try
@@ -29,6 +30,11 @@ namespace PartB
                 AddCineplexRowsToGrid();
                 CineplexGridView.DataSource = cineplexTable;
                 CineplexGridView.DataBind();
+
+                CreateComingGrid();
+                AddComingRowsToGrid();
+                ComingGridView1.DataSource = comingTable;
+                ComingGridView1.DataBind();
             }
             catch (Exception ex)
             {
@@ -73,6 +79,25 @@ namespace PartB
             tColumn = new System.Data.DataColumn(EDIT_COLUMN, System.Type.GetType("System.String"));
             cineplexTable.Columns.Add(tColumn);
         }
+        private void CreateComingGrid()
+        {
+            System.Data.DataColumn tColumn = null;
+
+            tColumn = new System.Data.DataColumn("Movie ID", System.Type.GetType("System.String"));
+            comingTable.Columns.Add(tColumn);
+            tColumn = new System.Data.DataColumn("Title", System.Type.GetType("System.String"));
+            comingTable.Columns.Add(tColumn);
+            tColumn = new System.Data.DataColumn("Short Description", System.Type.GetType("System.String"));
+            comingTable.Columns.Add(tColumn);
+            tColumn = new System.Data.DataColumn("Long Description", System.Type.GetType("System.String"));
+            comingTable.Columns.Add(tColumn);
+            tColumn = new System.Data.DataColumn("Image", System.Type.GetType("System.String"));
+            comingTable.Columns.Add(tColumn);
+            tColumn = new System.Data.DataColumn(EDIT_COLUMN, System.Type.GetType("System.String"));
+            comingTable.Columns.Add(tColumn);
+            tColumn = new System.Data.DataColumn(DELETE_COLUMN, System.Type.GetType("System.String"));
+            comingTable.Columns.Add(tColumn);
+        }
         private void AddMovieRowsToGrid()
         {
             foreach(Movie movie in MovieModel.Instance.GetMovies())
@@ -100,6 +125,17 @@ namespace PartB
                         cineplex.LongDecription,
                         cineplex.ImageUrl);
                 }
+            }
+        }
+        private void AddComingRowsToGrid()
+        {
+            foreach (ComingSoon coming in ComingSoonModel.Instance.GetComingMovies())
+            {
+                comingTable.Rows.Add(coming.ComingSoonID,
+                    coming.Title,
+                    coming.ShortDecription,
+                    coming.LongDecription,
+                    coming.ImageUrl);
             }
         }
         protected void MovieGridView_RowDataBound(object sender,
@@ -130,6 +166,23 @@ namespace PartB
                 edlb.PostBackUrl =
                     "CineplexEdit.aspx?id=" + e.Row.Cells[0].Text;
                 e.Row.Cells[5].Controls.Add(edlb);
+            }
+        }
+        protected void ComingGridView_RowDataBound(object sender,
+            System.Web.UI.WebControls.GridViewRowEventArgs e)
+        {
+
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                LinkButton elb = new LinkButton();
+                elb.Text = "Edit";
+                elb.PostBackUrl = "ComingEdit.aspx?id=" + e.Row.Cells[0].Text;
+                e.Row.Cells[5].Controls.Add(elb);
+
+                LinkButton dlb = new LinkButton();
+                dlb.Text = "Delete";
+                dlb.PostBackUrl = "ComingDelete.aspx?id=" + e.Row.Cells[0].Text;
+                e.Row.Cells[6].Controls.Add(dlb);
             }
         }
     }

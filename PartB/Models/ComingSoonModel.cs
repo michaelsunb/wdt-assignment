@@ -72,7 +72,7 @@ namespace PartB.Models
                         movie.Title = (string)rdr[1];
                         movie.ShortDecription = (string)rdr[2];
                         movie.LongDecription = (string)rdr[3];
-                        movie.ImageUrl = (string)rdr[3];
+                        movie.ImageUrl = (string)rdr[4];
 
                         movies.Add(movie);
                     }
@@ -233,6 +233,46 @@ namespace PartB.Models
                 catch (Exception ex)
                 {
                     return DID_NOT_FIND_MOVIE_INDEX;
+                }
+                finally
+                {
+                    if (cmd != null)
+                    {
+                        cmd.Dispose();
+                    }
+                    if (conn != null)
+                    {
+                        conn.Dispose();
+                    }
+                }
+            }
+        }
+        public void RemoveMovie(int MovieComingSoonID)
+        {
+            SqlConnection conn = null;
+            SqlCommand cmd = null;
+
+            using (conn = new SqlConnection(CONNECTION_STRING))
+            {
+                try
+                {
+                    GetComingMovies();
+                    ComingSoon toBeRemoved =
+                        getMovieByID(MovieComingSoonID);
+                    for (int i = 0; i < movies.Count; i++)
+                    {
+                        if (movies[i].Equals(toBeRemoved))
+                        {
+                            movies.RemoveAt(i);
+                        }
+                    }
+
+                    conn.Open();
+                    string sql = "DELETE FROM [dbo].[MovieComingSoon] " +
+                        "WHERE MovieComingSoonID = @MovieComingSoonID";
+                    cmd = new SqlCommand(sql, conn);
+                    cmd.Parameters.Add("@MovieComingSoonID", SqlDbType.Int).Value = MovieComingSoonID;
+                    SqlDataReader rdr = cmd.ExecuteReader();
                 }
                 finally
                 {

@@ -42,6 +42,8 @@
     </div>
     @foreach (var movie in ViewBag.CineplexMovies)
     {
+        if (movie.Status == 1)
+        {
     <!-- Movie preview item -->
     <div class="movie movie--preview movie--full release">
         <div class="col-sm-3 col-md-2 col-lg-2">
@@ -71,6 +73,7 @@
         </div>
     </div>
     <!-- end movie preview item -->
+        }
     }
     <div class="coloum-wrapper">
         <div class="pagination paginatioon--full">

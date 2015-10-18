@@ -57,5 +57,26 @@
         <SortedDescendingCellStyle BackColor="#FCF6C0" />
         <SortedDescendingHeaderStyle BackColor="#820000" />
     </asp:GridView>
+    <hr />
+    <div><asp:HyperLink ID="HyperLink3" runat="server" NavigateUrl="~/ComingAdd.aspx">Add New Movie Coming</asp:HyperLink></div>
+    <asp:GridView ID="ComingGridView1" 
+        Font-Names="Arial" 
+        Font-Size="0.75em" 
+        CellPadding="4" 
+        ForeColor="#333333"
+        onrowdatabound="ComingGridView_RowDataBound"
+        runat="server" GridLines="None">
+                
+        <AlternatingRowStyle BackColor="White" />
+        <FooterStyle BackColor="#990000" Font-Bold="True" ForeColor="White" />
+        <HeaderStyle BackColor="#990000" ForeColor="white" Font-Bold="True" />
+        <PagerStyle BackColor="#FFCC66" ForeColor="#333333" HorizontalAlign="Center" />
+        <RowStyle BackColor="#FFFBD6" ForeColor="#333333" />
+        <SelectedRowStyle BackColor="#FFCC66" Font-Bold="True" ForeColor="Navy" />
+        <SortedAscendingCellStyle BackColor="#FDF5AC" />
+        <SortedAscendingHeaderStyle BackColor="#4D0000" />
+        <SortedDescendingCellStyle BackColor="#FCF6C0" />
+        <SortedDescendingHeaderStyle BackColor="#820000" />
+    </asp:GridView>
     <div><pre><asp:Label ID="Label1" runat="server" Text=""></asp:Label></pre></div>
 </asp:Content>

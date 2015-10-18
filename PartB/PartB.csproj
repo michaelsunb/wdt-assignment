@@ -114,8 +114,11 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Image.aspx" />
     <Content Include="Login.aspx" />
+    <Content Include="ComingAdd.aspx" />
     <Content Include="MovieAdd.aspx" />
+    <Content Include="ComingDelete.aspx" />
     <Content Include="MovieDelete.aspx" />
+    <Content Include="ComingEdit.aspx" />
     <Content Include="MovieEdit.aspx" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
@@ -242,6 +245,13 @@
     <Compile Include="Models\MovieModel.cs" />
     <Compile Include="Models\SeatingModel.cs" />
     <Compile Include="Models\UserModel.cs" />
+    <Compile Include="ComingAdd.aspx.cs">
+      <DependentUpon>ComingAdd.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ComingAdd.aspx.designer.cs">
+      <DependentUpon>ComingAdd.aspx</DependentUpon>
+    </Compile>
     <Compile Include="MovieAdd.aspx.cs">
       <DependentUpon>MovieAdd.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -249,12 +259,26 @@
     <Compile Include="MovieAdd.aspx.designer.cs">
       <DependentUpon>MovieAdd.aspx</DependentUpon>
     </Compile>
+    <Compile Include="ComingDelete.aspx.cs">
+      <DependentUpon>ComingDelete.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ComingDelete.aspx.designer.cs">
+      <DependentUpon>ComingDelete.aspx</DependentUpon>
+    </Compile>
     <Compile Include="MovieDelete.aspx.cs">
       <DependentUpon>MovieDelete.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="MovieDelete.aspx.designer.cs">
       <DependentUpon>MovieDelete.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ComingEdit.aspx.cs">
+      <DependentUpon>ComingEdit.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ComingEdit.aspx.designer.cs">
+      <DependentUpon>ComingEdit.aspx</DependentUpon>
     </Compile>
     <Compile Include="MovieEdit.aspx.cs">
       <DependentUpon>MovieEdit.aspx</DependentUpon>
