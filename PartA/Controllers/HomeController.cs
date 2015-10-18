@@ -57,5 +57,33 @@ namespace PartA.Controllers
         {
             return View(db);
         }
+        public ActionResult ComingSoon()
+        {
+            return View(db);
+        }
+        public ActionResult MoviePreview()
+        {
+            int id = -1;
+            try
+            {
+                id = int.Parse(this.Request.QueryString["MovieID"]);
+            }
+            catch (Exception e)
+            {
+                Redirect("/Home/Movies");
+            }
+
+            if (id != -1)
+            {
+                ViewBag.MoviePreview = db.Movies.Find(id);
+            }
+
+            Redirect("/Home/Movies");
+            return View(db);
+        }
+        public ActionResult Enquire()
+        {
+            return View();
+        }
     }
 }

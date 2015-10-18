@@ -1,0 +1,24 @@
+﻿@{
+    ViewBag.Title = "Movie Preview";
+}
+<section class="container">
+    <div class="col-sm-12">
+        <h2 class="page-heading">@ViewBag.Title</h2>
+    </div>
+    <div class="movie movie--preview movie--full release">
+        <div class="col-sm-3 col-md-2 col-lg-2">
+            <div class="movie__images">
+                <img src="//localhost:12382/images/424x424/@(ViewBag.MoviePreview.ImageUrl)" alt="@(ViewBag.MoviePreview.Title)">
+            </div>
+        </div>
+
+        <div class="col-sm-9 col-md-10 col-lg-10 movie__about">
+            <div class="movie__title link--huge">@(ViewBag.MoviePreview.Title)</div>
+            <p class="movie__option"><strong>Description: </strong>@(ViewBag.MoviePreview.LongDescription)</p>
+            <div class="movie__btns">
+                <a href="#" class="btn btn-md btn--warning">book a ticket</a>
+                <a href="#" class="watchlist">Add to watchlist</a>
+            </div>
+        </div>
+    </div>
+</section>

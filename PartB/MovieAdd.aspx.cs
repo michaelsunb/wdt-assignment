@@ -23,6 +23,30 @@ namespace PartB
         {
             try
             {
+                if (FileUpload1.HasFile)
+                {
+                    string[] validFileTypes = { "bmp", "gif", "png", "jpg", "jpeg" };
+                    string ext = System.IO.Path.GetExtension(FileUpload1.PostedFile.FileName);
+                    bool isValidFile = false;
+                    for (int i = 0; i < validFileTypes.Length; i++)
+                    {
+                        if (ext == "." + validFileTypes[i])
+                        {
+                            isValidFile = true;
+                            break;
+                        }
+                    }
+
+                    if (!isValidFile)
+                    {
+                        throw new Exception("Did not save!");
+                    }
+
+                    FileUpload1.SaveAs(Server.MapPath("~/Content/images/") +
+                            FileUpload1.FileName);
+                    movieImage.Text = FileUpload1.FileName;
+                }
+
                 Movie upMovie = MovieModel.Instance.AddMovie(
                     movieTitle.Text,
                     shortDescription.Text,
@@ -34,9 +58,30 @@ namespace PartB
             }
             catch (Exception ex)
             {
-                Label1.Text = ex.StackTrace;
+                Label1.Text = "ERROR: " + ex.Message.ToString();
                 //Label1.Text = "Did not save!";
                 Label1.Attributes.CssStyle.Add("color", "red");
+            }
+        }
+        protected void UploadButton_Click(object sender, EventArgs e)
+        {
+            if (FileUpload1.HasFile)
+                try
+                {
+                    FileUpload1.SaveAs(Server.MapPath("~/Content/images/") +
+                         FileUpload1.FileName);
+                    Label1.Text = "File name: " +
+                         FileUpload1.PostedFile.FileName + "<br>" +
+                         FileUpload1.PostedFile.ContentLength + " kb<br>" +
+                         "Content type: " + FileUpload1.PostedFile.ContentType;
+                }
+                catch (Exception ex)
+                {
+                    Label1.Text = "ERROR: " + ex.Message.ToString();
+                }
+            else
+            {
+                Label1.Text = "You have not specified a file.";
             }
         }
     }

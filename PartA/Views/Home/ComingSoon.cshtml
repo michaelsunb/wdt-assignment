@@ -21,14 +21,7 @@
 
 <section class="container">
     <div class="col-sm-12">
-        <h2 class="page-heading">Movies</h2>
-        <form class="select select--cinema" method='get' name="Cineplex" id="Cineplex">
-            <label for="CineplexID">Cineplex</label>:
-            @Html.DropDownList("CineplexID", (IEnumerable<SelectListItem>)ViewBag.Cineplexs, "Select",
-            new { onchange = "document.getElementById(\"Cineplex\").submit();",
-                  @class = "select__sort"})
-        </form>
-
+        <h2 class="page-heading">Movies Coming Soon</h2>
     </div>
 
     <div class="tags-area">
@@ -40,7 +33,7 @@
             </ul>
         </div>
     </div>
-    @foreach (var movie in ViewBag.CineplexMovies)
+    @foreach (var movie in Model.MovieComingSoons)
     {
     <!-- Movie preview item -->
     <div class="movie movie--preview movie--full release">
@@ -51,23 +44,14 @@
         </div>
 
         <div class="col-sm-9 col-md-10 col-lg-10 movie__about">
-            <a href='/Home/MoviePreview?MovieID=@(movie.MovieID)' class="movie__title link--huge">@(movie.Title)</a><br /><br />
+            <a href='movie-page-full.html' class="movie__title link--huge">@(movie.Title)</a><br /><br />
 
             <p class="movie__option"><strong>Description: </strong>@(movie.LongDescription)</p>
 
-            <p class="movie__option"><strong>Cineplex: </strong>
-            @foreach (var cineplexMovie in Model.CineplexMovies.ToList())
-            {
-                if(cineplexMovie.MovieID == movie.MovieID)
-                {
-                    <a href="#">@Model.Cineplexes.Find(cineplexMovie.CineplexID).Location</a>@(", ");
-                }
-            }
-            
-            <div class="movie__btns">
-                <a href="#" class="btn btn-md btn--warning">book a ticket</a>
-                <a href="#" class="watchlist">Add to watchlist</a>
-            </div>
+                <div class="movie__btns">
+                    <a href="#" class="btn btn-md btn--warning">Coming Soon</a>
+                    <a href="#" class="watchlist">Add to watchlist</a>
+                </div>
         </div>
     </div>
     <!-- end movie preview item -->
@@ -82,15 +66,15 @@
 </section>
 @section scripts
 {
-<script type="text/javascript">
-    $.urlParam = function(name){ var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href); if (results==null){ return ""; } else{ return results[1] || 0; } }
-    $(function () {
-        $("#CineplexID").change(function () {
-            $('#Cineplex').submit();
+    <script type="text/javascript">
+        $.urlParam = function (name) { var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href); if (results == null) { return ""; } else { return results[1] || 0; } }
+        $(function () {
+            $("#CineplexID").change(function () {
+                $('#Cineplex').submit();
+            });
+            if ($.urlParam('CineplexID') != "0")
+                $("#CineplexID").val($.urlParam('CineplexID')).attr("selected", "selected");
         });
-        if ($.urlParam('CineplexID') != "0")
-            $("#CineplexID").val($.urlParam('CineplexID')).attr("selected", "selected");
-    });
 
-</script>
+    </script>
 }

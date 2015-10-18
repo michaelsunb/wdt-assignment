@@ -6,7 +6,10 @@
     <div>Cineplex Location: <asp:TextBox ID="location" runat="server"></asp:TextBox></div>
     <div>Short Description: <asp:TextBox ID="shortDescription" runat="server"></asp:TextBox></div>
     <div>Long Description: <asp:TextBox ID="longDescription" runat="server"></asp:TextBox></div>
-    <div>Cineplex Image: <asp:TextBox ID="cineplexImage" runat="server"></asp:TextBox></div>
+    <div>
+        Cineplex Image: <asp:TextBox ID="cineplexImage" runat="server" Enabled="false"></asp:TextBox>
+        <asp:FileUpload ID="FileUpload1" runat="server" />
+    </div>
     <div><asp:Button ID="submit" OnClick="Submit_Click" runat="server" Text="Submit" /> |
          <asp:Button ID="cancel" OnClick="Cancel_Click" runat="server" Text="Cancel" />
     </div>

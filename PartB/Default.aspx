@@ -60,6 +60,5 @@
         <SortedDescendingCellStyle BackColor="#FCF6C0" />
         <SortedDescendingHeaderStyle BackColor="#820000" />
     </asp:GridView>
-    <div><a href="<%#: Page.GetRouteUrl("images_mov", new { image = "TheMatrix.jpg" })%>">matrix</a></div>
     <div><pre><asp:Label ID="Label1" runat="server" Text=""></asp:Label></pre></div>
 </asp:Content>

@@ -25,6 +25,7 @@
                         <li>@Html.ActionLink("Home", "Index", "Home")</li>
                         <li>@Html.ActionLink("Cinemas", "Cinemas", "Home")</li>
                         <li>@Html.ActionLink("Movies", "Movies", "Home")</li>
+                        <li>@Html.ActionLink("ComingSoon", "ComingSoon", "Home")</li>
                     </ul>
                 </div>
             </div>
@@ -33,8 +34,10 @@
         <div class="wrapper">
             @RenderBody()
             <hr />
-            <footer>
-                <p>&copy; @DateTime.Now.Year - Michaelsun Baluyos s3110401</p>
+            <footer class="footer-wrapper">
+                <section class="container">
+                    <p>&copy; @DateTime.Now.Year - Michaelsun Baluyos s3110401</p>
+                </section>
             </footer>
         </div>
 

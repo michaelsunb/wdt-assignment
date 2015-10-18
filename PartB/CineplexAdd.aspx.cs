@@ -22,6 +22,30 @@ namespace PartB
         {
             try
             {
+                if (FileUpload1.HasFile)
+                {
+                    string[] validFileTypes = { "bmp", "gif", "png", "jpg", "jpeg" };
+                    string ext = System.IO.Path.GetExtension(FileUpload1.PostedFile.FileName);
+                    bool isValidFile = false;
+                    for (int i = 0; i < validFileTypes.Length; i++)
+                    {
+                        if (ext == "." + validFileTypes[i])
+                        {
+                            isValidFile = true;
+                            break;
+                        }
+                    }
+
+                    if (!isValidFile)
+                    {
+                        throw new Exception("Did not save!");
+                    }
+
+                    FileUpload1.SaveAs(Server.MapPath("~/Content/images/") +
+                            FileUpload1.FileName);
+                    image.Text = FileUpload1.FileName;
+                }
+
                 Cineplex upMovie = cineplexModel.AddCinplex(
                     location.Text,
                     shortDescription.Text,

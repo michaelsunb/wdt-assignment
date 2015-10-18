@@ -23,7 +23,7 @@
                             </a>
                         </div>
                         <div class="movie__info">
-                            <a href='movie-page-left.html' class="movie__title">@Html.DisplayFor(modelItem => item.Title)</a>
+                            <a href='/Home/MoviePreview?MovieID=@(item.MovieID)' class="movie__title">@Html.DisplayFor(modelItem => item.Title)</a>
                             <p class="movie__option">@Html.DisplayFor(modelItem => item.ShortDescription)</p>
                         </div>
                     </div>
@@ -40,9 +40,6 @@
     <script type="text/javascript">
         function init_Gallery() {
             "use strict";
-            //1. Pop up fuction for gallery elements
-
-            //pop up for photo (object - images)
             $('.movie-beta__link').magnificPopup({
                 type: 'image',
                 closeOnContentClick: true,
@@ -55,7 +52,6 @@
                     navigateByImgClick: true,
                     preload: [0, 1] // Will preload 0 - before current, and 1 after the current image
                 }
-
             });
 
         }
