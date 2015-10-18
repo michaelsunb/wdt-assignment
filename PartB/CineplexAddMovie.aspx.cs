@@ -16,7 +16,7 @@ namespace PartB
         private static MovieModel movieModel = MovieModel.Instance;
         private static CineplexMovieModel cmModel = CineplexMovieModel.Instance;
 
-        private static List<Movie> movies = null;
+        private static IList<Movie> movies = null;
         private static int cineplexId = -1;
         private static int movieId = -1;
 
@@ -121,7 +121,7 @@ namespace PartB
             {
                 if (movie.status == 1)
                 {
-                    List<CineplexMovie> cmList = cmModel.GetCineplexMovie();
+                    IList<CineplexMovie> cmList = cmModel.GetCineplexMovie();
                     int cmIndex = cmModel.SearchCineplexMovieIndex(
                         cineplexId, movie.MovieID
                         );

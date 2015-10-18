@@ -24,7 +24,7 @@ namespace PartB.Models
             ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
         private const int DEFAULT_TOTAL_NUMBER_SEATS = 20;
         private const int DID_NOT_FIND_ENQUIRY_INDEX = -1;
-        private List<Enquiry> enquries = new List<Enquiry>();
+        private IList<Enquiry> enquries = new List<Enquiry>();
         private static EnquiryModel instance;
 
         /// <summary>Private constructor for the singleton pattern.
@@ -48,14 +48,14 @@ namespace PartB.Models
 
         /// <summary>Getter to get a list of Cineplex.</summary>
         /// <returns>Returns list of Cineplexs.</returns>
-        public List<Enquiry> Enquiry
+        public IList<Enquiry> Enquiry
         {
             get
             {
                 return GetEnquiry();
             }
         }
-        public List<Enquiry> GetEnquiry()
+        public IList<Enquiry> GetEnquiry()
         {
             if (enquries.Count > 0)
             {

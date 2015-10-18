@@ -99,6 +99,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="CineplexAdd.aspx" />
+    <Content Include="Booking.aspx" />
     <Content Include="CineplexAddMovie.aspx" />
     <Content Include="CineplexEdit.aspx" />
     <Content Include="CineplexRemoveMovie.aspx" />
@@ -181,6 +182,13 @@
     </Compile>
     <Compile Include="CineplexAdd.aspx.designer.cs">
       <DependentUpon>CineplexAdd.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Booking.aspx.cs">
+      <DependentUpon>Booking.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Booking.aspx.designer.cs">
+      <DependentUpon>Booking.aspx</DependentUpon>
     </Compile>
     <Compile Include="CineplexAddMovie.aspx.cs">
       <DependentUpon>CineplexAddMovie.aspx</DependentUpon>

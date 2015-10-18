@@ -24,7 +24,7 @@ namespace PartB.Models
             ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
         private const int DID_NOT_FIND_CINEPLEX_MOVIE_INDEX = -1;
 
-        private List<CineplexMovie> cineplexMovies = new List<CineplexMovie>();
+        private IList<CineplexMovie> cineplexMovies = new List<CineplexMovie>();
         private static CineplexMovieModel instance;
 
         /// <summary>Private constructor for the singleton pattern.
@@ -48,7 +48,7 @@ namespace PartB.Models
 
         /// <summary>Getter to get a list of Session.</summary>
         /// <returns>Returns list of sessions.</returns>
-        public List<CineplexMovie> CineplexMovie
+        public IList<CineplexMovie> CineplexMovie
         {
             get
             {
@@ -56,13 +56,6 @@ namespace PartB.Models
             }
         }
 
-        /// <summary>Iterates through the list of session to find if there is same 
-        /// as parameters. Returns the index if found, otherwise -1 representing 
-        /// did not find.</summary>
-        /// <param name="cineplexId"> parameter takes a struct Cineplex.</param>
-        /// <param name="movieId"> parameter takes a struct Movie.</param>
-        /// <param name="dayOfWeek"> parameter takes a string from day of week.</param>
-        /// <param name="seatsOccupied"> parameter takes an integer of seats occupied.</param>
         /// <returns>Returns index of session found or -1 representing not found.</returns>
         public int SearchCineplexMovieIndex(int cineplexId, int movieId)
         {
@@ -74,9 +67,22 @@ namespace PartB.Models
             }
             return DID_NOT_FIND_CINEPLEX_MOVIE_INDEX;
         }
-        public List<Movie> getMoviesByID(int cineplexID)
+        public IList<CineplexMovie> getCineplexMovieIDs(int cineplexID, int movieID)
         {
-            List<Movie> movies = new List<Movie>();
+            IList<CineplexMovie> cineplexMovie = new List<CineplexMovie>();
+            cineplexMovies = GetCineplexMovie();
+            for (int i = 0; i < cineplexMovies.Count; i++)
+            {
+                if (cineplexMovies[i].cineplexId.Equals(cineplexID) &&
+                    cineplexMovies[i].movieId.Equals(movieID))
+                    cineplexMovie.Add(cineplexMovies[i]);
+            }
+
+            return cineplexMovie;
+        }
+        public IList<Movie> getMoviesByID(int cineplexID)
+        {
+            IList<Movie> movies = new List<Movie>();
             MovieModel movieModel = MovieModel.Instance;
             movieModel.GetMovies();
             cineplexMovies = GetCineplexMovie();
@@ -99,11 +105,11 @@ namespace PartB.Models
 
             throw new CustomCouldntFindException("Could not find the movie: " + cineplexMovieID);
         }
-        public List<CineplexMovie> GetCineplexMovie()
+        public IList<CineplexMovie> GetCineplexMovie()
         {
             if (cineplexMovies.Count > 0)
             {
-                //return cineplexMovies;
+                return cineplexMovies;
             }
 
             SqlConnection conn = null;

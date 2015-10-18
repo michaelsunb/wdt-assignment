@@ -23,7 +23,7 @@ namespace PartB.Models
         private static string CONNECTION_STRING =
             ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
         private const int DID_NOT_FIND_MOVIE_INDEX = -1;
-        private List<Movie> movies = new List<Movie>();
+        private IList<Movie> movies = new List<Movie>();
         private static MovieModel instance;
 
         /// <summary>Private constructor for the singleton pattern.
@@ -46,14 +46,14 @@ namespace PartB.Models
         }
         /// <summary>Getter to get a list of Movie.</summary>
         /// <returns>Returns list of movies.</returns>
-        public List<Movie> Movies
+        public IList<Movie> Movies
         {
             get
             {
                 return movies;
             }
         }
-        public List<Movie> GetMovies()
+        public IList<Movie> GetMovies()
         {
             if (movies.Count > 0)
             {

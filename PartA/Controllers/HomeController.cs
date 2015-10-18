@@ -70,7 +70,7 @@ namespace PartA.Controllers
             }
             catch (Exception e)
             {
-                Redirect("/Home/Movies");
+                return RedirectToAction("Movies");
             }
 
             if (id != -1)
@@ -78,9 +78,22 @@ namespace PartA.Controllers
                 ViewBag.MoviePreview = db.Movies.Find(id);
             }
 
-            Redirect("/Home/Movies");
-            return View(db);
+            return RedirectToAction("Movies");
         }
+
+        [HttpPost]
+        public ActionResult Enquire(Enquiry model)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Enquiries.Add(model);
+                db.SaveChanges();
+
+                return RedirectToAction("Index");
+            }
+            return View();
+        }
+
         public ActionResult Enquire()
         {
             return View();

@@ -21,7 +21,7 @@ namespace PartB.Models
         private static string CONNECTION_STRING =
             ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
         private const int DID_NOT_FIND_MOVIE_INDEX = -1;
-        private List<ComingSoon> movies = new List<ComingSoon>();
+        private IList<ComingSoon> movies = new List<ComingSoon>();
         private static ComingSoonModel instance;
 
         /// <summary>Private constructor for the singleton pattern.
@@ -44,14 +44,14 @@ namespace PartB.Models
         }
         /// <summary>Getter to get a list of Movie.</summary>
         /// <returns>Returns list of movies.</returns>
-        public List<ComingSoon> ComingMovies
+        public IList<ComingSoon> ComingMovies
         {
             get
             {
                 return GetComingMovies();
             }
         }
-        public List<ComingSoon> GetComingMovies()
+        public IList<ComingSoon> GetComingMovies()
         {
             if (movies.Count > 0)
             {

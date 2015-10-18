@@ -26,7 +26,7 @@ namespace PartB.Models
             ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
         private const int DEFAULT_TOTAL_NUMBER_SEATS = 20;
         private const int DID_NOT_FIND_CINEPLEX_INDEX = -1;
-        private List<Cineplex> cineplexs = new List<Cineplex>();
+        private IList<Cineplex> cineplexs = new List<Cineplex>();
         private static CineplexModel instance;
 
         /// <summary>Private constructor for the singleton pattern.
@@ -50,19 +50,18 @@ namespace PartB.Models
 
         /// <summary>Getter to get a list of Cineplex.</summary>
         /// <returns>Returns list of Cineplexs.</returns>
-        public List<Cineplex> Cineplex
+        public IList<Cineplex> Cineplex
         {
             get
             {
                 return GetCineplex();
             }
         }
-        public List<Cineplex> GetCineplex()
+        public IList<Cineplex> GetCineplex()
         {
             if (cineplexs.Count > 0)
             {
-                // TODO
-                //return cineplexs;
+                return cineplexs;
             }
 
             SqlConnection conn = null;
@@ -229,10 +228,10 @@ namespace PartB.Models
         /// <param name="cineplexName"> parameter takes a string of a cineplex name to search.</param>
         /// <returns>Returns list of sessions otherwise throws custom exception saying
         /// cineplex name could not be found.</returns>
-        public List<Cineplex> SearchCinplex(string cineplexName)
+        public IList<Cineplex> SearchCinplex(string cineplexName)
         {
             System.Text.RegularExpressions.Regex regEx = new System.Text.RegularExpressions.Regex(cineplexName.ToLower());
-            if (cineplexs.Exists(x => regEx.IsMatch(x.Location.ToLower())))
+            if (((List<Cineplex>) cineplexs).Exists(x => regEx.IsMatch(x.Location.ToLower())))
                 return cineplexs.Where(s => regEx.IsMatch(s.Location.ToLower())).ToList();
 
             throw new CustomCouldntFindException("Could not find the cineplex: " + cineplexName);

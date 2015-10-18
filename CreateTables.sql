@@ -12,8 +12,7 @@ create table Enquiry
 (
 	EnquiryID int not null identity primary key,
 	Email nvarchar(max) not null,
-	Message nvarchar(max) not null,
-    [Status] [int] not NULL
+	Message nvarchar(max) not null
 );
 
 create table MovieComingSoon
@@ -47,7 +46,6 @@ create table Seating
 (
 	CineplexMovieID int not null foreign key references CineplexMovie (CineplexMovieID),
 	primary key (CineplexMovieID),
-	SeatRow nvarchar(max) not null,
-	SeatColumn nvarchar(max) not null,
+	SeatRowColumn nvarchar(max) not null,
 	[extra] [nchar](10) NULL
 );

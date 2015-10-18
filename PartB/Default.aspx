@@ -4,9 +4,6 @@
     
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-<% if (Context.User.Identity.IsAuthenticated) { %>
-  <%= Context.User.Identity.Name %>
-<% } %>
     <asp:LoginView ID="LoginView1" runat="server">
         <LoggedInTemplate>
             Welcome back,

@@ -15,8 +15,7 @@ namespace PartB.Models
     public struct Seating
     {
         public int CineplexMovieID { set; get; }
-        public string SeatRow { set; get; }
-        public string SeatColumn { set; get; }
+        public string SeatRowColumn { set; get; }
         public string extra { set; get; }
     };
     class SeatingModel
@@ -25,7 +24,7 @@ namespace PartB.Models
             ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
         private const int DID_NOT_FIND_SEATING_INDEX = -1;
 
-        private List<Seating> seatings = new List<Seating>();
+        private IList<Seating> seatings = new List<Seating>();
         private static SeatingModel instance;
 
         /// <summary>Private constructor for the singleton pattern.
@@ -49,14 +48,25 @@ namespace PartB.Models
 
         /// <summary>Getter to get a list of Session.</summary>
         /// <returns>Returns list of sessions.</returns>
-        public List<Seating> Seatings
+        public IList<Seating> Seatings
         {
             get
             {
                 return GetSeating();
             }
         }
-        public List<Seating> GetSeating()
+        public Seating getSeats(CineplexMovie cineplexMovie)
+        {
+            seatings = GetSeating();
+            for (int i = 0; i < seatings.Count; i++)
+            {
+                if (seatings[i].CineplexMovieID.Equals(cineplexMovie.cineplexMovieId))
+                    return seatings[i];
+            }
+
+            throw new CustomCouldntFindException("Can't find!");
+        }
+        public IList<Seating> GetSeating()
         {
             if (seatings.Count > 0)
             {
@@ -79,9 +89,8 @@ namespace PartB.Models
                     {
                         Seating seating = new Seating();
                         seating.CineplexMovieID = (int)rdr[0];
-                        seating.SeatRow = (string)rdr[1];
-                        seating.SeatColumn = (string)rdr[2];
-                        seating.extra = (string)rdr[3];
+                        seating.SeatRowColumn = (string)rdr[1];
+                        seating.extra = (string)rdr[2];
 
                         seatings.Add(seating);
                     }
@@ -104,34 +113,25 @@ namespace PartB.Models
                 }
             }
         }
-
-        /// <summary>Method to add a session. If similar session then it will not add.</summary>
-        /// <param name="cineplexId"> parameter takes a struct Cineplex.</param>
-        /// <param name="movieId"> parameter takes a struct Movie.</param>
-        /// <param name="dayOfWeek"> parameter takes a string from day of week.</param>
-        /// <param name="seatsOccupied"> parameter takes an integer of seats occupied.</param>
-        /// <returns>Returns session that has been added or found.</returns>
-        public Seating AddSeating(int cineplexMovieID, string SeatRow, string SeatColumn, string extra)
+        public Seating AddSeating(int cineplexMovieID, string SeatRowColumn, string extra)
         {
-            int seatingIndex = SearchSeatingIndex(cineplexMovieID, SeatRow,
-                SeatColumn, extra);
+            int seatingIndex = SearchSeatingIndex(cineplexMovieID, SeatRowColumn, extra);
             if (seatingIndex != DID_NOT_FIND_SEATING_INDEX) return seatings[seatingIndex];
 
-            seatingIndex = InsertGetId(cineplexMovieID, SeatRow, SeatColumn, extra);
+            seatingIndex = InsertGetId(cineplexMovieID, SeatRowColumn, extra);
             if (seatingIndex != DID_NOT_FIND_SEATING_INDEX)
                 throw new CustomCouldntFindException("Failed to add coming soon movie!");
 
             Seating seating = new Seating();
             seating.CineplexMovieID = cineplexMovieID;
-            seating.SeatRow = SeatRow;
-            seating.SeatColumn = SeatColumn;
+            seating.SeatRowColumn = SeatRowColumn;
             seating.extra = extra;
 
             seatings.Add(seating);
 
             return seating;
         }
-        private int InsertGetId(int cineplexMovieID, string SeatRow, string SeatColumn, string extra)
+        private int InsertGetId(int cineplexMovieID, string SeatRowColumn, string extra)
         {
             SqlConnection conn = null;
             SqlCommand cmd = null;
@@ -142,11 +142,10 @@ namespace PartB.Models
                     conn.Open();
                     string sql = "INSERT INTO [master].[dbo].[Seating]" +
                         "(CineplexMovieID,SeatRow,SeatColumn,extra) VALUES" +
-                        "(@CineplexMovieID,@SeatRow,@SeatColumn,@extra)";
+                        "(@CineplexMovieID,@SeatRowColumn,@extra)";
                     cmd = new SqlCommand(sql, conn);
                     cmd.Parameters.Add("@CineplexMovieID", SqlDbType.Int).Value = cineplexMovieID;
-                    cmd.Parameters.Add("@SeatRow", SqlDbType.VarChar).Value = SeatRow;
-                    cmd.Parameters.Add("@SeatColumn", SqlDbType.VarChar).Value = SeatColumn;
+                    cmd.Parameters.Add("@SeatRowColumn", SqlDbType.VarChar).Value = SeatRowColumn;
                     cmd.Parameters.Add("@extra", SqlDbType.VarChar).Value = extra;
 
                     return (int)cmd.ExecuteScalar();
@@ -177,42 +176,38 @@ namespace PartB.Models
         /// <param name="dayOfWeek"> parameter takes a string from day of week.</param>
         /// <param name="seatsOccupied"> parameter takes an integer of seats occupied.</param>
         /// <returns>Returns index of session found or -1 representing not found.</returns>
-        public int SearchSeatingIndex(int cineplexMovieID, string SeatRow,
-            string SeatColumn, string extra)
+        public int SearchSeatingIndex(int cineplexMovieID, string SeatRowColumn, string extra)
         {
             for (int i = 0; i < seatings.Count; i++)
             {
                 if (seatings[i].CineplexMovieID.Equals(cineplexMovieID) &&
-                    seatings[i].SeatRow.Equals(SeatRow) &&
-                    seatings[i].SeatColumn.Equals(SeatColumn) &&
+                    seatings[i].SeatRowColumn.Equals(SeatRowColumn) &&
                     seatings[i].extra.Equals(extra))
                     return i;
             }
             return DID_NOT_FIND_SEATING_INDEX;
         }
-        public Seating EditSeating(Seating oriSeating, string SeatRow, string SeatColumn, string extra)
+        public Seating EditSeating(Seating oriSeating, string SeatRowColumn, string extra)
         {
             int seatingIndex = SearchSeatingIndex(
                 oriSeating.CineplexMovieID,
-                oriSeating.SeatRow,
-                oriSeating.SeatColumn,
+                oriSeating.SeatRowColumn,
                 oriSeating.extra);
             if (seatingIndex == DID_NOT_FIND_SEATING_INDEX)
                 throw new CustomCouldntFindException("Failed to add coming soon movie!");
 
-            Update(oriSeating.CineplexMovieID, SeatRow, SeatColumn, extra);
+            Update(oriSeating.CineplexMovieID, SeatRowColumn, extra);
 
             Seating seating = new Seating();
             seating.CineplexMovieID = oriSeating.CineplexMovieID;
-            seating.SeatRow = SeatRow;
-            seating.SeatColumn = SeatColumn;
+            seating.SeatRowColumn = SeatRowColumn;
             seating.extra = extra;
 
             seatings[seatingIndex] = seating;
 
             return seating;
         }
-        private void Update(int cineplexMovieID, string SeatRow, string SeatColumn, string extra)
+        private void Update(int cineplexMovieID, string SeatRowColumn, string extra)
         {
             SqlConnection conn = null;
             SqlCommand cmd = null;
@@ -222,13 +217,11 @@ namespace PartB.Models
                 {
                     conn.Open();
                     string sql = "UPDATE [master].[dbo].[Seating] SET " +
-                        "SeatRow = @SeatRow," +
-                        "SeatColumn = @SeatColumn," +
+                        "SeatRowColumn = @SeatRowColumn," +
                         "extra = @extra " +
                         "WHERE CineplexMovieID = @CineplexMovieID";
                     cmd = new SqlCommand(sql, conn);
-                    cmd.Parameters.Add("@SeatRow", SqlDbType.VarChar).Value = SeatRow;
-                    cmd.Parameters.Add("@SeatColumn", SqlDbType.VarChar).Value = SeatColumn;
+                    cmd.Parameters.Add("@SeatRowColumn", SqlDbType.VarChar).Value = SeatRowColumn;
                     cmd.Parameters.Add("@extra", SqlDbType.VarChar).Value = extra;
 
                     cmd.Parameters.Add("@CineplexMovieID", SqlDbType.Int).Value = cineplexMovieID;
