@@ -52,7 +52,7 @@ namespace PartB.Models
         {
             get
             {
-                return GetCineplexMovie();
+                return cineplexMovies;
             }
         }
 
@@ -107,11 +107,6 @@ namespace PartB.Models
         }
         public IList<CineplexMovie> GetCineplexMovie()
         {
-            if (cineplexMovies.Count > 0)
-            {
-                return cineplexMovies;
-            }
-
             SqlConnection conn = null;
             SqlCommand cmd = null;
             

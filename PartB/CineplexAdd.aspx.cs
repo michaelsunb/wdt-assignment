@@ -22,6 +22,11 @@ namespace PartB
         {
             try
             {
+                if (location.Text == "" ||
+                    shortDescription.Text == "" ||
+                    longDescription.Text == "")
+                    throw new Exception("Did not save!");
+
                 if (FileUpload1.HasFile)
                 {
                     string[] validFileTypes = { "bmp", "gif", "png", "jpg", "jpeg" };

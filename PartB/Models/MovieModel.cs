@@ -55,12 +55,6 @@ namespace PartB.Models
         }
         public IList<Movie> GetMovies()
         {
-            if (movies.Count > 0)
-            {
-                // TODO
-                // return movies;
-            }
-
             SqlConnection conn = null;
             SqlCommand cmd = null;
             using (conn = new SqlConnection(CONNECTION_STRING))

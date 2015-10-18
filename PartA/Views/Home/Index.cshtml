@@ -15,6 +15,8 @@
                 <div class="col-sm-8 col-md-9">
                     @foreach (var item in Model.Movies.ToList())
                     {
+                        if(item.Status == 1)
+                        {
                     <!-- Movie variant with time -->
                     <div class="movie movie--test movie--test--dark movie--test--left">
                         <div class="movie__images">
@@ -28,6 +30,7 @@
                         </div>
                     </div>
                     <!-- Movie variant with time -->
+                        }
                     }
                 </div>
             </div>

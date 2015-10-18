@@ -40,7 +40,16 @@ namespace PartB
 
                 if (IsPostBack) return;
 
-                cineplexLocation.DataSource = cineplexModel.GetCineplex();
+                IList<Cineplex> cinemas = new List<Cineplex>();
+                foreach (Cineplex cinLoc in cineplexModel.GetCineplex())
+                {
+                    if (cinLoc.status == 1)
+                    {
+                        cinemas.Add(cinLoc);
+                    }
+                }
+
+                cineplexLocation.DataSource = cinemas;
                 cineplexLocation.DataTextField = "Location";
                 cineplexLocation.DataValueField = "CineplexID";
                 cineplexLocation.DataBind();
@@ -59,7 +68,8 @@ namespace PartB
             {
                 for (int i = 0; i < movies.Count; i++)
                 {
-                    if (movies[i].Title.Equals(movie.Title))
+                    if (movies[i].Title.Equals(movie.Title) ||
+                        movies[i].status == 0)
                     {
                         movies.RemoveAt(i);
                     }

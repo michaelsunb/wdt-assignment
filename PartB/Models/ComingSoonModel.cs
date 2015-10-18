@@ -48,16 +48,11 @@ namespace PartB.Models
         {
             get
             {
-                return GetComingMovies();
+                return movies;
             }
         }
         public IList<ComingSoon> GetComingMovies()
         {
-            if (movies.Count > 0)
-            {
-                return movies;
-            }
-
             SqlConnection conn = null;
             SqlCommand cmd = null;
             using (conn = new SqlConnection(CONNECTION_STRING))

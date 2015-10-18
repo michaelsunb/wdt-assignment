@@ -14,6 +14,8 @@
             <div class="gallery-wrapper">
                 @foreach (var cineplex in Model.Cineplexes)
                 {
+                        if(cineplex.Status == 1)
+                        {
                 <div class="col-sm-4 col-md-3">
                     <div class="gallery-item">
                         <a href='//localhost:12382/images/524x524/@Html.DisplayFor(modelItem => cineplex.ImageUrl)' class="gallery-item__image gallery-item--photo">
@@ -25,6 +27,7 @@
                     </a>
                     </div>
                 </div>
+                        }
                 }
             </div>
         </div>

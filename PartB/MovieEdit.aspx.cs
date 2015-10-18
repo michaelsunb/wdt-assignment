@@ -37,6 +37,12 @@ namespace PartB
         {
             try
             {
+                if (movieTitle.Text == "" ||
+                    shortDescription.Text == "" ||
+                    longDescription.Text == "" ||
+                    price.Text == "")
+                    throw new Exception("Did not save!");
+
                 if (FileUpload1.HasFile)
                 {
                     string[] validFileTypes = { "bmp", "gif", "png", "jpg", "jpeg" };

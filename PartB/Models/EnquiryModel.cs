@@ -52,16 +52,11 @@ namespace PartB.Models
         {
             get
             {
-                return GetEnquiry();
+                return enquries;
             }
         }
         public IList<Enquiry> GetEnquiry()
         {
-            if (enquries.Count > 0)
-            {
-                return enquries;
-            }
-
             SqlConnection conn = null;
             SqlCommand cmd = null;
             using (conn = new SqlConnection(CONNECTION_STRING))

@@ -9,9 +9,6 @@ using System.Threading.Tasks;
 
 namespace PartB.Models
 {
-    /// <summary>Struct of Session to link between cineplex and movie and
-    /// day of the week and number of seats occupied.
-    /// Session has many to 1 relation with Movie and Cineplex</summary>
     public struct Seating
     {
         public int CineplexMovieID { set; get; }
@@ -27,13 +24,8 @@ namespace PartB.Models
         private IList<Seating> seatings = new List<Seating>();
         private static SeatingModel instance;
 
-        /// <summary>Private constructor for the singleton pattern.
-        /// It is set to private so we cannot instantiate the class
-        /// with new.</summary>
         private SeatingModel() { }
 
-        /// <summary>Getter to get a single and same instance of Session Model.</summary>
-        /// <returns>Returns a saved instance of Session Model.</returns>
         public static SeatingModel Instance
         {
             get
@@ -46,13 +38,11 @@ namespace PartB.Models
             }
         }
 
-        /// <summary>Getter to get a list of Session.</summary>
-        /// <returns>Returns list of sessions.</returns>
         public IList<Seating> Seatings
         {
             get
             {
-                return GetSeating();
+                return seatings;
             }
         }
         public Seating getSeats(CineplexMovie cineplexMovie)
@@ -68,11 +58,6 @@ namespace PartB.Models
         }
         public IList<Seating> GetSeating()
         {
-            if (seatings.Count > 0)
-            {
-                return seatings;
-            }
-
             SqlConnection conn = null;
             SqlCommand cmd = null;
             using (conn = new SqlConnection(CONNECTION_STRING))
